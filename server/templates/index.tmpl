@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="documentation for framework for internal navigation and discovery Lucius Fox additions">
+  <meta name="keywords" content="lucius fox, FIND, internal navigation, internal positioning, local positioning">
+  <meta name="author" content="Zack">
+
+  <title>
+    find-lf server
+  </title>
+
+  <script src="/static/jquery.min.js"></script>
+  <script src="/static/toastr.min.js"></script>
+  <script src="/static/glimpse.js"></script>
+  <script src="/static/glimpse.toastr.js"></script>
+  <script src="/static/bootstrap.min.js"></script>
+  <link href="/static/toastr.min.css" rel="stylesheet" type="text/css" />
+  <link href="/static/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="container">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <h2>Lucius Fox Internal Positioning <small><a href="https://github.com/schollz/find-lf">Instructions</a></small></h2>
+    <div class="form-group">
+      <label for="group" class="control-label">Group:</label>
+      <input type="text" class="form-control" id="group" placeholder="" required autofocus> </div>
+    <div class="form-group">
+      <label for="loc" class="control-label">Location (for learning):</label>
+      <input type="text" class="form-control" id="loc" placeholder=""> </div>
+    <div class="form-group">
+      <label for="mac" class="control-label">Phone mac addresses (for learning):</label>
+      <input type="text" class="form-control" id="mac" placeholder=""> </div>
+    <div class="form-group">
+      <div class="col-xs-4">
+        <button type="button" id="track" class="btn btn-success btn-block">Track</button>
+      </div>
+      <div class="col-xs-4">
+        <button type="button" id="learn" class="btn btn-primary btn-block">Learn</button>
+      </div>
+      <div class="col-xs-4">
+        <button type="button" id="status" class="btn btn-danger btn-block">Status</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+
+<script>
+
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": false,
+  "positionClass": "toast-bottom-full-width",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "200",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
+$(document).on('click', "button", function() {
+    dat = $(this).attr("id");
+    console.log(dat);
+    group = document.getElementById('group').value.toLowerCase();
+    console.log(group);
+    loc = document.getElementById('loc').value;
+    console.log(loc);
+    mac = document.getElementById('mac').value;
+    console.log(mac);
+    if (dat == "learn" && loc == "") {
+        toastr.warning('Enter location for learning');
+        return false;
+    }
+    if (dat == "learn" && mac == "") {
+        toastr.warning('Enter mac for learning');
+        return false;
+    }
+    if (group == "") {
+        toastr.warning("Must enter group name");
+        return false;
+    }
+    data = {};
+    data.group = group;
+    if (mac != "" && dat != "track" && dat != "status") {
+        data.user = mac
+    }
+    if (loc != "" && dat != "track" && dat != "status") {
+        data.loc = loc
+    }
+    url = "/status";
+    if (dat == "track" || dat == "learn") {
+        url = "/switch";
+    }
+    $.ajax({
+        url: url,
+        data: data,
+        type: "GET",
+        success: function(response) {
+            if (url == "/status") {
+                toastr.info(response);
+            } else {
+                toastr.success(response);
+            }
+        },
+        error: function(xhr, status, error) {
+            toastr.error(xhr.responseText);
+        }
+    });
+});
+
+</script>
+</body>
+</html>

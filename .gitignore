@@ -1,0 +1,5 @@
+.idea
+server/bin
+server/pkg
+server/src
+server/server

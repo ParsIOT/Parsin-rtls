@@ -1,0 +1,12 @@
+{
+	"group": "parsiot-1",
+	"pis": [
+		{
+			"wlan": "wlp4s0",
+			"notes": "This PC",
+			"address": "192.168.0.24"
+		}
+	],
+	"scantime": 1,
+	"lfserver": "http://192.168.0.24"
+}
