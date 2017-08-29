@@ -88,6 +88,12 @@ Now just go to https://ml.internalpositioning.com and login using your group nam
 
 You can also track a single phone using https://ml.internalpositioning.com/GROUP/dashboard?user=AA:BB:CC:DD:EE:FF.
 
+# Server
+go cross compile:
+```shell
+export GOOS=linux GOARCH=amd64
+```
+
 # License
 
 Copyright 2015-2017 Zack Scholl (zack@hypercubeplatforms.com, @zack_118). All rights reserved. Use of this source code is governed by a AGPL license that can be found in the LICENSE file.

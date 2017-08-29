@@ -33,7 +33,8 @@ class CommandThread(threading.Thread):
 		self.name = self.config['notes'] + "(" + self.config['address'] + ")"
 		self.logger = logging.getLogger(self.name)
 		self.logger.setLevel(logging.DEBUG)
-		self.hostapd = """interface=wlan1\nssid=PiNetwork\nhw_mode=g\nchannel=6\nauth_algs=1\nmacaddr_acl=0\nignore_broadcast_ssid=0\nwpa=2\nwpa_passphrase=%(password)s\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=TKIP\nrsn_pairwise=CCMP""" % {'password': ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))}
+		self.hostapd = """interface=wlan1\nssid=PiNetwork\nhw_mode=g\nchannel=6\nauth_algs=1\nmacaddr_acl=0\nignore_broadcast_ssid=0\nwpa=2\nwpa_passphrase=%(password)s\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=TKIP\nrsn_pairwise=CCMP""" % {
+			'password': ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))}
 		fh = logging.FileHandler('cluster.log')
 		ch = logging.StreamHandler()
 		if debug:
@@ -84,7 +85,7 @@ class CommandThread(threading.Thread):
 
 	def shutdown_pi(self):
 		self.kill_pi()
-		c = 'ssh -o ConnectTimeout=10 %(address)s "sudo shutdown now"'
+		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo shutdown now"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
@@ -93,7 +94,7 @@ class CommandThread(threading.Thread):
 
 	def reboot_pi(self):
 		self.kill_pi()
-		c = 'ssh -o ConnectTimeout=10 %(address)s "sudo reboot now"'
+		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo reboot now"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
@@ -105,17 +106,17 @@ class CommandThread(threading.Thread):
 		if hostingSuccess:
 			self.logger.info("already doing something")
 			return
-		c = """ssh -o ConnectTimeout=10 %(address)s "echo '%(hostapd)s' | sudo tee /etc/hostapd/hostapd.conf" """.strip()
+		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "echo '%(hostapd)s' | sudo tee /etc/hostapd/hostapd.conf" """.strip()
 		r, code = run_command(
 			c % {'address': self.config['address'], 'hostapd': self.hostapd})
 		self.logger.debug(r)
 		self.logger.debug(code)
-		c = """ssh -o ConnectTimeout=10 %(address)s "sudo kill \`cat /run/wpa_supplicant.wlan1.pid\`" """.strip()
+		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo kill \`cat /run/wpa_supplicant.wlan1.pid\`" """.strip()
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
 		self.logger.debug(code)
-		c = """ssh -o ConnectTimeout=10 %(address)s "sudo hostapd /etc/hostapd/hostapd.conf -P /run/hostapd.pid -B" """.strip()
+		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo hostapd /etc/hostapd/hostapd.conf -P /run/hostapd.pid -B" """.strip()
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
@@ -124,7 +125,7 @@ class CommandThread(threading.Thread):
 		if not hostingSuccess:
 			self.logger.info("not able to host")
 			return
-		c = """ssh -o ConnectTimeout=10 %(address)s "sudo ifconfig" """.strip()
+		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo ifconfig" """.strip()
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
@@ -150,10 +151,10 @@ class CommandThread(threading.Thread):
 
 	def isRunning(self):
 		self.logger.debug("Testing if isRunning")
-		# c = """ssh -o ConnectTimeout=10 %(address)s "ps aux | grep 'scan.py\|python3\|tshark' | grep -v 'grep\|vim'" """.strip()
-		c = """ssh -o ConnectTimeout=10 %(address)s "ps aux | grep 'scan.py\|tshark' | grep -v 'grep\|vim'" """.strip()
-		r, code = run_command(
-			c % {'address': self.config['address']})
+		# c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "ps aux | grep 'scan.py\|python3\|tshark' | grep -v 'grep\|vim'" """.strip()
+		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "ps aux | grep 'scan.py\|tshark' | grep -v 'grep\|vim'" """.strip()
+		r, code = run_command(c % {'address': self.config['address']})
+		print(c % {'address': self.config['address']})
 		self.logger.debug(r)
 		self.logger.debug(code)
 		if code == 255:
@@ -161,10 +162,10 @@ class CommandThread(threading.Thread):
 		if len(r.strip()) != 0:
 			return True, "%s is scanning" % self.config['address']
 
-		c = """ssh -o ConnectTimeout=10 %(address)s "ps aux | grep 'hostapd' | grep -v 'grep\|vim'" """.strip(
+		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "ps aux | grep 'hostapd' | grep -v 'grep\|vim'" """.strip(
 		)
-		r, code = run_command(
-			c % {'address': self.config['address']})
+		r, code = run_command(c % {'address': self.config['address']})
+		print(c % {'address': self.config['address']})
 		self.logger.debug(r)
 		self.logger.debug(code)
 		if len(r.strip()) != 0:
@@ -173,7 +174,7 @@ class CommandThread(threading.Thread):
 			return False, "%s is not scanning/hosting" % self.config['address']
 
 	def kill_pi(self):
-		c = 'ssh -o ConnectTimeout=10 %(address)s "sudo pkill -9 python3"'
+		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo pkill -9 python3"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
@@ -181,17 +182,17 @@ class CommandThread(threading.Thread):
 		if code == 255:
 			self.logger.info("unable to connect")
 			return False
-		c = 'ssh -o ConnectTimeout=10 %(address)s "sudo pkill -9 tshark"'
+		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo pkill -9 tshark"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
 		self.logger.debug(code)
-		c = 'ssh -o ConnectTimeout=10 %(address)s "sudo pkill -9 dumpcap"'
+		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo pkill -9 dumpcap"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
 		self.logger.debug(code)
-		c = """ssh -o ConnectTimeout=10 %(address)s "sudo kill \`cat /run/hostapd.pid\`" """.strip()
+		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo kill \`cat /run/hostapd.pid\`" """.strip()
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
@@ -210,7 +211,7 @@ class CommandThread(threading.Thread):
 		if alreadyRunning:
 			self.logger.info("already running")
 			return
-		c = 'ssh -o ConnectTimeout=10 %(address)s "sudo nohup python3 scan.py --interface %(wlan)s --time %(scantime)d --group %(group)s --server %(lfserver)s < /dev/null > std.out 2> std.err &"'
+		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo nohup python3 scan.py --interface %(wlan)s --time %(scantime)d --group %(group)s --server %(lfserver)s > std.out 2> std.err &"'
 		print(c % {'address': self.config['address'],
 		           'group': self.config['group'],
 		           'lfserver': self.config['lfserver'],
@@ -238,7 +239,7 @@ class CommandThread(threading.Thread):
 			self.logger.info("could not start")
 
 	def update_scanpy(self):
-		c = 'ssh -o ConnectTimeout=10 %(address)s "sudo wget https://raw.githubusercontent.com/schollz/find-lf/master/node/scan.py -O scan.py"'
+		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo wget https://raw.githubusercontent.com/schollz/find-lf/master/node/scan.py -O scan.py"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
@@ -250,29 +251,29 @@ class CommandThread(threading.Thread):
 
 	def initialize(self):
 		self.logger.info("initializing...")
-		c = 'ssh -o ConnectTimeout=10 %(address)s "rm initialize.sh"'
-		r, code = run_command(
-			c % {'address': self.config['address'], 'group': self.config['group'], 'lfserver': self.config['lfserver']})
-		self.logger.debug(r)
-		self.logger.debug(code)
-		if code == 255:
-			self.logger.info("unable to connect")
-			return
-		c = 'ssh %(address)s "wget https://raw.githubusercontent.com/schollz/find-lf/master/node/initialize.sh"'
-		r, code = run_command(
-			c % {'address': self.config['address'], 'group': self.config['group'], 'lfserver': self.config['lfserver']})
-		self.logger.debug(r)
-		self.logger.debug(code)
-		c = 'ssh %(address)s "chmod +x initialize.sh"'
-		r, code = run_command(
-			c % {'address': self.config['address'], 'group': self.config['group'], 'lfserver': self.config['lfserver']})
-		self.logger.debug(r)
-		self.logger.debug(code)
-		c = 'ssh %(address)s "sudo ./initialize.sh"'
-		r, code = run_command(
-			c % {'address': self.config['address'], 'group': self.config['group'], 'lfserver': self.config['lfserver']})
-		self.logger.debug(r)
-		self.logger.debug(code)
+		# c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "rm initialize.sh"'
+		# r, code = run_command(
+		# 	c % {'address': self.config['address'], 'group': self.config['group'], 'lfserver': self.config['lfserver']})
+		# self.logger.debug(r)
+		# self.logger.debug(code)
+		# if code == 255:
+		# 	self.logger.info("unable to connect")
+		# 	return
+		# c = 'ssh parsiot@%(address)s "wget https://raw.githubusercontent.com/schollz/find-lf/master/node/initialize.sh"'
+		# r, code = run_command(
+		# 	c % {'address': self.config['address'], 'group': self.config['group'], 'lfserver': self.config['lfserver']})
+		# self.logger.debug(r)
+		# self.logger.debug(code)
+		# c = 'ssh parsiot@%(address)s "chmod +x initialize.sh"'
+		# r, code = run_command(
+		# 	c % {'address': self.config['address'], 'group': self.config['group'], 'lfserver': self.config['lfserver']})
+		# self.logger.debug(r)
+		# self.logger.debug(code)
+		# c = 'ssh parsiot@%(address)s "sudo ./initialize.sh"'
+		# r, code = run_command(
+		# 	c % {'address': self.config['address'], 'group': self.config['group'], 'lfserver': self.config['lfserver']})
+		# self.logger.debug(r)
+		# self.logger.debug(code)
 		self.logger.info("initialized")
 
 	def restart_pi(self):
@@ -366,7 +367,7 @@ def main(args, config):
 		return
 	elif command == "list":
 		print("scanning all ips...please wait")
-		c = 'nmap -sP 192.168.1.0/24'
+		c = 'nmap -sP 192.168.0.0/24'
 		r, code = run_command(c)
 		logger.debug(r)
 		logger.debug(code)
@@ -383,7 +384,7 @@ def main(args, config):
 	elif command == "initialize":
 		print("copying ips")
 		for address in config['pis']:
-			c = 'ssh-copy-id %(address)s'
+			c = 'ssh-copy-id parsiot@%(address)s'
 			r, code = run_command(c % {'address': address['address']})
 			if code == 1:
 				print("Could not connect to %s" % address)

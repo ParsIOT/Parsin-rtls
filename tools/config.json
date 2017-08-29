@@ -1,12 +1,17 @@
 {
-	"group": "parsiot-1",
+	"group": "parsiot-2",
 	"pis": [
 		{
 			"wlan": "wlp4s0",
-			"notes": "This PC",
+			"notes": "oof",
 			"address": "192.168.0.24"
+		},
+		{
+			"wlan": "wlp5s0",
+			"notes": "dame dar",
+			"address": "192.168.0.98"
 		}
 	],
 	"scantime": 1,
-	"lfserver": "http://192.168.0.24"
+	"lfserver": "http://192.168.0.95:8072"
 }

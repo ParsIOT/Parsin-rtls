@@ -69,11 +69,11 @@ var CollectionTime int
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 
-	flag.StringVar(&Port, "port", "18003", "port to run this server on (default: 8072)")
-	flag.StringVar(&ServerAddress, "server", "http://104.237.255.199", "address to FIND server")
+	flag.StringVar(&Port, "port", "8072", "port to run this server on (default: 8072)")
+	flag.StringVar(&ServerAddress, "server", "http://104.237.255.199:18003", "address to FIND server")
 	flag.IntVar(&MinimumNumberOfRouters, "min", 0, "minimum number of routers before sending fingerprint")
-	flag.IntVar(&MinRSSI, "rssi", -60, "minimum RSSI that must exist to send on")
-	flag.IntVar(&CollectionTime, "time", 10, "collection time to average fingerprints (in seconds)")
+	flag.IntVar(&MinRSSI, "rssi", -80, "minimum RSSI that must exist to send on")
+	flag.IntVar(&CollectionTime, "time", 4, "collection time to average fingerprints (in seconds)")
 	flag.Parse()
 
 	router := gin.Default()
