@@ -50,6 +50,7 @@ def process_scan(time_window):
 	fileNameToRead = ""
 	for filename in glob.glob("/tmp/tshark-temp*"):
 		fileNumber = int(filename.split("_")[1])
+		print("\n\t\t", filename, fileNumber)
 		if fileNumber > maxFileNumber:
 			maxFileNumber = fileNumber
 			fileNameToRead = filename
@@ -86,8 +87,7 @@ def process_scan(time_window):
 	for mac in fingerprints:
 		if len(fingerprints[mac]) == 0:
 			continue
-		print(mac)
-		print(fingerprints[mac])
+		print(mac, fingerprints[mac])
 		fingerprints2.append(
 			{"mac": mac, "rssi": int(statistics.median(fingerprints[mac]))})
 
@@ -97,8 +97,7 @@ def process_scan(time_window):
 	payload = {
 		"node": socket.gethostname(),
 		"signals": fingerprints2,
-		"timestamp": int(
-			time.time())}
+		"timestamp": int(time.time())}
 	logger.debug(payload)
 	return payload
 

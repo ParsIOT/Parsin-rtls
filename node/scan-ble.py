@@ -2,7 +2,9 @@
 
 """
 
-sudo hcitool -i hci0 lescan --duplicates > /dev/null | sudo btmon | ./ble.py >scan.txt &
+sudo /usr/bin/hcitool -i hci0 lescan --duplicates > /dev/null | sudo /usr/bin/btmon | ./scan-ble.py --group ble-1-rtls --server https://lf.internalpositioning.com &
+sudo hcitool lescan --duplicates > /dev/null | sudo btmon | ./scan-ble.py --group ble-1-rtls --server http://192.168.0.95:8072 --time 3
+
 
 """
 
@@ -19,12 +21,18 @@ import time
 
 fingerprints = {}
 fingerprints2 = []
+lock = threading.Lock()
+
+# sys.stdout = open('/home/pi/rtls/out.txt','a')
+# sys.stderr = open('/home/pi/rtls/err.txt','a')
+
+print("START ANALYZE")
 
 
 def exit_handler():
 	print("Exiting...stopping scan..")
-	os.system("pkill -9 btmon")
-	os.system("pkill -9 hcitool")
+	os.system("sudo pkill -9 btmon")
+	os.system("sudo pkill -9 hcitool")
 
 
 atexit.register(exit_handler)
@@ -40,6 +48,7 @@ parser.add_argument(
 	"-t",
 	"--time",
 	default=10,
+	type=int,
 	help="scanning time in seconds (default 10)")
 
 args = parser.parse_args()
@@ -49,23 +58,32 @@ if args.group == "":
 	print("Must specify group with -g")
 	sys.exit(-1)
 
+print(args)
 # Startup scanning
 print("Using server " + args.server)
 print("Using group " + args.group)
 
 
 def submit_to_server():
-	# Compute medians
-	for mac in fingerprints:
-		if len(fingerprints[mac]) == 0:
-			continue
-		print(mac)
-		print(fingerprints[mac])
-		fingerprints2.append({"mac": mac, "rssi": int(statistics.median(fingerprints[mac]))})
+	print("\n\n\t\t______________________\n")
+	print("SENDING TO SERVER")
+	print("\n\t\t______________________\n\n")
 
+	lock.acquire()
+	fp = fingerprints.copy()
 	fingerprints.clear()
+	lock.release()
+
+	# Compute medians
+	for mac in fp:
+		print(mac)
+		if len(fp[mac]) == 0:
+			continue
+		fingerprints2.append({"mac": mac, "rssi": int(statistics.median(fp[mac]))})
 
 	payload = {"node": socket.gethostname(), "signals": fingerprints2, "timestamp": int(time.time()), 'group': args.group}
+
+	print(len(payload['signals']))
 
 	try:
 		if len(payload['signals']) > 0:
@@ -73,7 +91,9 @@ def submit_to_server():
 				args.server +
 				"/reversefingerprint",
 				json=payload)
+			print("\n\n\t\t=======================\n\n")
 			print("Sent to server with status code: " + str(r.status_code))
+			print("\n\n\t\t=======================\n\n")
 			fingerprints2.clear()
 	except Exception:
 		pass
@@ -88,10 +108,7 @@ temp = {}
 for line in sys.stdin:
 	mac = re.findall(mac_regex, line)
 	if mac:
-		mac = mac[0].lower()
-		if mac not in fingerprints:
-			fingerprints[mac] = []
-		temp['mac'] = mac
+		temp['mac'] = re.sub(r'[:]', '', mac[0].lower())
 
 	rssi = re.findall(rssi_regex, line)
 	if rssi:
@@ -101,6 +118,10 @@ for line in sys.stdin:
 
 	if 'rssi' in temp and 'mac' in temp:
 		if temp['rssi'] != 'invalid':
-			print(temp)
+			lock.acquire()
+			# print(temp)
+			if temp['mac'] not in fingerprints:
+				fingerprints[temp['mac']] = []
 			fingerprints[temp['mac']].append(float(temp['rssi']))
+			lock.release()
 		temp.clear()

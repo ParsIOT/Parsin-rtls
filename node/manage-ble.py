@@ -10,32 +10,39 @@ lescan [--privacy] [--passive] [--whitelist] [--discovery=g|l] [--duplicates]
 		lescan [--discovery=g|l] enable general or limited discoveryprocedure
 		lescan [--duplicates] don't filter duplicates
 
+sudo ./manage-ble.py -g "ble-1-rtls"
+
 """
 import argparse
 import atexit
 import os
-import requests
-import socket
-import statistics
 import subprocess
 import sys
-import time
 
 
 def is_scan_running():
-	ps_output = subprocess.Popen("ps aux".split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	ps_output = subprocess.Popen(["ps", "aux"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	ps_stdout = ps_output.stdout.read().decode('utf-8')
 	isRunning = 'hcitool' in ps_stdout or 'btmon' in ps_stdout
 	return isRunning
 
 
-def start_scan(hci):
+def start_scan(hci, group, server):
 	if not is_scan_running():
-		subprocess.Popen(("sudo hcitool -i " + hci + " lescan --duplicates > /dev/null | sudo btmon | ./scan.py &").split(),
-		                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		# ['sudo', '/usr/bin/hcitool', '-i', hci, 'lescan', '--duplicates', '>', '/dev/null', '|', 'sudo', '/usr/bin/btmon', '|', './scan-ble.py', '--group', group, '--server', server, '&']
+		# sudo /usr/bin/hcitool -i hci0 lescan --duplicates > /dev/null | sudo /usr/bin/btmon | ./scan-ble.py --group ble-1-rtls --server https://lf.internalpositioning.com &
+		ps_output = subprocess.Popen(
+			['sudo', '/usr/bin/hcitool', '-i', hci, 'lescan', '--duplicates', '>', '/dev/null', '|', 'sudo', '/usr/bin/btmon', '|', './scan-ble.py', '--group', group, '--server', server, '&'],
+			stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		if is_scan_running():
 			print("Scan started")
 		else:
+			print("\n=========\tERROR\t=========\n")
+			print(ps_output.stderr.read().decode('utf-8'))
+
+			print("\n\t===\tERROR\t===\n")
+			print(ps_output.stdout.read().decode('utf-8'))
+
 			print("Unable to start scan")
 	else:
 		print("Scan is running")
@@ -80,8 +87,7 @@ def main():
 
 	while True:
 		print("\n\n\t======\tWHILE\t======\t\n\n")
-
-		start_scan(args.interface)
+		start_scan(args.interface, args.group, args.server)
 
 
 def exit_handler():
