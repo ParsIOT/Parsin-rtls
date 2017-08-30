@@ -18,16 +18,22 @@ import statistics
 import sys
 import threading
 import time
+from collections import deque
 
 fingerprints = {}
+fingerprints_lock = threading.Lock()
 fingerprints2 = []
-lock = threading.Lock()
+
+medians = {}
+median_coefficients = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+divisor = 0
+for i in median_coefficients:
+	divisor += i
+medians_lock = threading.Lock()
+
 
 # sys.stdout = open('/home/pi/rtls/out.txt','a')
 # sys.stderr = open('/home/pi/rtls/err.txt','a')
-
-print("START ANALYZE")
-
 
 def exit_handler():
 	print("Exiting...stopping scan..")
@@ -47,9 +53,9 @@ parser.add_argument(
 parser.add_argument(
 	"-t",
 	"--time",
-	default=10,
-	type=int,
-	help="scanning time in seconds (default 10)")
+	default=3,
+	type=float,  # float int
+	help="scanning time in seconds (default 3)")
 
 args = parser.parse_args()
 
@@ -65,25 +71,40 @@ print("Using group " + args.group)
 
 
 def submit_to_server():
-	print("\n\n\t\t______________________\n")
-	print("SENDING TO SERVER")
-	print("\n\t\t______________________\n\n")
-
-	lock.acquire()
-	fp = fingerprints.copy()
-	fingerprints.clear()
-	lock.release()
+	with fingerprints_lock:
+		fp = fingerprints.copy()
+		fingerprints.clear()
 
 	# Compute medians
 	for mac in fp:
-		print(mac)
 		if len(fp[mac]) == 0:
 			continue
-		fingerprints2.append({"mac": mac, "rssi": int(statistics.median(fp[mac]))})
+		print("\n\t\t\t--------------------------\n")
+
+		print("\t\tMAC Address :", mac, ",\t Count :", len(fp[mac]))
+
+		median = int(statistics.median(fp[mac]))
+
+		# Weighted Average
+		with medians_lock:
+			if mac not in medians:
+				medians[mac] = deque(maxlen=10)
+			medians[mac].append(median)
+			median = 0
+			l = len(medians[mac])
+			if l == 10:
+				div = divisor
+				for i in range(0, 10):
+					median += medians[mac][i] * median_coefficients[i]
+			else:
+				div = 0
+				for i in range(0, l):
+					median += medians[mac][l - 1 - i] * median_coefficients[9 - i]
+					div += median_coefficients[9 - i]
+
+		fingerprints2.append({"mac": mac, "rssi": int(median / div)})
 
 	payload = {"node": socket.gethostname(), "signals": fingerprints2, "timestamp": int(time.time()), 'group': args.group}
-
-	print(len(payload['signals']))
 
 	try:
 		if len(payload['signals']) > 0:
@@ -91,37 +112,47 @@ def submit_to_server():
 				args.server +
 				"/reversefingerprint",
 				json=payload)
-			print("\n\n\t\t=======================\n\n")
-			print("Sent to server with status code: " + str(r.status_code))
-			print("\n\n\t\t=======================\n\n")
+			print("\t\t==========================================\n")
+			print("\tSent %s fingerprint(s) to server with status code: %s" % (len(payload['signals']), r.status_code))
+			print("\n\t\t==========================================")
 			fingerprints2.clear()
 	except Exception:
 		pass
-	threading.Timer(args.time, submit_to_server).start()
+
+	t_thread = threading.Timer(args.time, submit_to_server)
+	t_thread.daemon = True
+	t_thread.start()
 
 
-threading.Timer(args.time, submit_to_server).start()
+t_thread = threading.Timer(args.time, submit_to_server)
+t_thread.daemon = True
+t_thread.start()
 
 mac_regex = r"(?:[\s]+Address: ((?:[\w:]{2,3}){6}))"
 rssi_regex = r"(?:[\s]+RSSI: )((?:-[\d]+)|(?:[\w]+))"
 temp = {}
-for line in sys.stdin:
-	mac = re.findall(mac_regex, line)
-	if mac:
-		temp['mac'] = re.sub(r'[:]', '', mac[0].lower())
+try:
+	for line in sys.stdin:
+		mac = re.findall(mac_regex, line)
+		if mac:
+			temp['mac'] = re.sub(r'[:]', '', mac[0].lower())
 
-	rssi = re.findall(rssi_regex, line)
-	if rssi:
-		temp['rssi'] = rssi[0]
-	else:
-		pass
+		rssi = re.findall(rssi_regex, line)
+		if rssi:
+			temp['rssi'] = rssi[0]
+		else:
+			pass
 
-	if 'rssi' in temp and 'mac' in temp:
-		if temp['rssi'] != 'invalid':
-			lock.acquire()
-			# print(temp)
-			if temp['mac'] not in fingerprints:
-				fingerprints[temp['mac']] = []
-			fingerprints[temp['mac']].append(float(temp['rssi']))
-			lock.release()
-		temp.clear()
+		if 'rssi' in temp and 'mac' in temp:
+			if temp['rssi'] != 'invalid':
+
+				with fingerprints_lock:
+					# print(temp)
+					if temp['mac'] not in fingerprints:
+						fingerprints[temp['mac']] = []
+					fingerprints[temp['mac']].append(float(temp['rssi']))
+
+			temp.clear()
+
+except Exception:
+	pass
