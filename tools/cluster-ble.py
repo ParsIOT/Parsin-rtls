@@ -10,20 +10,19 @@ lescan [--privacy] [--passive] [--whitelist] [--discovery=g|l] [--duplicates]
 		lescan [--discovery=g|l] enable general or limited discoveryprocedure
 		lescan [--duplicates] don't filter duplicates
 
-sudo ./manage-ble.py -g "ble-1-rtls"
+sudo ./cluster-ble.py -g "ble-1-rtls"
 
 """
 import argparse
 import atexit
 import json
 import os
+import requests
 import subprocess
 import sys
 import threading
 import urllib.parse as urlparse
 from urllib.parse import urlencode
-
-import requests
 
 ssh_command = "ssh -o ConnectTimeout=10 pi@%(address)s "
 
@@ -110,7 +109,7 @@ class CommandThread(threading.Thread):
 	def update_scanner(self):
 		c = 'scp %(file)s pi@%(address)s:/home/pi/rtls/'
 		r, code = run_command(c % {'address': self.config['address'],
-		                           'file': os.path.dirname(os.path.abspath(__file__)) + '/scan-ble.py'})
+		                           'file': os.path.dirname(os.path.abspath(__file__)) + '../node/scan-ble.py'})
 
 
 def is_scan_running():
@@ -132,7 +131,7 @@ def run_command(command):
 
 def print_help():
 	print("""
-	manage-ble.py COMMAND
+	cluster-ble.py COMMAND
 
 		status:
 			get the current status of all Raspberry Pis in the cluster
@@ -201,7 +200,7 @@ def main(args, config):
 
 	elif command == "learn":
 		if config['user'] == "" or config['location'] == "":
-			print("Must include name and location! Use ./manage-ble.py -u USER -l LOCATION learn")
+			print("Must include name and location! Use ./cluster-ble.py -u USER -l LOCATION learn")
 			return
 		config['user'] = config['user'].replace(':', '').strip()
 		response = getURL(config['lfserver'] + "/switch", {'group': config['group'], 'user': config['user'], 'loc': config['location']})
