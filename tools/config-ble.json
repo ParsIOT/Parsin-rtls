@@ -1,0 +1,23 @@
+{
+	"group": "ble-rtls-1",
+	"pis": [
+		{
+			"interface": "hci0",
+			"notes": "oof",
+			"address": "192.168.0.128"
+		},
+		{
+			"interface": "hci0",
+			"notes": "komeil",
+			"address": "192.168.0.41"
+		},
+		{
+			"interface": "hci0",
+			"notes": "sham",
+			"address": "192.168.0.37"
+		}
+	],
+	"scantime": 0.5,
+	"lfserver": "http://192.168.0.95:8072",
+	"password": "parsiotraspberry"
+}
