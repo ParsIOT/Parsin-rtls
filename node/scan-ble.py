@@ -25,7 +25,8 @@ fingerprints_lock = threading.Lock()
 fingerprints2 = []
 
 medians = {}
-median_coefficients = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+median_coefficients = [0.005, 0.027, 0.0648, 0.121, 0.176, 0.1995]
+median_coefficients_len = len(median_coefficients)
 divisor = 0
 for i in median_coefficients:
 	divisor += i
@@ -39,6 +40,8 @@ def exit_handler():
 	print("Exiting...stopping scan..")
 	os.system("sudo pkill -9 btmon")
 	os.system("sudo pkill -9 hcitool")
+	os.system("sudo hciconfig hci0 down")
+	os.system("sudo hciconfig hci0 up")
 
 
 atexit.register(exit_handler)
@@ -88,19 +91,19 @@ def submit_to_server():
 		# Weighted Average
 		with medians_lock:
 			if mac not in medians:
-				medians[mac] = deque(maxlen=10)
+				medians[mac] = deque(maxlen=median_coefficients_len)
 			medians[mac].append(median)
 			median = 0
 			l = len(medians[mac])
-			if l == 10:
+			if l == median_coefficients_len:
 				div = divisor
-				for i in range(0, 10):
+				for i in range(0, median_coefficients_len):
 					median += medians[mac][i] * median_coefficients[i]
 			else:
 				div = 0
 				for i in range(0, l):
-					median += medians[mac][l - 1 - i] * median_coefficients[9 - i]
-					div += median_coefficients[9 - i]
+					median += medians[mac][l - 1 - i] * median_coefficients[median_coefficients_len - 1 - i]
+					div += median_coefficients[median_coefficients_len - 1 - i]
 
 		fingerprints2.append({"mac": mac, "rssi": int(median / div)})
 
