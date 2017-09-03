@@ -3,6 +3,21 @@
 	"pis": [
 		{
 			"interface": "hci0",
+			"note": "oof-lan",
+			"address": "192.168.0.128"
+		},
+		{
+			"interface": "hci0",
+			"note": "komeil-lan",
+			"address": "192.168.0.41"
+		},
+		{
+			"interface": "hci0",
+			"note": "sham-lan",
+			"address": "192.168.0.37"
+		},
+		{
+			"interface": "hci0",
 			"note": "oof-wifi",
 			"address": "192.168.0.32"
 		},
@@ -13,8 +28,8 @@
 		},
 		{
 			"interface": "hci0",
-			"note": "sham-lan",
-			"address": "192.168.0.37"
+			"note": "sham-wifi",
+			"address": "192.168.0.55"
 		}
 	],
 	"scantime": 0.5,

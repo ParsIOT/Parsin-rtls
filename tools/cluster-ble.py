@@ -120,12 +120,12 @@ def is_scan_running():
 
 
 def run_command(command):
-	print("\n====================\n\t\tRUNNING:\n", command, "\n")
+	# print("\n====================\n\t\tRUNNING:\n", command, "\n")
 	p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	# p = subprocess.Popen(command, universal_newlines=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 	text = p.stdout.read().decode('utf-8')
 	retcode = p.wait()
-	print("\n\t\tRESUALT:", retcode, "\n====================\n")
+	# print("\n\t\tRESUALT:", retcode, text, "\n====================\n")
 	return text, retcode
 
 
@@ -191,7 +191,6 @@ def getURL(url, params):
 
 def main(args, config):
 	command = args.command.strip()
-	print("", command)
 
 	if command == "track":
 		response = getURL(config['lfserver'] + "/switch", {'group': config['group']})
