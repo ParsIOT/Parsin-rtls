@@ -1,23 +1,27 @@
 {
-	"group": "ble-rtls-1",
 	"pis": [
 		{
-			"interface": "hci0",
+			"address": "192.168.0.32",
+			"user": "pi",
 			"note": "oof-wifi",
-			"address": "192.168.0.32"
+			"interface": "hci0"
 		},
 		{
-			"interface": "hci0",
+			"address": "192.168.0.51",
+			"user": "pi",
 			"note": "komeil-wifi",
-			"address": "192.168.0.51"
+			"interface": "hci0"
 		},
 		{
-			"interface": "hci0",
+			"address": "192.168.0.37",
+			"user": "pi",
 			"note": "sham-lan",
-			"address": "192.168.0.37"
+			"interface": "hci0"
 		}
 	],
-	"scantime": 0.5,
 	"lfserver": "http://192.168.0.95:8072",
-	"password": "parsiotraspberry"
+	"group": "rtls_arman_13_6_96_1",
+	"user": "FA:CF:CB:5D:0E:B8",
+	"scan_time": 0.5,
+	"learn_count": 500
 }

@@ -1,38 +1,50 @@
 {
-	"group": "ble-rtls-1",
 	"pis": [
 		{
-			"interface": "hci0",
+			"address": "192.168.0.128",
+			"user": "pi",
 			"note": "oof-lan",
-			"address": "192.168.0.128"
+			"interface": "hci0"
 		},
 		{
-			"interface": "hci0",
+			"address": "192.168.0.41",
+			"user": "pi",
 			"note": "komeil-lan",
-			"address": "192.168.0.41"
+			"interface": "hci0"
 		},
 		{
-			"interface": "hci0",
+			"address": "192.168.0.37",
+			"user": "pi",
 			"note": "sham-lan",
-			"address": "192.168.0.37"
+			"interface": "hci0"
 		},
 		{
-			"interface": "hci0",
+			"address": "192.168.0.32",
+			"user": "pi",
 			"note": "oof-wifi",
-			"address": "192.168.0.32"
+			"interface": "hci0"
 		},
 		{
-			"interface": "hci0",
+			"address": "192.168.0.51",
+			"user": "pi",
 			"note": "komeil-wifi",
-			"address": "192.168.0.51"
+			"interface": "hci0"
 		},
 		{
-			"interface": "hci0",
+			"address": "192.168.0.55",
+			"user": "pi",
 			"note": "sham-wifi",
-			"address": "192.168.0.55"
+			"interface": "hci0"
 		}
 	],
-	"scantime": 0.5,
 	"lfserver": "http://192.168.0.95:8072",
+	"group": "ble-rtls-1",
+	"scan_time": 0.5,
+	"learn_count": 400,
+	"user": "FA:CF:CB:5D:0E:B8",
+	"One  - 1": "FA:CF:CB:5D:0E:B8",
+	"Two  - 2": "FA:C5:13:37:F5:09",
+	"Tree - 3": "F0:AB:CE:31:10:B9",
+	"Four - 4": "CB:16:FA:98:34:D7",
 	"password": "parsiotraspberry"
 }
