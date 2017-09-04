@@ -16,6 +16,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,8 +44,8 @@ type Router struct {
 
 // ReverseFingerprint is sent from each node
 type ReverseFingerprint struct {
-	Node    string `json:"node"`
-	Group   string `json:"group"`
+	Node  string `json:"node"`
+	Group string `json:"group"`
 	Signals []struct {
 		Mac  string `json:"mac"`
 		Rssi int    `json:"rssi"`
@@ -66,12 +67,14 @@ var ServerAddress, Group, Port string
 var MinimumNumberOfRouters, MinRSSI int
 var CollectionTime int
 
+var count int
+
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 
 	flag.StringVar(&Port, "port", "8072", "port to run this server on (default: 8072)")
-	flag.StringVar(&ServerAddress, "server", "https://ml.internalpositioning.com", "address to FIND server")
-	//flag.StringVar(&ServerAddress, "server", "http://104.237.255.199:18003", "address to FIND server")
+	//flag.StringVar(&ServerAddress, "server", "https://ml.internalpositioning.com", "address to FIND server")
+	flag.StringVar(&ServerAddress, "server", "http://104.237.255.199:18003", "address to FIND server")
 	flag.IntVar(&MinimumNumberOfRouters, "min", 0, "minimum number of routers before sending fingerprint")
 	flag.IntVar(&MinRSSI, "rssi", -80, "minimum RSSI that must exist to send on")
 	flag.IntVar(&CollectionTime, "time", 2, "collection time to average fingerprints (in seconds)")
@@ -144,6 +147,11 @@ GET /switch - for learning and tracking
 		group := c.DefaultQuery("group", "")
 		user := strings.ToLower(strings.Replace(c.DefaultQuery("user", ""), ":", "", -1))
 		location := c.DefaultQuery("loc", "")
+		if i, err := strconv.Atoi(c.DefaultQuery("count", "500")); err == nil {
+			count = i
+		} else {
+			count = 500
+		}
 		if len(group) == 0 {
 			c.String(http.StatusBadRequest, "must include group name!\n\n"+switchUse)
 			return
@@ -167,7 +175,7 @@ GET /switch - for learning and tracking
 		if len(location) == 0 && len(user) == 0 {
 			message = group + " set to tracking"
 		} else {
-			message = group + " set to learning at '" + location + "' for user '" + user + "'"
+			message = group + " set to learning at '" + location + "' for user '" + user + "' and '" + strconv.Itoa(count) + "' Samples."
 		}
 		log.Println(message)
 		c.String(http.StatusOK, message)
@@ -225,6 +233,20 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 				}
 				location = strings.ToLower(strings.TrimSpace(strings.Split(dat, "///")[1]))
 				route = "/learn"
+				if count < 1 {
+					log.Printf("learning user %s at %s done!", user, location)
+					switches.Lock()
+					switches.m[group] = "///"
+					bJson, _ := json.MarshalIndent(switches.m, "", " ")
+					ioutil.WriteFile("switches.json", bJson, 0644)
+					switches.Unlock()
+					log.Println(group + " set to tracking")
+					return
+
+				}
+				log.Printf("sending data to learning user %s at %s\t-\t%d remaining", user, location, count)
+				count--
+
 			}
 
 			// Require a minimum of routers to track
