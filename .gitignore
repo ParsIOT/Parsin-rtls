@@ -3,4 +3,5 @@ server/bin
 server/pkg
 server/src
 server/server
+server/switches.json
 *.log

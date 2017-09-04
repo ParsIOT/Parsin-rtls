@@ -120,6 +120,7 @@ def submit_to_server():
 			print("\n\t\t==========================================")
 			fingerprints2.clear()
 	except Exception:
+		fingerprints2.clear()
 		pass
 
 	t_thread = threading.Timer(args.time, submit_to_server)
@@ -138,7 +139,7 @@ try:
 	for line in sys.stdin:
 		mac = re.findall(mac_regex, line)
 		if mac:
-			temp['mac'] = re.sub(r'[:]', '', mac[0].lower())
+			temp['mac'] = mac[0].lower()
 
 		rssi = re.findall(rssi_regex, line)
 		if rssi:
