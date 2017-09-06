@@ -21,10 +21,11 @@ import requests
 import subprocess
 import sys
 import threading
+import time
 import urllib.parse as urlparse
 from urllib.parse import urlencode
 
-ssh_command = "ssh -o ConnectTimeout=10 %(username)s@%(address)s "
+ssh_command = "ssh -o ConnectTimeout=1 %(username)s@%(address)s "
 
 
 class CommandThread(threading.Thread):
@@ -47,6 +48,8 @@ class CommandThread(threading.Thread):
 			self.restart_scan()
 		elif self.command == "update":
 			self.update_scanner()
+		elif self.command == "clean":
+			self.clean_logs()
 		elif self.command == "reboot":
 			self.reboot_pi()
 		elif self.command == "shutdown":
@@ -73,18 +76,19 @@ class CommandThread(threading.Thread):
 		if self.is_scan_running()[0]:
 			print(self.config['note'] + ":\tAlready running")
 			return
-		c = ssh_command + '"sudo hcitool -i %(interface)s lescan --duplicates > /dev/null | sudo btmon |/home/pi/rtls/scan-ble.py --group %(group)s --server %(server)s --time %(scan_time)s > /dev/null &"'
+		c = ssh_command + '"sudo hcitool -i %(interface)s lescan --duplicates > /dev/null | sudo btmon |/home/%(username)s/rtls/scan-ble.py --group %(group)s --server %(server)s --time %(scan_time)s > ' + \
+		    ('/home/%(username)s/rtls/result-' + str(int(time.time())) + '.out' if self.config['verbose'] else '/dev/null') + ' &"'
 		r, code = run_command(c % {'username': self.config['user'],
 		                           'address': self.config['address'],
 		                           'interface': self.config['interface'],
 		                           'group': self.config['group'],
-		                           'server': self.config['lfserver'],
-		                           'scan_time': self.config['scan_time']
+		                           'server': self.config['rtls_server'],
+		                           'scan_time': self.config['scan_time'],
 		                           })
 		if code == 255:
 			return
 		if self.is_scan_running()[0]:
-			print(self.config['note'] + ":\tScan Started for '", self.config['group'], "' using", self.config['lfserver'])
+			print(self.config['note'] + ":\tScan Started for '", self.config['group'], "' using", self.config['rtls_server'], "on verbose mode" if self.config['verbose'] else "")
 		else:
 			print(self.config['note'] + ":\tUnable To Start Scan")
 
@@ -109,12 +113,20 @@ class CommandThread(threading.Thread):
 
 	def update_scanner(self):
 		c = 'scp %(file)s pi@%(address)s:/home/pi/rtls/'
-		r, code = run_command(c % {'address': self.config['address'], 'file': os.path.dirname(os.path.abspath(__file__)) + '../node/scan-ble.py'})
+		r, code = run_command(c % {'address': self.config['address'], 'file': os.path.dirname(os.path.abspath(__file__)) + '/../node/scan-ble.py'})
 
 		if code == 255:
 			return
 		else:
 			print(self.config['note'] + ":\tScanner Updated, You can restart scan!")
+
+	def clean_logs(self):
+		c = ssh_command + '"rm -f /home/pi/rtls/*.out"'
+		r, code = run_command(c % {'username': self.config['user'], 'address': self.config['address'], })
+		if code == 255:
+			return
+		else:
+			print(self.config['note'] + ":\tAll .out file deleted")
 
 
 def run_command(command):
@@ -129,29 +141,71 @@ def run_command(command):
 
 def print_help():
 	print("""
-	cluster-ble.py COMMAND
+cluster-ble.py COMMAND OPTIONS
 
-		status:
-			get the current status of all Raspberry Pis in the cluster
-		stop :
-			stops scanning in all Raspberry Pis in the cluster
-		start:
-			starts scanning in all Raspberry Pis in the cluster
-		restart:
-			stops and starts all Raspberry Pis in the cluster
-		update :
-			uploads the latest version of scan-ble.py to Raspberry Pis
-		track -g GROUP:
-			communicate with find-lf server to tell it to track
-			for group GROUP
-		learn -u USER -g GROUP -l LOCATION -n NUMBER:
-			communicate with find-lf server to
-			tell it to perform learning in the specified location for user/group.
-		configure
-			creates a configuration file interactively
+Commands:
 
+	status [-c CONFIG]
+		get the current status of all Nodes in the cluster
 
-	""")
+	stop [-c CONFIG]
+		stops scanning in all Nodes in the cluster
+
+	start [-g GROUP] [-c CONFIG] [-v]
+		starts scanning in all Nodes in the cluster for group GROUP
+
+	restart [-g GROUP] [-c CONFIG] [-v]
+		stops scan and starts scanning on all Nodes in the cluster for group GROUP
+
+	update [-c CONFIG]
+		uploads the latest version of scan-ble.py to all Nodes
+
+	clean [-c CONFIG]
+		delete all .out files in rtls directory on Nodes
+
+	reboot [-c CONFIG]
+		reboots all Nodes in cluster
+
+	shutdown [-c CONFIG]
+		shutdown all Nodes in cluster
+
+	track [-g GROUP] [-c CONFIG]
+		communicate with RTLS server to tell it to track for group GROUP
+
+	learn -l LOCATION [-u USER] [-n NUMBER] [-g GROUP] [-c CONFIG]
+		communicate with RTLS server to tell it to perform learning
+		in the specified location for the user and group.
+
+	configure [-c CONFIG]
+		creates a configuration file interactively
+
+Options:
+
+	-h, --help
+		show this help message and exit
+
+	-c, --config	default: ./config-ble.json
+		location to configuration file
+
+	-l, --location
+		location to use, for learning
+
+	-v, --verbose
+		save script output to result-TIMESTAMP.out
+
+	-u, --user
+		user to use for learning,
+		can be specified in configuration file
+
+	-n, --number	default: 500
+		number of fingerprints for send to server at learning,
+		can be specified in configuration file
+
+	-g, --group
+		group name,
+		can be specified in configuration file
+
+""")
 
 
 def getURL(url, params):
@@ -175,7 +229,7 @@ def generate_config(path):
 			path = 'config-ble.json'
 
 	if os.path.exists(path):
-		print("Configuration file already exist!")
+		print("This file already exist!")
 		confirm = input('Are you sure to over write it? [y/n]: ')
 		if str(confirm) not in "yY":
 			print("Configuration aborted!")
@@ -183,11 +237,11 @@ def generate_config(path):
 
 	config = {}
 	# get configs from user
-	pis = []
+	nodes = []
 
 	while True:
-		pi = input('Enter Node address (e.g. 192.168.0.2 Enter blank if no more): ')
-		if len(pi) == 0:
+		node = input('Enter Node address (e.g. 192.168.0.2 Enter blank if no more): ')
+		if len(node) == 0:
 			break
 
 		note = input('Enter a note for the Node (for you to remember): ')
@@ -200,19 +254,18 @@ def generate_config(path):
 		if len(interface) == 0:
 			interface = "hci0"
 
-		pis.append({"address": pi.strip(), "user": user.strip(), "note": note.strip(), "interface": interface.strip()})
+		nodes.append({"address": node.strip(), "user": user.strip(), "note": note.strip(), "interface": interface.strip()})
 
-	if len(pis) == 0:
+	if len(nodes) == 0:
 		print("Must include at least one computer!")
 		sys.exit(-1)
-	config['pis'] = pis
+	config['nodes'] = nodes
 
-	config['lfserver'] = input(
-		'Enter lf address (default: lf.internalpositioning.com:443): ')
-	if len(config['lfserver']) == 0:
-		config['lfserver'] = 'https://lf.internalpositioning.com'
-	if 'http' not in config['lfserver']:
-		config['lfserver'] = "http://" + config['lfserver']
+	config['rtls_server'] = input('Enter lf address (default: lf.internalpositioning.com:443): ')
+	if len(config['rtls_server']) == 0:
+		config['rtls_server'] = 'https://lf.internalpositioning.com'
+	if 'http' not in config['rtls_server']:
+		config['rtls_server'] = "http://" + config['rtls_server']
 
 	config['group'] = input('Enter a group (default: RTLS_1): ')
 	if len(config['group']) == 0:
@@ -242,58 +295,19 @@ def generate_config(path):
 		f.write(json.dumps(config, indent=4))
 
 
-def main(args, config):
-	command = args.command.strip()
-
-	if command == "configure":
-		generate_config(None)
-		return
-
-	if command == "track":
-		response = getURL(config['lfserver'] + "/switch", {'group': config['group']})
-		print(response)
-		return
-
-	elif command == "learn":
-		if config['user'] == "" or config['location'] == "":
-			print("Must include name and location! Use ./cluster-ble.py -u USER -l LOCATION learn")
-			return
-		config['user'] = config['user'].replace(':', '').strip()
-		response = getURL(config['lfserver'] + "/switch", {'group': config['group'], 'user': config['user'], 'loc': config['location'], "count": config['learn_countv']})
-		print(response)
-		return
-
-	threads = []
-	temp = {}
-	for pi in config['pis']:
-		pi['group'] = config['group']
-		pi['lfserver'] = config['lfserver']
-		pi['scan_time'] = config['scan_time']
-		threads.append(CommandThread(pi.copy(), command, len(threads) == 0))
-
-	# Start new Threads
-	for thread in threads:
-		thread.start()
-	for thread in threads:
-		try:
-			thread.join()
-		except:
-			pass
-
-
-def exit_handler():
-	print("Exiting...")
-
-
 if __name__ == "__main__":
-	atexit.register(exit_handler)
-	parser = argparse.ArgumentParser()
+	parser = argparse.ArgumentParser(add_help=False)
+	parser.add_argument(
+		"-h",
+		"--help",
+		action="count",
+		help="Show this help message and exit.")
 	parser.add_argument(
 		"-c",
 		"--config",
 		type=str,
 		default="config-ble.json",
-		help="location to configuration file")
+		help="location to configuration file (default: ./config-ble.json)")
 	parser.add_argument(
 		"-l",
 		"--location",
@@ -305,7 +319,7 @@ if __name__ == "__main__":
 		"--user",
 		type=str,
 		default="",
-		help="user to use, for learning")
+		help="user to use for learning")
 	parser.add_argument(
 		"-g",
 		"--group",
@@ -316,9 +330,14 @@ if __name__ == "__main__":
 		"-n",
 		"--number",
 		type=int,
-		default=300,
-		help="number of fingerprints for send to server at learning")
-	parser.add_argument("command", type=str, default="start", help="start stop restart status track learn update reboot shutdown configure")
+		default=500,
+		help="number of fingerprints for send to server at learning (default: 500)")
+	parser.add_argument(
+		"-v",
+		"--verbose",
+		action='store_true',
+		help="save script output to result-TIMESTAMP.out")
+	parser.add_argument("command", type=str, nargs="?", default="", help="start stop restart status track learn update reboot shutdown configure")
 	args = parser.parse_args()
 
 	if not os.path.exists(args.config):
@@ -328,8 +347,6 @@ if __name__ == "__main__":
 	config = json.load(open(args.config, 'r'))
 	if args.group != "":
 		config['group'] = args.group
-		with open(args.config, 'w') as f:
-			f.write(json.dumps(config, indent=4))
 
 	if args.user != "" and args.user != config['user']:
 		config['user'] = args.user
@@ -339,4 +356,49 @@ if __name__ == "__main__":
 
 	config['location'] = args.location
 
-	main(args, config)
+	command = args.command.strip().lower()
+
+	if command == "" or args.help:
+		print_help()
+		sys.exit(2)
+
+	elif command == "configure":
+		generate_config(None)
+		sys.exit(0)
+
+	elif command == "track":
+		if config['group'] == "":
+			print("Must include group! Use ./cluster-ble.py -g GROUP track")
+			sys.exit(2)
+
+		response = getURL(config['rtls_server'] + "/switch", {'group': config['group']})
+		print(response)
+		sys.exit(0)
+
+	elif command == "learn":
+		if config['user'] == "" or config['location'] == "" or config['group'] == "":
+			print("Must include name and location and group! Use ./cluster-ble.py -u USER -l LOCATION learn -g GROUP ")
+			sys.exit(2)
+
+		config['user'] = config['user'].replace(':', '').strip()
+		response = getURL(config['rtls_server'] + "/switch", {'group': config['group'], 'user': config['user'], 'loc': config['location'], "count": config['learn_countv']})
+		print(response)
+		sys.exit(0)
+
+	threads = []
+	temp = {}
+	for node in config['nodes']:
+		node['group'] = config['group']
+		node['rtls_server'] = config['rtls_server']
+		node['scan_time'] = config['scan_time']
+		node['verbose'] = args.verbose
+		threads.append(CommandThread(node.copy(), command, len(threads) == 0))
+
+	# Start new Threads
+	for thread in threads:
+		thread.start()
+	for thread in threads:
+		try:
+			thread.join()
+		except:
+			pass

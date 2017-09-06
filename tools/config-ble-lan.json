@@ -1,5 +1,5 @@
 {
-	"pis": [
+	"nodes": [
 		{
 			"address": "192.168.0.128",
 			"user": "pi",
@@ -37,14 +37,18 @@
 			"interface": "hci0"
 		}
 	],
-	"lfserver": "http://192.168.0.95:8072",
+	"rtls_server": "http://192.168.0.95:8072",
 	"group": "ble-rtls-1",
 	"scan_time": 0.5,
 	"learn_count": 400,
 	"user": "FA:CF:CB:5D:0E:B8",
-	"One  - 1": "FA:CF:CB:5D:0E:B8",
-	"Two  - 2": "FA:C5:13:37:F5:09",
-	"Tree - 3": "F0:AB:CE:31:10:B9",
-	"Four - 4": "CB:16:FA:98:34:D7",
+	"One    - 1": "FA:CF:CB:5D:0E:B8",
+	"Two    - 2": "FA:C5:13:37:F5:09",
+	"Tree   - 3": "F0:AB:CE:31:10:B9",
+	"Four   - 4": "CB:16:FA:98:34:D7",
+	"Five   - 5": "EE:FA:1C:0E:68:BF",
+	"Six    - 6": "D2:AC:7C:25:36:FA",
+	"Seven  - 7": "CD:35:23:69:6B:69",
+	"Eight  - 8": "EC:7D:1E:28:F0:06",
 	"password": "parsiotraspberry"
 }
