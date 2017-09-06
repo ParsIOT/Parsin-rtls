@@ -240,7 +240,7 @@ def generate_config(path):
 	nodes = []
 
 	while True:
-		node = input('Enter Node address (e.g. 192.168.0.2 Enter blank if no more): ')
+		node = input('\nEnter Node address (e.g. 192.168.0.2 Enter blank if no more): ')
 		if len(node) == 0:
 			break
 
@@ -261,19 +261,27 @@ def generate_config(path):
 		sys.exit(-1)
 	config['nodes'] = nodes
 
-	config['rtls_server'] = input('Enter lf address (default: lf.internalpositioning.com:443): ')
+	print("\n\n")
+
+	config['rtls_server'] = input('Enter RTLS Server address (default: lf.internalpositioning.com:443): ')
 	if len(config['rtls_server']) == 0:
 		config['rtls_server'] = 'https://lf.internalpositioning.com'
 	if 'http' not in config['rtls_server']:
 		config['rtls_server'] = "http://" + config['rtls_server']
 
+	print("\n\n")
+
 	config['group'] = input('Enter a group (default: RTLS_1): ')
 	if len(config['group']) == 0:
 		config['group'] = 'RTLS_1'
 
+	print("\n\n")
+
 	config['user'] = input('Enter a user for learning: ')
 	if len(config['user']) == 0:
 		config['user'] = ''
+
+	print("\n\n")
 
 	config['scan_time'] = input('Enter a scanning time (default 1 second): ')
 	if len(config['scan_time']) == 0:
@@ -282,6 +290,8 @@ def generate_config(path):
 		config['scan_time'] = float(config['scan_time'])
 	except:
 		config['scan_time'] = 1
+
+	print("\n\n")
 
 	config['learn_count'] = input('Enter number of fingerprints to collect for learning (default: 500): ')
 	if len(config['learn_count']) == 0:
