@@ -297,8 +297,9 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			resp, err := http.DefaultClient.Do(req)
 			if err != nil {
 				// handle err
+			} else {
+				defer resp.Body.Close()
 			}
-			defer resp.Body.Close()
 		}
 	}
 }
