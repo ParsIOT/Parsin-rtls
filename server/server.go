@@ -218,6 +218,7 @@ func parseFingerprints() {
 }
 
 func sendFingerprints(m map[string]map[string]map[string]int) {
+	// TODO: Add find DOS protection
 	for group := range m {
 		for user := range m[group] {
 			// Define route and whether learning / tracking
