@@ -34,12 +34,10 @@ class CommandThread(threading.Thread):
 		self.isFirst = first
 		self.config = configs
 		self.command = command
-		self.output = ""
 
 	def run(self):
 		if self.command == "status":
-			foo, self.output = self.is_scan_running()
-			print(self.output)
+			print(self.is_scan_running()[1])
 		elif self.command == "start":
 			self.start_scan()
 		elif self.command == "stop":
@@ -51,9 +49,9 @@ class CommandThread(threading.Thread):
 		elif self.command == "clean":
 			self.clean_logs()
 		elif self.command == "reboot":
-			self.reboot_pi()
+			self.reboot_node()
 		elif self.command == "shutdown":
-			self.shutdown_pi()
+			self.shutdown_node()
 		else:
 			if self.isFirst:
 				print_help()
@@ -61,14 +59,14 @@ class CommandThread(threading.Thread):
 	def is_scan_running(self):
 		c = ssh_command + '"ps aux"'
 		res, code = run_command(c % {'username': self.config['user'], 'address': self.config['address']})
-		is_running = 'btmon' in res and 'scan-ble.py' in res
-		return is_running, self.config['note'] + ":\tScan is running" if is_running else self.config['note'] + ":\tScan is NOT running"
+		is_running = 'hcitool' in res and 'btmon' in res and 'scan-ble.py' in res
+		return is_running, self.config['note'] + (":\tScan is running" if is_running else ":\tScan is NOT running")
 
-	def shutdown_pi(self):
+	def shutdown_node(self):
 		c = ssh_command + '"sudo init 0"'
 		r, code = run_command(c % {'username': self.config['user'], 'address': self.config['address']})
 
-	def reboot_pi(self):
+	def reboot_node(self):
 		c = ssh_command + '"sudo init 6"'
 		r, code = run_command(c % {'username': self.config['user'], 'address': self.config['address']})
 
@@ -95,8 +93,11 @@ class CommandThread(threading.Thread):
 	def stop_scan(self):
 		is_running, msg = self.is_scan_running()
 		if is_running:
-			c = ssh_command + '"sudo pkill -9 hcitool && sudo hciconfig hci0 down && sudo hciconfig hci0 up && sudo pkill -9 btmon && sudo pkill -9 scan-ble.py"'
-			r, code = run_command(c % {'username': self.config['user'], 'address': self.config['address']})
+			c = ssh_command + '"sudo pkill -9 hcitool && sudo hciconfig %(interface)s down && sudo hciconfig %(interface)s up && sudo pkill -9 btmon && sudo pkill -9 scan-ble.py"'
+			r, code = run_command(c % {'username': self.config['user'],
+			                           'address': self.config['address'],
+			                           'interface': self.config['interface']
+			                           })
 			if self.is_scan_running()[0]:
 				print(self.config['note'] + ":\tCould Not Stop Scan!")
 				return False
@@ -117,22 +118,25 @@ class CommandThread(threading.Thread):
 
 		if code == 255:
 			return
-		else:
+		elif code == 0:
 			print(self.config['note'] + ":\tScanner Updated, You can restart scan!")
+		else:
+			print(self.config['note'] + ":\tAn error occurred")
 
 	def clean_logs(self):
 		c = ssh_command + '"rm -f /home/pi/rtls/*.out"'
 		r, code = run_command(c % {'username': self.config['user'], 'address': self.config['address'], })
 		if code == 255:
 			return
-		else:
+		elif code == 0:
 			print(self.config['note'] + ":\tAll .out file deleted")
+		else:
+			print(self.config['note'] + ":\tAn error occurred")
 
 
 def run_command(command):
 	# print("\n====================\n\t\tRUNNING:\n", command, "\n")
-	p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-	# p = subprocess.Popen(command, universal_newlines=True, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+	p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)  # , universal_newlines=True,
 	text = p.stdout.read().decode('utf-8')
 	retcode = p.wait()
 	# print("\n\t\tRESUALT:", retcode, text, "\n====================\n")
