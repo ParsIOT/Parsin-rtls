@@ -7,7 +7,7 @@
             "interface": "hci0"
         },
         {
-            "address": "192.168.0.51",
+            "address": "192.168.0.62",
             "user": "pi",
             "note": "komeil-wifi",
             "interface": "hci0"

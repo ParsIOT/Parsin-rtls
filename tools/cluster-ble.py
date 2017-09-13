@@ -201,7 +201,7 @@ Options:
 		user to use for learning,
 		can be specified in configuration file
 
-	-n, --number	default: 500
+	-n, --number
 		number of fingerprints for send to server at learning,
 		can be specified in configuration file
 
@@ -344,8 +344,7 @@ if __name__ == "__main__":
 		"-n",
 		"--number",
 		type=int,
-		default=500,
-		help="number of fingerprints for send to server at learning (default: 500)")
+		help="number of fingerprints for send to server at learning")
 	parser.add_argument(
 		"-v",
 		"--verbose",
@@ -395,7 +394,7 @@ if __name__ == "__main__":
 			sys.exit(2)
 
 		config['user'] = config['user'].replace(':', '').strip()
-		response = getURL(config['rtls_server'] + "/switch", {'group': config['group'], 'user': config['user'], 'loc': config['location'], "count": config['learn_countv']})
+		response = getURL(config['rtls_server'] + "/switch", {'group': config['group'], 'user': config['user'], 'loc': config['location'], "count": config['learn_count']})
 		print(response)
 		sys.exit(0)
 
