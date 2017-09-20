@@ -1,13 +1,13 @@
 {
     "nodes": [
         {
-            "address": "192.168.0.128",
+            "address": "192.168.0.32",
             "user": "pi",
             "note": "oof-lan",
             "interface": "hci0"
         },
         {
-            "address": "192.168.0.62",
+            "address": "192.168.0.51",
             "user": "pi",
             "note": "komeil-wifi",
             "interface": "hci0"
@@ -20,8 +20,8 @@
         }
     ],
     "rtls_server": "http://192.168.0.95:8072",
-    "group": "rtls_arman_12_6_96_2",
-    "user": "FA:CF:CB:5D:0E:B8",
-    "scan_time": 0.5,
-    "learn_count": 500
+    "group": "rtls_arman_22_6_96_2",
+    "user": "F3:B5:8A:4C:AA:CB",
+    "scan_time": 3,
+    "learn_count": 100
 }

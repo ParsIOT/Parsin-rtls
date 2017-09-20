@@ -75,9 +75,9 @@ func main() {
 	flag.StringVar(&Port, "port", "8072", "port to run this server on (default: 8072)")
 	//flag.StringVar(&ServerAddress, "server", "https://ml.internalpositioning.com", "address to FIND server")
 	flag.StringVar(&ServerAddress, "server", "http://104.237.255.199:18003", "address to FIND server")
-	flag.IntVar(&MinimumNumberOfRouters, "min", 0, "minimum number of routers before sending fingerprint")
-	flag.IntVar(&MinRSSI, "rssi", -105, "minimum RSSI that must exist to send on")
-	flag.IntVar(&CollectionTime, "time", 2, "collection time to average fingerprints (in seconds)")
+	flag.IntVar(&MinimumNumberOfRouters, "min", 2, "minimum number of routers before sending fingerprint")
+	flag.IntVar(&MinRSSI, "rssi", -110, "minimum RSSI that must exist to send on")
+	flag.IntVar(&CollectionTime, "time", 3, "collection time to average fingerprints (in seconds)")
 	flag.Parse()
 
 	router := gin.Default()
@@ -228,11 +228,12 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			dat, ok := switches.m[group]
 			switches.Unlock()
 			if ok && dat != "///" {
-				usersToUseForLearning := strings.ToLower(strings.TrimSpace(strings.Split(dat, "///")[0]))
+				temp := strings.Split(dat, "///")
+				usersToUseForLearning := strings.ToLower(strings.TrimSpace(temp[0]))
 				if !strings.Contains(usersToUseForLearning, user) {
 					continue // only insert if user is one of the users to use for learning (specified in route)
 				}
-				location = strings.ToLower(strings.TrimSpace(strings.Split(dat, "///")[1]))
+				location = strings.ToLower(strings.TrimSpace(temp[1]))
 				route = "/learn"
 				if count < 1 {
 					log.Printf("learning user %s at %s done!", user, location)

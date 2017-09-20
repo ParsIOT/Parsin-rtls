@@ -25,7 +25,7 @@
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.62",
+			"address": "192.168.0.51",
 			"user": "pi",
 			"note": "komeil-wifi",
 			"interface": "hci0"
@@ -50,5 +50,6 @@
 	"Six    - 6": "D2:AC:7C:25:36:FA",
 	"Seven  - 7": "CD:35:23:69:6B:69",
 	"Eight  - 8": "EC:7D:1E:28:F0:06",
+	"ou8j      ": "F3:B5:8A:4C:AA:CB",
 	"password": "parsiotraspberry"
 }

@@ -364,7 +364,7 @@ if __name__ == "__main__":
 	if args.user != "" and args.user != config['user']:
 		config['user'] = args.user
 
-	if args.number != "" and args.number != config['learn_count']:
+	if args.number != None and args.number != config['learn_count']:
 		config['learn_count'] = args.number
 
 	config['location'] = args.location
