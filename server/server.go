@@ -42,6 +42,15 @@ type Router struct {
 	Rssi int    `json:"rssi"`
 }
 
+type groupStatus struct {
+	track           bool
+	users, location string
+	learnCount      int
+	useBulk         bool
+}
+
+var count = 10
+
 // ReverseFingerprint is sent from each node
 type ReverseFingerprint struct {
 	Node  string `json:"node"`
@@ -58,16 +67,35 @@ var fingerprints = struct {
 	m map[string]map[string]map[string]int
 }{m: make(map[string]map[string]map[string]int)}
 
+type bulkWrapper struct {
+	Data []Fingerprint `json:"fingerprints"`
+}
+
+var bulkData = struct {
+	sync.RWMutex
+	m map[string]map[string][]Fingerprint
+}{m: make(map[string]map[string][]Fingerprint)}
+
 var switches = struct {
 	sync.RWMutex
 	m map[string]string
 }{m: make(map[string]string)}
 
 var ServerAddress, Group, Port string
-var MinimumNumberOfRouters, MinRSSI int
-var CollectionTime int
+var MinimumNumberOfRouters, MinRSSI, CollectionTime int
 
-var count int
+var usageGuide = `RTLS Server
+
+Routes available:
+
+GET /switch - for learning and tracking
+
+- if you want to track, use GET /switch?group=GROUPNAME
+- if you want to learn, use GET /switch?group=group&user=mac1,mac2,mac3&location=location
+  where group is the group name
+  where mac1,mac2,... are the macs of the devices you are using for learning
+  where location is the location you are trying to learn
+`
 
 func main() {
 	gin.SetMode(gin.ReleaseMode)
@@ -96,18 +124,7 @@ func main() {
 	switches.Unlock()
 
 	// Route handling
-	switchUse := `find-lf server
 
-Routes available:
-
-GET /switch - for learning and tracking
-
-- if you want to track, use GET /switch?group=GROUPNAME
-- if you want to learn, use GET /switch?group=group&user=mac1,mac2,mac3&location=location
-  where group is the group name
-  where mac1,mac2,... are the macs of the devices you are using for learning
-  where location is the location you are trying to learn
-`
 	router.Static("/static", "./static")
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", func(c *gin.Context) {
@@ -123,66 +140,72 @@ GET /switch - for learning and tracking
 		}
 		c.String(http.StatusOK, "recieved")
 	})
-	router.GET("/status", func(c *gin.Context) {
-		group := c.DefaultQuery("group", "")
-		if len(group) == 0 {
-			c.String(http.StatusBadRequest, "must include group name!\n\n"+switchUse)
-			return
-		}
-
-		switches.Lock()
-		dat, ok := switches.m[group]
-		switches.Unlock()
-		if ok && dat != "///" {
-			user := strings.ToLower(strings.TrimSpace(strings.Split(dat, "///")[0]))
-			location := strings.ToLower(strings.TrimSpace(strings.Split(dat, "///")[1]))
-			c.String(http.StatusOK, group+" set to learning at '"+location+"' for user '"+user+"'")
-		} else if dat == "///" {
-			c.String(http.StatusOK, group+" set to tracking")
-		} else {
-			c.String(401, "group not found")
-		}
-	})
-	router.GET("/switch", func(c *gin.Context) {
-		group := c.DefaultQuery("group", "")
-		user := strings.ToLower(strings.Replace(c.DefaultQuery("user", ""), ":", "", -1))
-		location := c.DefaultQuery("loc", "")
-		if i, err := strconv.Atoi(c.DefaultQuery("count", "500")); err == nil {
-			count = i
-		} else {
-			count = 500
-		}
-		if len(group) == 0 {
-			c.String(http.StatusBadRequest, "must include group name!\n\n"+switchUse)
-			return
-		}
-		if len(user) > 0 || len(location) > 0 {
-			if len(location) == 0 {
-				c.String(http.StatusBadRequest, "must include location!\n\n"+switchUse)
-				return
-			}
-			if len(user) == 0 {
-				c.String(http.StatusBadRequest, "must include user!\n\n"+switchUse)
-				return
-			}
-		}
-		switches.Lock()
-		switches.m[group] = user + "///" + location
-		bJson, _ := json.MarshalIndent(switches.m, "", " ")
-		ioutil.WriteFile("switches.json", bJson, 0644)
-		switches.Unlock()
-		var message string
-		if len(location) == 0 && len(user) == 0 {
-			message = group + " set to tracking"
-		} else {
-			message = group + " set to learning at '" + location + "' for user '" + user + "' and '" + strconv.Itoa(count) + "' Samples."
-		}
-		log.Println(message)
-		c.String(http.StatusOK, message)
-	})
+	router.GET("/status", getRtlsStatus)
+	router.GET("/switch", switchMode)
 
 	fmt.Println("Running on 127.0.0.1:" + Port)
 	router.Run(":" + Port)
+}
+
+func getRtlsStatus(c *gin.Context) {
+	group := c.DefaultQuery("group", "")
+	if len(group) == 0 {
+		c.String(http.StatusBadRequest, "must include group name!\n\n"+usageGuide)
+		return
+	}
+
+	switches.Lock()
+	dat, ok := switches.m[group]
+	switches.Unlock()
+	if ok && dat != "///" {
+		temp := strings.Split(strings.ToLower(dat), "///")
+		c.String(http.StatusOK, group+" set to learning at '"+strings.TrimSpace(temp[1])+"' for user '"+strings.TrimSpace(temp[0])+"' and '"+strings.TrimSpace(temp[2])+"' Samples. Using Bulk mode is set to '"+strings.TrimSpace(temp[3])+"'")
+	} else if dat == "///" {
+		c.String(http.StatusOK, group+" set to tracking")
+	} else {
+		c.String(401, "group not found")
+	}
+}
+
+func switchMode(c *gin.Context) {
+	group := c.DefaultQuery("group", "")
+	if len(group) == 0 {
+		c.String(http.StatusBadRequest, "must include group name!\n\n"+usageGuide)
+		return
+	}
+
+	user := strings.ToLower(strings.Replace(c.DefaultQuery("user", ""), ":", "", -1))
+	if len(user) == 0 {
+		c.String(http.StatusBadRequest, "must include user!\n\n"+usageGuide)
+		return
+	}
+
+	location := c.DefaultQuery("loc", "")
+	if len(location) == 0 {
+		c.String(http.StatusBadRequest, "must include location!\n\n"+usageGuide)
+		return
+	}
+
+	count := 500
+	if i, err := strconv.Atoi(c.DefaultQuery("count", "500")); err == nil {
+		count = i
+	}
+
+	useBulk := true
+	if i, err := strconv.ParseBool(c.DefaultQuery("bulk", "true")); err == nil {
+		useBulk = i
+	}
+
+	setGroupStatus(user+"///"+location+"///"+strconv.Itoa(count)+"///"+strconv.FormatBool(useBulk), group)
+
+	var message string
+	if len(location) == 0 && len(user) == 0 {
+		message = group + " set to tracking"
+	} else {
+		message = group + " set to learning at '" + location + "' for user '" + user + "' and '" + strconv.Itoa(count) + "' Samples. Using Bulk mode is set to '" + strconv.FormatBool(useBulk) + "'"
+	}
+	log.Println(message)
+	c.String(http.StatusOK, message)
 }
 
 func process(json ReverseFingerprint) {
@@ -207,8 +230,9 @@ func process(json ReverseFingerprint) {
 }
 
 func parseFingerprints() {
-	for {
-		time.Sleep(time.Duration(CollectionTime) * time.Second)
+	ticker := time.NewTicker(time.Duration(CollectionTime) * time.Second)
+	for range ticker.C {
+
 		fingerprints.Lock()
 		go sendFingerprints(fingerprints.m)
 		// clear fingerprints
@@ -223,32 +247,56 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 		for user := range m[group] {
 			// Define route and whether learning / tracking
 			route := "/track"
-			location := "unknown"
-			switches.Lock()
-			dat, ok := switches.m[group]
-			switches.Unlock()
-			if ok && dat != "///" {
-				temp := strings.Split(dat, "///")
-				usersToUseForLearning := strings.ToLower(strings.TrimSpace(temp[0]))
-				if !strings.Contains(usersToUseForLearning, user) {
+			gs := getGroupStatus(group)
+			if !gs.track {
+				if !strings.Contains(gs.users, user) {
 					continue // only insert if user is one of the users to use for learning (specified in route)
 				}
-				location = strings.ToLower(strings.TrimSpace(temp[1]))
 				route = "/learn"
-				if count < 1 {
-					log.Printf("learning user %s at %s done!", user, location)
-					switches.Lock()
-					switches.m[group] = "///"
-					bJson, _ := json.MarshalIndent(switches.m, "", " ")
-					ioutil.WriteFile("switches.json", bJson, 0644)
-					switches.Unlock()
+				if gs.learnCount < 1 {
+
+					if gs.useBulk {
+						route = "/bulklearn"
+
+						bulkData.Lock()
+						data := bulkData.m[group][user]
+						bulkData.m[group] = make(map[string][]Fingerprint)
+						bulkData.Unlock()
+
+						payloadBytes, err := json.Marshal(bulkWrapper{data})
+						if err != nil {
+							// handle err
+						}
+
+						log.Println("Sending to " + ServerAddress + route + ": " + string(payloadBytes))
+
+						body := bytes.NewReader(payloadBytes)
+
+						req, err := http.NewRequest("POST", ServerAddress+route, body)
+						if err != nil {
+							// handle err
+						}
+						req.Header.Set("Content-Type", "application/json")
+
+						resp, err := http.DefaultClient.Do(req)
+						if err != nil {
+							// handle err
+						} else {
+							defer resp.Body.Close()
+						}
+					}
+
+					log.Printf("learning user %s at %s done!", user, gs.location)
+					setGroupStatus("///", group)
 					log.Println(group + " set to tracking")
 					return
 
 				}
-				log.Printf("sending data to learning user %s at %s\t-\t%d remaining", user, location, count)
-				count--
-
+				log.Printf("sending data to learning user %s at %s\t-\t%d remaining", user, gs.location, gs.learnCount)
+				gs.learnCount--
+				gs.Save(group)
+			} else {
+				gs.location = "unknown"
 			}
 
 			// Require a minimum of routers to track
@@ -260,7 +308,7 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			data := Fingerprint{
 				Username: strings.Replace(user, ":", "", -1),
 				Group:    group,
-				Location: location,
+				Location: gs.location,
 			}
 
 			fingerprint := make([]Router, len(m[group][user]))
@@ -281,13 +329,32 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			}
 			data.WifiFingerprint = fingerprint
 
-			b, _ := json.Marshal(data)
-			log.Println("Sending to " + ServerAddress + route + ": " + string(b))
+			if gs.useBulk {
+				log.Printf("Bulk Learn Mod!sending data to aborted -\t%d remaining", gs.learnCount)
+
+				bulkData.Lock()
+				if val, ok := bulkData.m[group]; ok {
+					if v, ok := val[user]; ok {
+						v = append(v, data)
+						bulkData.m[group][user] = v
+					} else {
+						bulkData.m[group][user] = []Fingerprint{data}
+					}
+				} else {
+					bulkData.m[group] = make(map[string][]Fingerprint)
+					bulkData.m[group][user] = []Fingerprint{data}
+				}
+				bulkData.Unlock()
+				continue
+			}
 
 			payloadBytes, err := json.Marshal(data)
 			if err != nil {
 				// handle err
 			}
+
+			log.Println("Sending to " + ServerAddress + route + ": " + string(payloadBytes))
+
 			body := bytes.NewReader(payloadBytes)
 
 			req, err := http.NewRequest("POST", ServerAddress+route, body)
@@ -304,6 +371,36 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			}
 		}
 	}
+}
+
+func setGroupStatus(data, group string) {
+	switches.Lock()
+	switches.m[group] = data
+	bJson, _ := json.MarshalIndent(switches.m, "", "\t")
+	ioutil.WriteFile("switches.json", bJson, 0644)
+	switches.Unlock()
+}
+
+func (gs *groupStatus) Save(group string) {
+	setGroupStatus(gs.users+"///"+gs.location+"///"+strconv.Itoa(gs.learnCount)+"///"+strconv.FormatBool(gs.useBulk), group)
+}
+
+func getGroupStatus(name string) groupStatus {
+	switches.Lock()
+	dat, ok := switches.m[name]
+	switches.Unlock()
+	if ok {
+		if dat == "///" || dat == "" {
+			return groupStatus{track: true}
+		}
+		temp := strings.Split(dat, "///")
+		u := strings.ToLower(strings.TrimSpace(temp[0]))
+		l := strings.ToLower(strings.TrimSpace(temp[1]))
+		c, _ := strconv.Atoi(strings.TrimSpace(temp[2]))
+		b, _ := strconv.ParseBool(strings.TrimSpace(temp[3]))
+		return groupStatus{false, u, l, c, b}
+	}
+	return groupStatus{track: true}
 }
 
 func StrExtract(sExper, sAdelim, sCdelim string, nOccur int) string {

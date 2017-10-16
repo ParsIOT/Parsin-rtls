@@ -23,5 +23,6 @@
     "group": "rtls_arman_22_6_96_2",
     "user": "F3:B5:8A:4C:AA:CB",
     "scan_time": 3,
-    "learn_count": 100
+	"learn_count": 200,
+	"bulk_mode": true
 }

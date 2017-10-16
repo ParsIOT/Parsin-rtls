@@ -41,6 +41,7 @@
 	"group": "ble-rtls-1",
 	"scan_time": 0.5,
 	"learn_count": 400,
+	"bulk_mode": true,
 	"user": "FA:CF:CB:5D:0E:B8",
 	"One    - 1": "FA:CF:CB:5D:0E:B8",
 	"Two    - 2": "FA:C5:13:37:F5:09",

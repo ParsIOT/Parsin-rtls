@@ -176,7 +176,7 @@ Commands:
 	track [-g GROUP] [-c CONFIG]
 		communicate with RTLS server to tell it to track for group GROUP
 
-	learn -l LOCATION [-u USER] [-n NUMBER] [-g GROUP] [-c CONFIG]
+	learn -l LOCATION [-u USER] [-n NUMBER] [-g GROUP] [-c CONFIG] [-b]
 		communicate with RTLS server to tell it to perform learning
 		in the specified location for the user and group.
 
@@ -204,6 +204,9 @@ Options:
 	-n, --number
 		number of fingerprints for send to server at learning,
 		can be specified in configuration file
+
+	-b --bulk
+		use Find server's bulk learn mode or not
 
 	-g, --group
 		group name,
@@ -305,6 +308,12 @@ def generate_config(path):
 	except:
 		config['learn_count'] = 500
 
+	config['bulk_mode'] = input("Use server's Bulk Mode for learning (default: Yes) [y/n]: ")
+	if len(config['bulk_mode']) == 0 or config['bulk_mode'] in 'yY':
+		config['bulk_mode'] = True
+	else:
+		config['bulk_mode'] = False
+
 	with open(path, 'w') as f:
 		f.write(json.dumps(config, indent=4))
 
@@ -346,6 +355,11 @@ if __name__ == "__main__":
 		type=int,
 		help="number of fingerprints for send to server at learning")
 	parser.add_argument(
+		"-b",
+		"--bulk",
+		action='store_true',
+		help="Use bulk mode or not (default: don't use)")
+	parser.add_argument(
 		"-v",
 		"--verbose",
 		action='store_true',
@@ -353,29 +367,36 @@ if __name__ == "__main__":
 	parser.add_argument("command", type=str, nargs="?", default="", help="start stop restart status track learn update reboot shutdown configure")
 	args = parser.parse_args()
 
-	if not os.path.exists(args.config):
-		generate_config(args.config)
-
-	config = {}
-	config = json.load(open(args.config, 'r'))
-	if args.group != "":
-		config['group'] = args.group
-
-	if args.user != "" and args.user != config['user']:
-		config['user'] = args.user
-
-	if args.number != None and args.number != config['learn_count']:
-		config['learn_count'] = args.number
-
-	config['location'] = args.location
-
 	command = args.command.strip().lower()
 
 	if command == "" or args.help:
 		print_help()
 		sys.exit(2)
 
-	elif command == "configure":
+	if not os.path.exists(args.config):
+		generate_config(args.config)
+
+	config = {}
+	config = json.load(open(args.config, 'r'))
+	try:
+		if args.group != "":
+			config['group'] = args.group
+
+		if args.user != "" and args.user != config['user']:
+			config['user'] = args.user
+
+		if args.number != None and args.number != config['learn_count']:
+			config['learn_count'] = args.number
+
+		if args.bulk != config['bulk_mode']:
+			config['bulk_mode'] = args.bulk
+
+		config['location'] = args.location
+	except:
+		print("Error validating Configurations!")
+		sys.exit(2)
+
+	if command == "configure":
 		generate_config(None)
 		sys.exit(0)
 
@@ -394,7 +415,7 @@ if __name__ == "__main__":
 			sys.exit(2)
 
 		config['user'] = config['user'].replace(':', '').strip()
-		response = getURL(config['rtls_server'] + "/switch", {'group': config['group'], 'user': config['user'], 'loc': config['location'], "count": config['learn_count']})
+		response = getURL(config['rtls_server'] + "/switch", {'group': config['group'], 'user': config['user'], 'loc': config['location'], "count": config['learn_count'], "bulk": config['bulk_mode']})
 		print(response)
 		sys.exit(0)
 
