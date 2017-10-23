@@ -103,7 +103,7 @@ func main() {
 	flag.StringVar(&Port, "port", "8072", "port to run this server on (default: 8072)")
 	//flag.StringVar(&ServerAddress, "server", "https://ml.internalpositioning.com", "address to FIND server")
 	flag.StringVar(&ServerAddress, "server", "http://104.237.255.199:18003", "address to FIND server")
-	flag.IntVar(&MinimumNumberOfRouters, "min", 2, "minimum number of routers before sending fingerprint")
+	flag.IntVar(&MinimumNumberOfRouters, "min", 0, "minimum number of routers before sending fingerprint")
 	flag.IntVar(&MinRSSI, "rssi", -110, "minimum RSSI that must exist to send on")
 	flag.IntVar(&CollectionTime, "time", 3, "collection time to average fingerprints (in seconds)")
 	flag.Parse()
@@ -130,6 +130,10 @@ func main() {
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{})
 	})
+	router.GET("/auto", func(c *gin.Context) {
+		router.LoadHTMLGlob("templates/*")
+		c.HTML(http.StatusOK, "auto_learn.tmpl", gin.H{})
+	})
 	router.POST("/reversefingerprint", func(c *gin.Context) {
 		var json ReverseFingerprint
 		err := c.BindJSON(&json)
@@ -141,6 +145,7 @@ func main() {
 		c.String(http.StatusOK, "recieved")
 	})
 	router.GET("/status", getRtlsStatus)
+	router.POST("/status", getRtlsStatus)
 	router.GET("/switch", switchMode)
 
 	fmt.Println("Running on 127.0.0.1:" + Port)
@@ -159,7 +164,7 @@ func getRtlsStatus(c *gin.Context) {
 	switches.Unlock()
 	if ok && dat != "///" {
 		temp := strings.Split(strings.ToLower(dat), "///")
-		c.String(http.StatusOK, group+" set to learning at '"+strings.TrimSpace(temp[1])+"' for user '"+strings.TrimSpace(temp[0])+"' and '"+strings.TrimSpace(temp[2])+"' Samples. Using Bulk mode is set to '"+strings.TrimSpace(temp[3])+"'")
+		c.String(http.StatusOK, group+" set to learning at '"+strings.TrimSpace(temp[1])+"' for user '"+strings.TrimSpace(temp[0])+"', '"+strings.TrimSpace(temp[2])+"' Sample(s) remaining. Using Bulk mode is set to '"+strings.TrimSpace(temp[3])+"'")
 	} else if dat == "///" {
 		c.String(http.StatusOK, group+" set to tracking")
 	} else {
@@ -176,7 +181,9 @@ func switchMode(c *gin.Context) {
 
 	user := strings.ToLower(strings.Replace(c.DefaultQuery("user", ""), ":", "", -1))
 	if len(user) == 0 {
-		c.String(http.StatusBadRequest, "must include user!\n\n"+usageGuide)
+		//c.String(http.StatusBadRequest, "must include user!\n\n"+usageGuide)
+		setGroupStatus("///", group)
+		c.String(http.StatusOK, group+" set to tracking")
 		return
 	}
 
@@ -242,7 +249,6 @@ func parseFingerprints() {
 }
 
 func sendFingerprints(m map[string]map[string]map[string]int) {
-	// TODO: Add find DOS protection
 	for group := range m {
 		for user := range m[group] {
 			// Define route and whether learning / tracking

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="description" content="documentation for framework for internal navigation and discovery Lucius Fox additions">
+	<meta name="keywords" content="lucius fox, FIND, internal navigation, internal positioning, local positioning">
+	<meta name="author" content="Zack">
+
+	<title>
+		find-lf server
+	</title>
+
+	<script src="/static/jquery.min.js"></script>
+	<script src="/static/toastr.min.js"></script>
+	<script src="/static/glimpse.js"></script>
+	<script src="/static/glimpse.toastr.js"></script>
+	<script src="/static/bootstrap.min.js"></script>
+	<link href="/static/toastr.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="container">
+	<div class="row">
+		<div class="col-md-4 col-md-offset-4 col-sm-offset-0">
+			<h2>Lucius Fox Internal Positioning
+				<small><a href="/">Home</a></small>
+			</h2>
+		</div>
+
+		<div class="col-md-3 col-md-offset-3 clearfix">
+			<div class="form-group">
+				<label for="group" class="control-label">Group:</label>
+				<input type="text" class="form-control" id="group" placeholder="" required autofocus>
+			</div>
+			<div class="form-group">
+				<label for="mac" class="control-label">MAC addresses (for learning):</label>
+				<input type="text" class="form-control" id="mac" placeholder="">
+			</div>
+			<div class="form-group">
+				<label for="mac" class="control-label">Count of FingerPrints(for learning):</label>
+				<input type="text" class="form-control" id="count" placeholder="Server default is 500"/>
+			</div>
+
+			<div class="form-group">
+				<label for="check-interval" class="control-label">Check Interval <code>s</code></label>
+				<input type="number" class="form-control" id="check-interval" min="1" placeholder="Interval to check fieashed">
+			</div>
+
+			<div class="form-group">
+				<label for="change-delay" class="control-label">Change Delay <code>s</code></label>
+				<input type="number" class="form-control" id="change-delay" min="1" placeholder="Delay before change location after successful check ">
+			</div>
+		</div>
+
+		<div class="col-md-3 clearfix">
+			<div class="form-group">
+				<label for="group" class="control-label">Location list <code>one name per line</code>:</label>
+				<textarea class="form-control" id="locations" rows="16" required style="max-width: 100%;min-width: 100%;"></textarea>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-md-offset-3 col-sm-offset-0">
+			<div class="form-group">
+				<div class="col-xs-4">
+					<button type="button" id="learn" onclick="startLearning()" class="btn btn-success btn-block">Start Learning</button>
+				</div>
+				<div class="col-xs-4">
+					<button type="button" id="status" onclick="showStatus()" class="btn btn-warning btn-block">Get Status</button>
+				</div>
+				<div class="col-xs-4">
+					<button type="button" id="cancel" onclick="cancelLearn()" class="btn btn-danger btn-block">Cancel Learning</button>
+				</div>
+				<audio id="changed" src="/static/beep.mp3" type="audio/mp3" style="display: none;">Your browser does not support the &#60;audio&#62; element.</audio>
+				<audio id="prepare-to-change" src="/static/button-2.mp3" type="audio/mp3" style="display: none;">Your browser does not support the &#60;audio&#62; element.</audio>
+				<audio id="learning-completed" src="/static/button-44.mp3" type="audio/mp3" style="display: none;">Your browser does not support the &#60;audio&#62; element.</audio>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	toastr.options = {
+		"closeButton": false,
+		"debug": false,
+		"newestOnTop": true,
+		"progressBar": false,
+		"positionClass": "toast-bottom-full-width",
+		"preventDuplicates": false,
+		"onclick": null,
+		"showDuration": "200",
+		"hideDuration": "1000",
+		"timeOut": "5000",
+		"extendedTimeOut": "1000",
+		"showEasing": "swing",
+		"hideEasing": "linear",
+		"showMethod": "fadeIn",
+		"hideMethod": "fadeOut"
+	};
+
+	var locs, CheckInterval, changeTimeout;
+
+	function startLearning() {
+		locs = $('#locations').val();
+		if (locs !== "")
+			locs = locs.split('\n');
+		else {
+			toastr.warning("Must enter group name");
+			return;
+		}
+		$('#locations').prop('disabled', true);
+
+		learnNext();
+	}
+
+	function cancelLearn() {
+		clearInterval(CheckInterval);
+		clearTimeout(changeTimeout);
+		switchTo(false);
+		$('#locations').prop('disabled', false);
+		toastr.success("Learning Canceled!");
+	}
+
+	function playAlarm() {
+		b = $('#changed')[0];
+		b.play();
+		setTimeout(function () {
+			b.currentTime = 0;
+			b.play()
+		}, 1000);
+		setTimeout(function () {
+			b.currentTime = 0;
+			b.play()
+		}, 2000);
+	}
+
+	function doLearning() {
+		if (getStatus()) {
+			$('#prepare-to-change')[0].play();
+			clearInterval(CheckInterval);
+			let v = parseInt($('#change-delay').val());
+			let m = parseInt($('#change-delay').prop('min'));
+			if (m < v) {
+				changeTimeout = setTimeout(learnNext, v * 1000);
+			} else {
+				changeTimeout = setTimeout(learnNext, m * 1000);
+			}
+		}
+	}
+
+	function learnNext() {
+		$('#locations').val(locs.join("\n"));
+		if (locs.length > 0) {
+			playAlarm();
+			loc = locs.splice(0, 1)[0];
+			switchTo(true, loc);
+			showStatus();
+
+			let v = parseInt($('#check-interval').val());
+			let m = parseInt($('#check-interval').prop('min'));
+
+			v = (m < v ? v : m) * 1000;
+
+			CheckInterval = setInterval(doLearning, v);
+		} else {
+			clearInterval(CheckInterval);
+			clearTimeout(changeTimeout);
+			switchTo(false);
+			$('#locations').prop('disabled', false);
+			toastr.success("Learning Completed!");
+			b = $('#learning-completed')[0];
+			b.play();
+			setTimeout(function () {
+				b.currentTime = 0;
+				b.play()
+			}, 200);
+			setTimeout(function () {
+				b.currentTime = 0;
+				b.play()
+			}, 400);
+			setTimeout(function () {
+				b.currentTime = 0;
+				b.play()
+			}, 800);
+			setTimeout(function () {
+				b.currentTime = 0;
+				b.play()
+			}, 1000);
+			setTimeout(function () {
+				b.currentTime = 0;
+				b.play()
+			}, 1200);
+		}
+	}
+
+	function getStatus() {
+		console.log("getting stat");
+		group = $('#group').val().toLowerCase();
+		if (group === "") {
+			toastr.warning("Must enter group name");
+			return false;
+		}
+		var stat;
+		$.ajax({
+			url: '/status',
+			data: {
+				group: group
+			},
+			type: "GET",
+			async: false,
+			cache: false,
+			success: function (response) {
+				if (response == group + " set to tracking") {
+					stat = true
+				} else {
+					stat = false
+				}
+			},
+			error: function (xhr, status, error) {
+				toastr.error(xhr.responseText);
+			}
+		});
+		return stat;
+	}
+
+	function showStatus() {
+		group = $('#group').val().toLowerCase();
+		if (group === "") {
+			toastr.warning("Must enter group name");
+			return false;
+		}
+
+		$.ajax({
+			url: '/status',
+			data: {
+				group: group
+			},
+			type: "GET",
+			success: function (response) {
+				toastr.info(response);
+			},
+			error: function (xhr, status, error) {
+				toastr.error(xhr.responseText);
+			}
+		});
+	}
+
+	function switchTo(learn=false, loc=null) {
+		var data = {};
+		group = document.getElementById('group').value.toLowerCase();
+		if (group === "") {
+			toastr.warning("Must enter group name");
+			return false;
+		}
+
+		data['group'] = group;
+		if (learn) {
+			mac = document.getElementById('mac').value;
+			if (mac === "") {
+				toastr.warning('Enter mac for learning');
+				return false;
+			}
+
+			count = document.getElementById('count').value;
+			if (count === "") {
+				count = 500;
+			}
+			data['user'] = mac;
+			data['count'] = count;
+			data['loc'] = loc;
+		}
+
+		$.ajax({
+			url: "/switch",
+			data: data,
+			type: "GET",
+			success: function (response) {
+				toastr.success(response);
+			},
+			error: function (xhr, status, error) {
+				toastr.error(xhr.responseText);
+			}
+		});
+
+	}
+</script>
+</body>
+</html>

@@ -388,7 +388,7 @@ if __name__ == "__main__":
 		if args.number != None and args.number != config['learn_count']:
 			config['learn_count'] = args.number
 
-		if args.bulk != config['bulk_mode']:
+		if 'bulk_mode' not in config:
 			config['bulk_mode'] = args.bulk
 
 		config['location'] = args.location
