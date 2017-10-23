@@ -93,8 +93,8 @@
 		"preventDuplicates": false,
 		"onclick": null,
 		"showDuration": "200",
-		"hideDuration": "1000",
-		"timeOut": "5000",
+		"hideDuration": "1500",
+		"timeOut": "6000",
 		"extendedTimeOut": "1000",
 		"showEasing": "swing",
 		"hideEasing": "linear",
@@ -105,7 +105,7 @@
 	var locs, CheckInterval, changeTimeout;
 
 	function startLearning() {
-		locs = $('#locations').val();
+		locs = $('#locations').val().trim();
 		if (locs !== "")
 			locs = locs.split('\n');
 		else {
@@ -125,47 +125,40 @@
 		toastr.success("Learning Canceled!");
 	}
 
-	function playAlarm() {
-		b = $('#changed')[0];
-		b.play();
-		setTimeout(function () {
-			b.currentTime = 0;
-			b.play()
-		}, 1000);
-		setTimeout(function () {
-			b.currentTime = 0;
-			b.play()
-		}, 2000);
-	}
-
 	function doLearning() {
 		if (getStatus()) {
 			$('#prepare-to-change')[0].play();
 			clearInterval(CheckInterval);
 			let v = parseInt($('#change-delay').val());
 			let m = parseInt($('#change-delay').prop('min'));
-			if (m < v) {
-				changeTimeout = setTimeout(learnNext, v * 1000);
-			} else {
-				changeTimeout = setTimeout(learnNext, m * 1000);
-			}
+			v = (m < v ? v : m);
+			toastr.info("Please move to next location in " + v + " Seconds");
+			changeTimeout = setTimeout(learnNext, v * 1000);
 		}
 	}
 
 	function learnNext() {
 		$('#locations').val(locs.join("\n"));
 		if (locs.length > 0) {
-			playAlarm();
+
+			b = $('#changed')[0];
+			b.play();
+			setTimeout(function () {
+				b.currentTime = 0;
+				b.play()
+			}, 1000);
+			setTimeout(function () {
+				b.currentTime = 0;
+				b.play()
+			}, 2000);
+
 			loc = locs.splice(0, 1)[0];
 			switchTo(true, loc);
-			showStatus();
 
 			let v = parseInt($('#check-interval').val());
 			let m = parseInt($('#check-interval').prop('min'));
 
-			v = (m < v ? v : m) * 1000;
-
-			CheckInterval = setInterval(doLearning, v);
+			CheckInterval = setInterval(doLearning, (m < v ? v : m) * 1000);
 		} else {
 			clearInterval(CheckInterval);
 			clearTimeout(changeTimeout);
@@ -198,7 +191,6 @@
 	}
 
 	function getStatus() {
-		console.log("getting stat");
 		group = $('#group').val().toLowerCase();
 		if (group === "") {
 			toastr.warning("Must enter group name");
