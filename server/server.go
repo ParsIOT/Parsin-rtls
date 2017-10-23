@@ -132,7 +132,6 @@ func main() {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{})
 	})
 	router.GET("/auto", func(c *gin.Context) {
-		router.LoadHTMLGlob("templates/*")
 		c.HTML(http.StatusOK, "auto_learn.tmpl", gin.H{})
 	})
 	router.POST("/reversefingerprint", func(c *gin.Context) {
