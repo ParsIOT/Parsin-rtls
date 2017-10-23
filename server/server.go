@@ -43,10 +43,11 @@ type Router struct {
 }
 
 type groupStatus struct {
-	track           bool
-	users, location string
-	learnCount      int
-	useBulk         bool
+	Track          bool   `json:"track"`
+	Users          string `json:"users"`
+	Location       string `json:"location"`
+	RemainingCount int    `json:"remaining_count"`
+	UseBulk        bool   `json:"use_bulk"`
 }
 
 var count = 10
@@ -78,8 +79,8 @@ var bulkData = struct {
 
 var switches = struct {
 	sync.RWMutex
-	m map[string]string
-}{m: make(map[string]string)}
+	m map[string]groupStatus
+}{m: make(map[string]groupStatus)}
 
 var ServerAddress, Group, Port string
 var MinimumNumberOfRouters, MinRSSI, CollectionTime int
@@ -116,7 +117,7 @@ func main() {
 
 	// Setup switches
 	switches.Lock()
-	switches.m = make(map[string]string)
+	switches.m = make(map[string]groupStatus)
 	if _, err := os.Stat("switches.json"); err == nil {
 		bJson, _ := ioutil.ReadFile("switches.json")
 		json.Unmarshal(bJson, &switches.m)
@@ -162,11 +163,13 @@ func getRtlsStatus(c *gin.Context) {
 	switches.Lock()
 	dat, ok := switches.m[group]
 	switches.Unlock()
-	if ok && dat != "///" {
-		temp := strings.Split(strings.ToLower(dat), "///")
-		c.String(http.StatusOK, group+" set to learning at '"+strings.TrimSpace(temp[1])+"' for user '"+strings.TrimSpace(temp[0])+"', '"+strings.TrimSpace(temp[2])+"' Sample(s) remaining. Using Bulk mode is set to '"+strings.TrimSpace(temp[3])+"'")
-	} else if dat == "///" {
-		c.String(http.StatusOK, group+" set to tracking")
+	if ok {
+		if !dat.Track {
+			c.String(http.StatusOK, group + " set to learning at '" + strings.TrimSpace(dat.Location) + "' for user(s) '" + strings.TrimSpace(dat.Users) + "', '"+
+				strings.TrimSpace(strconv.Itoa(dat.RemainingCount))+ "' Sample(s) remaining. Using Bulk mode is set to '"+ strings.TrimSpace(strconv.FormatBool(dat.UseBulk))+ "'")
+		} else {
+			c.String(http.StatusOK, group+" set to tracking")
+		}
 	} else {
 		c.String(401, "group not found")
 	}
@@ -182,7 +185,7 @@ func switchMode(c *gin.Context) {
 	user := strings.ToLower(strings.Replace(c.DefaultQuery("user", ""), ":", "", -1))
 	if len(user) == 0 {
 		//c.String(http.StatusBadRequest, "must include user!\n\n"+usageGuide)
-		setGroupStatus("///", group)
+		setGroupStatus(group, groupStatus{Track: true})
 		c.String(http.StatusOK, group+" set to tracking")
 		return
 	}
@@ -203,7 +206,7 @@ func switchMode(c *gin.Context) {
 		useBulk = i
 	}
 
-	setGroupStatus(user+"///"+location+"///"+strconv.Itoa(count)+"///"+strconv.FormatBool(useBulk), group)
+	setGroupStatus(group, groupStatus{false, user, location, count, useBulk})
 
 	var message string
 	if len(location) == 0 && len(user) == 0 {
@@ -254,14 +257,14 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			// Define route and whether learning / tracking
 			route := "/track"
 			gs := getGroupStatus(group)
-			if !gs.track {
-				if !strings.Contains(gs.users, user) {
+			if !gs.Track {
+				if !strings.Contains(gs.Users, user) {
 					continue // only insert if user is one of the users to use for learning (specified in route)
 				}
 				route = "/learn"
-				if gs.learnCount < 1 {
+				if gs.RemainingCount < 1 {
 
-					if gs.useBulk {
+					if gs.UseBulk {
 						route = "/bulklearn"
 
 						bulkData.Lock()
@@ -292,17 +295,17 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 						}
 					}
 
-					log.Printf("learning user %s at %s done!", user, gs.location)
-					setGroupStatus("///", group)
+					log.Printf("learning user %s at %s done!", user, gs.Location)
+					setGroupStatus(group, groupStatus{Track: true})
 					log.Println(group + " set to tracking")
 					return
 
 				}
-				log.Printf("sending data to learning user %s at %s\t-\t%d remaining", user, gs.location, gs.learnCount)
-				gs.learnCount--
+				log.Printf("sending data to learning user %s at %s\t-\t%d remaining", user, gs.Location, gs.RemainingCount)
+				gs.RemainingCount--
 				gs.Save(group)
 			} else {
-				gs.location = "unknown"
+				gs.Location = "unknown"
 			}
 
 			// Require a minimum of routers to track
@@ -314,7 +317,7 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			data := Fingerprint{
 				Username: strings.Replace(user, ":", "", -1),
 				Group:    group,
-				Location: gs.location,
+				Location: gs.Location,
 			}
 
 			fingerprint := make([]Router, len(m[group][user]))
@@ -335,8 +338,8 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			}
 			data.WifiFingerprint = fingerprint
 
-			if gs.useBulk {
-				log.Printf("Bulk Learn Mod!sending data to aborted -\t%d remaining", gs.learnCount)
+			if gs.UseBulk {
+				log.Printf("Bulk Learn Mod!sending data to aborted -\t%d remaining", gs.RemainingCount)
 
 				bulkData.Lock()
 				if val, ok := bulkData.m[group]; ok {
@@ -379,7 +382,7 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 	}
 }
 
-func setGroupStatus(data, group string) {
+func setGroupStatus(group string, data groupStatus) {
 	switches.Lock()
 	switches.m[group] = data
 	bJson, _ := json.MarshalIndent(switches.m, "", "\t")
@@ -388,25 +391,17 @@ func setGroupStatus(data, group string) {
 }
 
 func (gs *groupStatus) Save(group string) {
-	setGroupStatus(gs.users+"///"+gs.location+"///"+strconv.Itoa(gs.learnCount)+"///"+strconv.FormatBool(gs.useBulk), group)
+	setGroupStatus(group, *gs)
 }
 
 func getGroupStatus(name string) groupStatus {
 	switches.Lock()
-	dat, ok := switches.m[name]
+	data, ok := switches.m[name]
 	switches.Unlock()
 	if ok {
-		if dat == "///" || dat == "" {
-			return groupStatus{track: true}
-		}
-		temp := strings.Split(dat, "///")
-		u := strings.ToLower(strings.TrimSpace(temp[0]))
-		l := strings.ToLower(strings.TrimSpace(temp[1]))
-		c, _ := strconv.Atoi(strings.TrimSpace(temp[2]))
-		b, _ := strconv.ParseBool(strings.TrimSpace(temp[3]))
-		return groupStatus{false, u, l, c, b}
+		return data
 	}
-	return groupStatus{track: true}
+	return groupStatus{Track: true}
 }
 
 func StrExtract(sExper, sAdelim, sCdelim string, nOccur int) string {
