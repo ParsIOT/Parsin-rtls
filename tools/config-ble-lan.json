@@ -1,37 +1,37 @@
 {
 	"nodes": [
 		{
-			"address": "192.168.0.37",
+			"address": "192.168.0.230",
 			"user": "pi",
 			"note": "oof-lan",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.41",
+			"address": "192.168.0.234",
 			"user": "pi",
 			"note": "komeil-lan",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.99",
+			"address": "192.168.0.232",
 			"user": "pi",
 			"note": "sham-lan",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.32",
+			"address": "192.168.0.231",
 			"user": "pi",
 			"note": "oof-wifi",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.39",
+			"address": "192.168.0.235",
 			"user": "pi",
 			"note": "komeil-wifi",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.60",
+			"address": "192.168.0.233",
 			"user": "pi",
 			"note": "sham-wifi",
 			"interface": "hci0"
