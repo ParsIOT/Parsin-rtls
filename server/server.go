@@ -72,10 +72,12 @@ type bulkWrapper struct {
 	Data []Fingerprint `json:"fingerprints"`
 }
 
-var bulkData = struct {
+type BulkLearnData struct {
 	sync.RWMutex
 	m map[string]map[string][]Fingerprint
-}{m: make(map[string]map[string][]Fingerprint)}
+}
+
+var bulkData = BulkLearnData{m: make(map[string]map[string][]Fingerprint)}
 
 var switches = struct {
 	sync.RWMutex
@@ -376,6 +378,12 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 				// handle err
 			} else {
 				defer resp.Body.Close()
+			}
+
+			if gs.UseBulk {
+				bulkData.Lock()
+				bulkData.m = make(map[string]map[string][]Fingerprint)
+				bulkData.Unlock()
 			}
 		}
 	}
