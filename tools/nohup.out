@@ -1,0 +1,22 @@
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+V4L2_CORE: (UVCIOC_CTRL_MAP) Error: No such file or directory
+ALSA lib pcm_dmix.c:1029:(snd_pcm_dmix_open) unable to open slave
+ALSA lib pcm.c:2266:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.rear
+ALSA lib pcm.c:2266:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.center_lfe
+ALSA lib pcm.c:2266:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.side
+ALSA lib pcm_route.c:867:(find_matching_chmap) Found no matching channel map
+ALSA lib pcm_dmix.c:1029:(snd_pcm_dmix_open) unable to open slave
+Cannot connect to server socket err = No such file or directory
+Cannot connect to server request channel
+jack server is not running or cannot be started
+JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for 4294967295, skipping unlock
+JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for 4294967295, skipping unlock
+Gtk-Message: Failed to load module "topmenu-gtk-module"
+GUVCVIEW: version 2.0.2
