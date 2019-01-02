@@ -74,20 +74,35 @@ class CommandThread(threading.Thread):
 		if self.is_scan_running()[0]:
 			print(self.config['note'] + ":\tAlready running")
 			return
-		c = ssh_command + '"sudo hcitool -i %(interface)s lescan --duplicates > /dev/null | sudo btmon |/home/%(username)s/rtls/scan-ble.py --group %(group)s --server %(server)s --time %(scan_time)s > ' + \
+
+		c1 = ssh_command + '"sudo hciconfig %(interface)s up"'
+		r, code = run_command(c1% {'username': self.config['user'],
+						 'address': self.config['address'],
+						 'interface': self.config['interface'],
+						 'group': self.config['group'],
+						 'server': self.config['rtls_server'],
+						 'scan_time': self.config['scan_time'],
+						 })
+
+		if code == 255:
+			return
+
+		c2 = ssh_command + '"sudo hcitool -i %(interface)s lescan --duplicates > /dev/null | sudo btmon |/home/%(username)s/rtls/scan-ble.py --group %(group)s --server %(server)s --time %(scan_time)s > ' + \
 		    ('/home/%(username)s/rtls/result-' + str(int(time.time())) + '.out' if self.config['verbose'] else '/dev/null') + ' &"'
-		r, code = run_command(c % {'username': self.config['user'],
-		                           'address': self.config['address'],
-		                           'interface': self.config['interface'],
-		                           'group': self.config['group'],
-		                           'server': self.config['rtls_server'],
-		                           'scan_time': self.config['scan_time'],
-		                           })
+
+		r, code = run_command(c2 % {'username': self.config['user'],
+									'address': self.config['address'],
+									'interface': self.config['interface'],
+									'group': self.config['group'],
+									'server': self.config['rtls_server'],
+									'scan_time': self.config['scan_time'],
+									})
 		if code == 255:
 			return
 		if self.is_scan_running()[0]:
 			print(self.config['note'] + ":\tScan Started for '", self.config['group'], "' using", self.config['rtls_server'], "on verbose mode" if self.config['verbose'] else "")
 		else:
+			print(r)
 			print(self.config['note'] + ":\tUnable To Start Scan")
 
 	def stop_scan(self):
@@ -99,6 +114,7 @@ class CommandThread(threading.Thread):
 			                           'interface': self.config['interface']
 			                           })
 			if self.is_scan_running()[0]:
+				print(r)
 				print(self.config['note'] + ":\tCould Not Stop Scan!")
 				return False
 			else:
@@ -113,24 +129,26 @@ class CommandThread(threading.Thread):
 			self.start_scan()
 
 	def update_scanner(self):
-		c = 'scp %(file)s pi@%(address)s:/home/pi/rtls/'
-		r, code = run_command(c % {'address': self.config['address'], 'file': os.path.dirname(os.path.abspath(__file__)) + '/../node/scan-ble.py'})
+		c = ssh_command + '"mkdir -p /home/%(username)s/rtls/" && scp %(file)s %(username)s@%(address)s:/home/%(username)s/rtls/'
+		r, code = run_command(c % {'address': self.config['address'],'username': self.config['user'], 'file': os.path.dirname(os.path.abspath(__file__)) + '/../node/scan-ble.py'})
 
 		if code == 255:
 			return
 		elif code == 0:
 			print(self.config['note'] + ":\tScanner Updated, You can restart scan!")
 		else:
+			print(r)
 			print(self.config['note'] + ":\tAn error occurred")
 
 	def clean_logs(self):
-		c = ssh_command + '"rm -f /home/pi/rtls/*.out"'
+		c = ssh_command + '"rm -f /home/%(username)s/rtls/*.out"'
 		r, code = run_command(c % {'username': self.config['user'], 'address': self.config['address'], })
 		if code == 255:
 			return
 		elif code == 0:
 			print(self.config['note'] + ":\tAll .out file deleted")
 		else:
+			print(r)
 			print(self.config['note'] + ":\tAn error occurred")
 
 
@@ -253,9 +271,9 @@ def generate_config(path):
 
 		note = input('Enter a note for the Node (for you to remember): ')
 
-		user = input('Enter username of the Node (for ssh login - default: pi): ')
+		user = input('Enter username of the Node (for ssh login - default: root): ')
 		if len(user) == 0:
-			user = 'pi'
+			user = 'root'
 
 		interface = input('Interface to use (default: hci0): ')
 		if len(interface) == 0:

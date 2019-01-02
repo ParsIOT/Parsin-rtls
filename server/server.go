@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"strings"
@@ -31,7 +32,7 @@ type Fingerprint struct {
 	Group           string   `json:"group"`
 	Username        string   `json:"username"`
 	Location        string   `json:"location"`
-	Timestamp       int64    `json:"timestamp"`
+	Timestamp       int64    `json:"time"`
 	WifiFingerprint []Router `json:"wifi-fingerprint"`
 }
 
@@ -105,7 +106,7 @@ func main() {
 
 	flag.StringVar(&Port, "port", "8072", "port to run this server on (default: 8072)")
 	//flag.StringVar(&ServerAddress, "server", "https://ml.internalpositioning.com", "address to FIND server")
-	flag.StringVar(&ServerAddress, "server", "http://104.237.255.199:18003", "address to FIND server")
+	flag.StringVar(&ServerAddress, "server", "http://127.0.0.1:8003", "address to FIND server")
 	flag.IntVar(&MinimumNumberOfRouters, "min", 0, "minimum number of routers before sending fingerprint")
 	flag.IntVar(&MinRSSI, "rssi", -110, "minimum RSSI that must exist to send on")
 	flag.IntVar(&CollectionTime, "time", 3, "collection time to average fingerprints (in seconds)")
@@ -197,8 +198,8 @@ func switchMode(c *gin.Context) {
 		return
 	}
 
-	count := 500
-	if i, err := strconv.Atoi(c.DefaultQuery("count", "500")); err == nil {
+	count := 20
+	if i, err := strconv.Atoi(c.DefaultQuery("count", "20")); err == nil {
 		count = i
 	}
 
@@ -319,6 +320,8 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 				Username: strings.Replace(user, ":", "", -1),
 				Group:    group,
 				Location: gs.Location,
+				//Timestamp: int64(time.Now().Unix()),
+				Timestamp: int64(float64(time.Now().UTC().UnixNano())/math.Pow(10,6)),
 			}
 
 			fingerprint := make([]Router, len(m[group][user]))

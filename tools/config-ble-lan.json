@@ -1,43 +1,79 @@
 {
 	"nodes": [
 		{
-			"address": "192.168.0.230",
-			"user": "pi",
+			"address": "192.168.5.230",
+			"user": "root",
 			"note": "oof-lan",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.234",
-			"user": "pi",
-			"note": "komeil-lan",
-			"interface": "hci0"
-		},
-		{
-			"address": "192.168.0.232",
-			"user": "pi",
+			"address": "192.168.5.232",
+			"user": "root",
 			"note": "sham-lan",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.231",
-			"user": "pi",
+			"address": "192.168.5.234",
+			"user": "root",
+			"note": "komeil-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.236",
+			"user": "root",
+			"note": "had4-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.238",
+			"user": "root",
+			"note": "hadi5-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.240",
+			"user": "root",
+			"note": "orangepizero-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.231",
+			"user": "root",
 			"note": "oof-wifi",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.235",
-			"user": "pi",
+			"address": "192.168.5.233",
+			"user": "root",
+			"note": "sham-wifi",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.235",
+			"user": "root",
 			"note": "komeil-wifi",
 			"interface": "hci0"
 		},
 		{
-			"address": "192.168.0.233",
-			"user": "pi",
-			"note": "sham-wifi",
+			"address": "192.168.5.237",
+			"user": "root",
+			"note": "had4-wifi",
 			"interface": "hci0"
-		}
+		},
+		{
+			"address": "192.168.5.239",
+			"user": "root",
+			"note": "hadi5-wifi",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.241",
+			"user": "root",
+			"note": "orangepizero-wifi",
+			"interface": "hci0"
+		},
 	],
-	"rtls_server": "http://192.168.0.95:8072",
+	"rtls_server": "http://192.168.5.93:8072",
 	"group": "ble-rtls-1",
 	"scan_time": 0.5,
 	"learn_count": 400,
