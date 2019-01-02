@@ -90,6 +90,13 @@ class CommandThread(threading.Thread):
 		c2 = ssh_command + '"sudo hcitool -i %(interface)s lescan --duplicates > /dev/null | sudo btmon |/home/%(username)s/rtls/scan-ble.py --group %(group)s --server %(server)s --time %(scan_time)s > ' + \
 		    ('/home/%(username)s/rtls/result-' + str(int(time.time())) + '.out' if self.config['verbose'] else '/dev/null') + ' &"'
 
+		print(c2 % {'username': self.config['user'],
+									'address': self.config['address'],
+									'interface': self.config['interface'],
+									'group': self.config['group'],
+									'server': self.config['rtls_server'],
+									'scan_time': self.config['scan_time'],
+									})
 		r, code = run_command(c2 % {'username': self.config['user'],
 									'address': self.config['address'],
 									'interface': self.config['interface'],

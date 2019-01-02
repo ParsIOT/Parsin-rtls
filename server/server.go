@@ -14,10 +14,10 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,6 +34,7 @@ type Fingerprint struct {
 	Location        string   `json:"location"`
 	Timestamp       int64    `json:"time"`
 	WifiFingerprint []Router `json:"wifi-fingerprint"`
+	TestValidation  bool     `json:"test-validation"`
 }
 
 // Router is the router information for each invdividual mac address
@@ -51,12 +52,13 @@ type groupStatus struct {
 	UseBulk        bool   `json:"use_bulk"`
 }
 
-var count = 10
-
+var count = 1000
+var testingMode = false
+var testerActualUsername = "04a31697d9c8" // actually this is just for find the tester tag mac, it'll be replaced with "tester"
 // ReverseFingerprint is sent from each node
 type ReverseFingerprint struct {
-	Node  string `json:"node"`
-	Group string `json:"group"`
+	Node    string `json:"node"`
+	Group   string `json:"group"`
 	Signals []struct {
 		Mac  string `json:"mac"`
 		Rssi int    `json:"rssi"`
@@ -167,8 +169,8 @@ func getRtlsStatus(c *gin.Context) {
 	switches.Unlock()
 	if ok {
 		if !dat.Track {
-			c.String(http.StatusOK, group + " set to learning at '" + strings.TrimSpace(dat.Location) + "' for user(s) '" + strings.TrimSpace(dat.Users) + "', '"+
-				strings.TrimSpace(strconv.Itoa(dat.RemainingCount))+ "' Sample(s) remaining. Using Bulk mode is set to '"+ strings.TrimSpace(strconv.FormatBool(dat.UseBulk))+ "'")
+			c.String(http.StatusOK, group+" set to learning at '"+strings.TrimSpace(dat.Location)+"' for user(s) '"+strings.TrimSpace(dat.Users)+"', '"+
+				strings.TrimSpace(strconv.Itoa(dat.RemainingCount))+"' Sample(s) remaining. Using Bulk mode is set to '"+strings.TrimSpace(strconv.FormatBool(dat.UseBulk))+"'")
 		} else {
 			c.String(http.StatusOK, group+" set to tracking")
 		}
@@ -198,8 +200,8 @@ func switchMode(c *gin.Context) {
 		return
 	}
 
-	count := 20
-	if i, err := strconv.Atoi(c.DefaultQuery("count", "20")); err == nil {
+	count := 1000
+	if i, err := strconv.Atoi(c.DefaultQuery("count", "1000")); err == nil {
 		count = i
 	}
 
@@ -259,6 +261,8 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			// Define route and whether learning / tracking
 			route := "/track"
 			gs := getGroupStatus(group)
+
+			fmt.Println("gs.Track:", gs.Track)
 			if !gs.Track {
 				if !strings.Contains(gs.Users, user) {
 					continue // only insert if user is one of the users to use for learning (specified in route)
@@ -321,7 +325,17 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 				Group:    group,
 				Location: gs.Location,
 				//Timestamp: int64(time.Now().Unix()),
-				Timestamp: int64(float64(time.Now().UTC().UnixNano())/math.Pow(10,6)),
+				Timestamp: int64(float64(time.Now().UTC().UnixNano()) / math.Pow(10, 6)),
+			}
+			if strings.Replace(user, ":", "", -1) == testerActualUsername && testingMode { // tester
+				data = Fingerprint{
+					Username: "tester",
+					Group:    group,
+					Location: gs.Location,
+					//Timestamp: int64(time.Now().Unix()),
+					Timestamp:      int64(float64(time.Now().UTC().UnixNano()) / math.Pow(10, 6)),
+					TestValidation: true,
+				}
 			}
 
 			fingerprint := make([]Router, len(m[group][user]))

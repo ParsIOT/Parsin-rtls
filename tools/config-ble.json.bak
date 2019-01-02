@@ -1,0 +1,46 @@
+{
+	"nodes": [
+		{
+			"address": "192.168.5.230",
+			"user": "root",
+			"note": "oof-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.232",
+			"user": "root",
+			"note": "sham-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.234",
+			"user": "root",
+			"note": "komeil-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.236",
+			"user": "root",
+			"note": "hadi4-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.238",
+			"user": "root",
+			"note": "hadi5-lan",
+			"interface": "hci0"
+		},
+		{
+			"address": "192.168.5.240",
+			"user": "root",
+			"note": "orangepizero-lan",
+			"interface": "hci0"
+		}
+	],
+	"rtls_server": "http://192.168.5.93:8072",
+	"group": "rtls_arman_ble_25_7_97_1",
+	"user": "01:17:C5:97:3C:63",
+	"scan_time": 3,
+	"learn_count": 20,
+	"bulk_mode": true
+}

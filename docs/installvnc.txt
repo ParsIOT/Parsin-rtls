@@ -1,0 +1,2 @@
+http://nexsniper.blogspot.com/2017/06/install-tightvnc-on-kali-linux.html
+https://null-byte.wonderhowto.com/how-to/use-vnc-remotely-access-your-raspberry-pi-from-other-devices-0178997/
