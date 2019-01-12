@@ -1,821 +1,103 @@
-2017-08-21 15:27:28,373 - main:205 - DEBUG - Using server http://192.168.0.24
-2017-08-21 15:27:28,373 - main:207 - DEBUG - Using group parsiot-1
-2017-08-21 15:27:28,391 - tshark_is_running:119 - DEBUG - tshark is running: False
-2017-08-21 15:27:28,405 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:27:28,405 - start_scan:131 - INFO - Starting scan
-2017-08-21 15:27:28,405 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:27:28,406 - process_scan:57 - DEBUG - Reading from 
-2017-08-21 15:27:28,659 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:27:28,659 - process_scan:95 - DEBUG - Processed 0 lines, found 0 fingerprints in 0 relevant lines
-2017-08-21 15:27:28,659 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [], 'timestamp': 1503313048}
-2017-08-21 15:27:29,675 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:27:29,675 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:27:29,675 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821152729
-2017-08-21 15:27:29,850 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:27:29,850 - process_scan:95 - DEBUG - Processed 107 lines, found 2 fingerprints in 8 relevant lines
-2017-08-21 15:27:29,850 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [{'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -63}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -56}], 'timestamp': 1503313049}
-2017-08-21 15:27:29,855 - main:229 - ERROR - Fatal error in main loop
+2019-01-09 16:07:24,043 - main:217 - DEBUG - Using server http://192.168.5.93:8072
+2019-01-09 16:07:24,043 - main:219 - DEBUG - Using group rtls_arman_wifi_18_10_97_1
+2019-01-09 16:07:24,069 - tshark_is_running:125 - DEBUG - tshark is running: False
+2019-01-09 16:07:24,097 - tshark_is_running:125 - DEBUG - tshark is running: True
+2019-01-09 16:07:24,098 - start_scan:137 - INFO - Starting scan
+2019-01-09 16:07:24,098 - main:232 - DEBUG - Processing scan started  
+NoneType: None
+2019-01-09 16:07:24,119 - tshark_is_running:125 - DEBUG - tshark is running: True
+2019-01-09 16:07:24,120 - process_scan:48 - DEBUG - Reading files...
+2019-01-09 16:07:24,120 - process_scan:59 - DEBUG - Reading from 
+2019-01-09 16:07:24,369 - process_scan:90 - DEBUG - ..done
+2019-01-09 16:07:24,370 - process_scan:102 - DEBUG - Processed 0 lines, found 0 fingerprints in 0 relevant lines
+2019-01-09 16:07:24,370 - process_scan:108 - DEBUG - {'node': 'h-pc', 'signals': [], 'timestamp': 1547037444}
+2019-01-09 16:07:27,403 - tshark_is_running:125 - DEBUG - tshark is running: False
+2019-01-09 16:07:27,426 - tshark_is_running:125 - DEBUG - tshark is running: True
+2019-01-09 16:07:27,427 - start_scan:137 - INFO - Starting scan
+2019-01-09 16:07:27,428 - process_scan:48 - DEBUG - Reading files...
+2019-01-09 16:07:27,428 - process_scan:59 - DEBUG - Reading from 
+2019-01-09 16:07:27,701 - process_scan:90 - DEBUG - ..done
+2019-01-09 16:07:27,702 - process_scan:102 - DEBUG - Processed 0 lines, found 0 fingerprints in 0 relevant lines
+2019-01-09 16:07:27,702 - process_scan:108 - DEBUG - {'node': 'h-pc', 'signals': [], 'timestamp': 1547037447}
+2019-01-09 16:07:28,098 - tshark_is_running:125 - DEBUG - tshark is running: False
+2019-01-09 16:18:34,560 - main:218 - DEBUG - Using server http://192.168.5.93:8072
+2019-01-09 16:18:34,561 - main:220 - DEBUG - Using group rtls_arman_wifi_18_10_97_1
+2019-01-09 16:18:34,580 - tshark_is_running:126 - DEBUG - tshark is running: False
+2019-01-09 16:18:34,605 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:18:34,606 - start_scan:138 - INFO - Starting scan
+2019-01-09 16:18:34,606 - main:233 - DEBUG - Processing scan started  
+NoneType: None
+2019-01-09 16:18:34,630 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:18:34,631 - process_scan:48 - DEBUG - Reading files...
+2019-01-09 16:18:34,631 - process_scan:59 - DEBUG - Reading from 
+2019-01-09 16:18:34,923 - process_scan:90 - DEBUG - ..done
+2019-01-09 16:18:34,924 - main:257 - ERROR - Fatal error in main loop
 Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 137, in _new_conn
-    (self.host, self.port), self.timeout, **extra_kw)
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 91, in create_connection
-    raise err
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 81, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
+  File "scan-wifi.py", line 246, in main
+    payload = process_scan(args.time)
+  File "scan-wifi.py", line 100, in process_scan
+    logger.debug("mac:"+mac+ ",rssis: "+ str(fingerprints[mac]))
+UnboundLocalError: local variable 'mac' referenced before assignment
+2019-01-09 16:18:36,535 - tshark_is_running:126 - DEBUG - tshark is running: False
+2019-01-09 16:18:43,522 - main:218 - DEBUG - Using server http://192.168.5.93:8072
+2019-01-09 16:18:43,522 - main:220 - DEBUG - Using group rtls_arman_wifi_18_10_97_1
+2019-01-09 16:18:43,552 - tshark_is_running:126 - DEBUG - tshark is running: False
+2019-01-09 16:18:43,578 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:18:43,578 - start_scan:138 - INFO - Starting scan
+2019-01-09 16:18:43,579 - main:233 - DEBUG - Processing scan started  
+NoneType: None
+2019-01-09 16:18:43,600 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:18:43,600 - process_scan:48 - DEBUG - Reading files...
+2019-01-09 16:18:43,601 - process_scan:59 - DEBUG - Reading from 
+2019-01-09 16:18:43,841 - process_scan:90 - DEBUG - ..done
+2019-01-09 16:18:43,841 - main:257 - ERROR - Fatal error in main loop
 Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 560, in urlopen
-    body=body, headers=headers)
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/lib/python3.5/http/client.py", line 1106, in request
-    self._send_request(method, url, body, headers)
-  File "/usr/lib/python3.5/http/client.py", line 1151, in _send_request
-    self.endheaders(body)
-  File "/usr/lib/python3.5/http/client.py", line 1102, in endheaders
-    self._send_output(message_body)
-  File "/usr/lib/python3.5/http/client.py", line 934, in _send_output
-    self.send(msg)
-  File "/usr/lib/python3.5/http/client.py", line 877, in send
-    self.connect()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 162, in connect
-    conn = self._new_conn()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 146, in _new_conn
-    self, "Failed to establish a new connection: %s" % e)
-requests.packages.urllib3.exceptions.NewConnectionError: <requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb3fb908>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
+  File "scan-wifi.py", line 246, in main
+    payload = process_scan(args.time)
+  File "scan-wifi.py", line 100, in process_scan
+    logger.debug("mac:"+mac+ ",rssis: "+ str(fingerprints[mac]))
+UnboundLocalError: local variable 'mac' referenced before assignment
+2019-01-09 16:18:46,871 - tshark_is_running:126 - DEBUG - tshark is running: False
+2019-01-09 16:18:46,894 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:18:46,894 - start_scan:138 - INFO - Starting scan
+2019-01-09 16:18:46,894 - process_scan:48 - DEBUG - Reading files...
+2019-01-09 16:18:46,895 - process_scan:59 - DEBUG - Reading from 
+2019-01-09 16:18:47,138 - process_scan:90 - DEBUG - ..done
+2019-01-09 16:18:47,138 - main:257 - ERROR - Fatal error in main loop
 Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 376, in send
-    timeout=timeout
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 610, in urlopen
-    _stacktrace=sys.exc_info()[2])
-  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 273, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-requests.packages.urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb3fb908>: Failed to establish a new connection: [Errno 111] Connection refused',))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/parsiot/Desktop/find-lf-master/node/scan.py", line 224, in main
-    json=payload)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 107, in post
-    return request('post', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 53, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 468, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 576, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 437, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb3fb908>: Failed to establish a new connection: [Errno 111] Connection refused',))
-2017-08-21 15:27:30,876 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:27:30,877 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:27:30,877 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821152729
-2017-08-21 15:27:31,100 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:27:31,101 - process_scan:95 - DEBUG - Processed 497 lines, found 6 fingerprints in 48 relevant lines
-2017-08-21 15:27:31,101 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [{'mac': '90:94:e4:09:62:18', 'rssi': -56}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -54}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -73}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -56}, {'mac': '80:a5:89:33:27:e1', 'rssi': -66}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}], 'timestamp': 1503313051}
-2017-08-21 15:27:31,103 - main:229 - ERROR - Fatal error in main loop
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 137, in _new_conn
-    (self.host, self.port), self.timeout, **extra_kw)
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 91, in create_connection
-    raise err
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 81, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 560, in urlopen
-    body=body, headers=headers)
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/lib/python3.5/http/client.py", line 1106, in request
-    self._send_request(method, url, body, headers)
-  File "/usr/lib/python3.5/http/client.py", line 1151, in _send_request
-    self.endheaders(body)
-  File "/usr/lib/python3.5/http/client.py", line 1102, in endheaders
-    self._send_output(message_body)
-  File "/usr/lib/python3.5/http/client.py", line 934, in _send_output
-    self.send(msg)
-  File "/usr/lib/python3.5/http/client.py", line 877, in send
-    self.connect()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 162, in connect
-    conn = self._new_conn()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 146, in _new_conn
-    self, "Failed to establish a new connection: %s" % e)
-requests.packages.urllib3.exceptions.NewConnectionError: <requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb414a20>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 376, in send
-    timeout=timeout
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 610, in urlopen
-    _stacktrace=sys.exc_info()[2])
-  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 273, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-requests.packages.urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb414a20>: Failed to establish a new connection: [Errno 111] Connection refused',))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/parsiot/Desktop/find-lf-master/node/scan.py", line 224, in main
-    json=payload)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 107, in post
-    return request('post', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 53, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 468, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 576, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 437, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb414a20>: Failed to establish a new connection: [Errno 111] Connection refused',))
-2017-08-21 15:27:32,123 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:27:32,124 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:27:32,124 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821152729
-2017-08-21 15:27:32,348 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:27:32,349 - process_scan:95 - DEBUG - Processed 882 lines, found 6 fingerprints in 40 relevant lines
-2017-08-21 15:27:32,349 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [{'mac': '90:94:e4:09:62:18', 'rssi': -56}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -80}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -56}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -70}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -54}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}], 'timestamp': 1503313052}
-2017-08-21 15:27:32,351 - main:229 - ERROR - Fatal error in main loop
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 137, in _new_conn
-    (self.host, self.port), self.timeout, **extra_kw)
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 91, in create_connection
-    raise err
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 81, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 560, in urlopen
-    body=body, headers=headers)
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/lib/python3.5/http/client.py", line 1106, in request
-    self._send_request(method, url, body, headers)
-  File "/usr/lib/python3.5/http/client.py", line 1151, in _send_request
-    self.endheaders(body)
-  File "/usr/lib/python3.5/http/client.py", line 1102, in endheaders
-    self._send_output(message_body)
-  File "/usr/lib/python3.5/http/client.py", line 934, in _send_output
-    self.send(msg)
-  File "/usr/lib/python3.5/http/client.py", line 877, in send
-    self.connect()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 162, in connect
-    conn = self._new_conn()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 146, in _new_conn
-    self, "Failed to establish a new connection: %s" % e)
-requests.packages.urllib3.exceptions.NewConnectionError: <requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb4146d8>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 376, in send
-    timeout=timeout
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 610, in urlopen
-    _stacktrace=sys.exc_info()[2])
-  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 273, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-requests.packages.urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb4146d8>: Failed to establish a new connection: [Errno 111] Connection refused',))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/parsiot/Desktop/find-lf-master/node/scan.py", line 224, in main
-    json=payload)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 107, in post
-    return request('post', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 53, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 468, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 576, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 437, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb4146d8>: Failed to establish a new connection: [Errno 111] Connection refused',))
-2017-08-21 15:27:33,371 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:27:33,371 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:27:33,372 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821152729
-2017-08-21 15:27:33,614 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:27:33,615 - process_scan:95 - DEBUG - Processed 1287 lines, found 5 fingerprints in 50 relevant lines
-2017-08-21 15:27:33,615 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [{'mac': 'e8:cc:18:10:76:12', 'rssi': -56}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -52}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -56}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -56}], 'timestamp': 1503313053}
-2017-08-21 15:27:33,617 - main:229 - ERROR - Fatal error in main loop
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 137, in _new_conn
-    (self.host, self.port), self.timeout, **extra_kw)
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 91, in create_connection
-    raise err
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 81, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 560, in urlopen
-    body=body, headers=headers)
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/lib/python3.5/http/client.py", line 1106, in request
-    self._send_request(method, url, body, headers)
-  File "/usr/lib/python3.5/http/client.py", line 1151, in _send_request
-    self.endheaders(body)
-  File "/usr/lib/python3.5/http/client.py", line 1102, in endheaders
-    self._send_output(message_body)
-  File "/usr/lib/python3.5/http/client.py", line 934, in _send_output
-    self.send(msg)
-  File "/usr/lib/python3.5/http/client.py", line 877, in send
-    self.connect()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 162, in connect
-    conn = self._new_conn()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 146, in _new_conn
-    self, "Failed to establish a new connection: %s" % e)
-requests.packages.urllib3.exceptions.NewConnectionError: <requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb36b0f0>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 376, in send
-    timeout=timeout
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 610, in urlopen
-    _stacktrace=sys.exc_info()[2])
-  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 273, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-requests.packages.urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb36b0f0>: Failed to establish a new connection: [Errno 111] Connection refused',))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/parsiot/Desktop/find-lf-master/node/scan.py", line 224, in main
-    json=payload)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 107, in post
-    return request('post', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 53, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 468, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 576, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 437, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb36b0f0>: Failed to establish a new connection: [Errno 111] Connection refused',))
-2017-08-21 15:27:34,629 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:27:34,629 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:27:34,630 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821152729
-2017-08-21 15:27:34,860 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:27:34,861 - process_scan:95 - DEBUG - Processed 1836 lines, found 7 fingerprints in 129 relevant lines
-2017-08-21 15:27:34,862 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [{'mac': 'e8:cc:18:10:75:e6', 'rssi': -52}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -56}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -72}, {'mac': 'da:a1:19:1b:71:1a', 'rssi': -58}, {'mac': '80:a5:89:33:27:e1', 'rssi': -70}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -54}], 'timestamp': 1503313054}
-2017-08-21 15:27:34,865 - main:229 - ERROR - Fatal error in main loop
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 137, in _new_conn
-    (self.host, self.port), self.timeout, **extra_kw)
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 91, in create_connection
-    raise err
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 81, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 560, in urlopen
-    body=body, headers=headers)
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/lib/python3.5/http/client.py", line 1106, in request
-    self._send_request(method, url, body, headers)
-  File "/usr/lib/python3.5/http/client.py", line 1151, in _send_request
-    self.endheaders(body)
-  File "/usr/lib/python3.5/http/client.py", line 1102, in endheaders
-    self._send_output(message_body)
-  File "/usr/lib/python3.5/http/client.py", line 934, in _send_output
-    self.send(msg)
-  File "/usr/lib/python3.5/http/client.py", line 877, in send
-    self.connect()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 162, in connect
-    conn = self._new_conn()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 146, in _new_conn
-    self, "Failed to establish a new connection: %s" % e)
-requests.packages.urllib3.exceptions.NewConnectionError: <requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb36b860>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 376, in send
-    timeout=timeout
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 610, in urlopen
-    _stacktrace=sys.exc_info()[2])
-  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 273, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-requests.packages.urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb36b860>: Failed to establish a new connection: [Errno 111] Connection refused',))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/parsiot/Desktop/find-lf-master/node/scan.py", line 224, in main
-    json=payload)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 107, in post
-    return request('post', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 53, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 468, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 576, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 437, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7ff0eb36b860>: Failed to establish a new connection: [Errno 111] Connection refused',))
-2017-08-21 15:29:09,985 - main:205 - DEBUG - Using server http://192.168.0.24
-2017-08-21 15:29:09,985 - main:207 - DEBUG - Using group parsiot-1
-2017-08-21 15:29:09,996 - tshark_is_running:119 - DEBUG - tshark is running: False
-2017-08-21 15:29:10,009 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:29:10,010 - start_scan:131 - INFO - Starting scan
-2017-08-21 15:29:10,010 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:29:10,010 - process_scan:57 - DEBUG - Reading from 
-2017-08-21 15:29:10,199 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:29:10,199 - process_scan:95 - DEBUG - Processed 0 lines, found 0 fingerprints in 0 relevant lines
-2017-08-21 15:29:10,199 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [], 'timestamp': 1503313150}
-2017-08-21 15:29:20,225 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:29:20,225 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:29:20,225 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821152910
-2017-08-21 15:29:20,513 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:29:20,514 - process_scan:95 - DEBUG - Processed 3405 lines, found 12 fingerprints in 379 relevant lines
-2017-08-21 15:29:20,514 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [{'rssi': -68, 'mac': '00:0c:29:24:4c:e4'}, {'rssi': -72, 'mac': '74:c6:3b:47:41:ad'}, {'rssi': -57, 'mac': '58:94:6b:68:b0:ec'}, {'rssi': -58, 'mac': '4c:5e:0c:2c:3b:9b'}, {'rssi': -68, 'mac': '80:a5:89:33:27:e1'}, {'rssi': -74, 'mac': '88:c9:d0:b9:59:6a'}, {'rssi': -53, 'mac': 'e8:cc:18:10:75:e6'}, {'rssi': -58, 'mac': 'ec:22:80:0d:b4:83'}, {'rssi': -75, 'mac': '90:94:e4:09:62:18'}, {'rssi': -72, 'mac': '9c:4e:36:31:1c:cc'}, {'rssi': -72, 'mac': '8c:a9:82:15:df:de'}, {'rssi': -64, 'mac': 'd0:13:fd:3f:22:f7'}], 'timestamp': 1503313160}
-2017-08-21 15:29:20,519 - main:230 - ERROR - Fatal error in main loop
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 137, in _new_conn
-    (self.host, self.port), self.timeout, **extra_kw)
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 91, in create_connection
-    raise err
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 81, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 560, in urlopen
-    body=body, headers=headers)
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/lib/python3.5/http/client.py", line 1106, in request
-    self._send_request(method, url, body, headers)
-  File "/usr/lib/python3.5/http/client.py", line 1151, in _send_request
-    self.endheaders(body)
-  File "/usr/lib/python3.5/http/client.py", line 1102, in endheaders
-    self._send_output(message_body)
-  File "/usr/lib/python3.5/http/client.py", line 934, in _send_output
-    self.send(msg)
-  File "/usr/lib/python3.5/http/client.py", line 877, in send
-    self.connect()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 162, in connect
-    conn = self._new_conn()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 146, in _new_conn
-    self, "Failed to establish a new connection: %s" % e)
-requests.packages.urllib3.exceptions.NewConnectionError: <requests.packages.urllib3.connection.HTTPConnection object at 0x7f947916b9e8>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 376, in send
-    timeout=timeout
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 610, in urlopen
-    _stacktrace=sys.exc_info()[2])
-  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 273, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-requests.packages.urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7f947916b9e8>: Failed to establish a new connection: [Errno 111] Connection refused',))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/parsiot/Desktop/find-lf-master/node/scan.py", line 225, in main
-    json=payload)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 107, in post
-    return request('post', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 53, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 468, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 576, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 437, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7f947916b9e8>: Failed to establish a new connection: [Errno 111] Connection refused',))
-2017-08-21 15:29:30,541 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:29:30,541 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:29:30,542 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821152910
-2017-08-21 15:29:30,982 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:29:30,983 - process_scan:95 - DEBUG - Processed 7502 lines, found 14 fingerprints in 581 relevant lines
-2017-08-21 15:29:30,983 - process_scan:102 - DEBUG - {'node': 'parsiot-ubuntu', 'signals': [{'rssi': -70, 'mac': '84:ef:18:45:de:ef'}, {'rssi': -42, 'mac': '38:2d:d1:24:d3:b0'}, {'rssi': -54, 'mac': 'e8:cc:18:10:75:e6'}, {'rssi': -80, 'mac': '00:19:d2:ba:32:b6'}, {'rssi': -56, 'mac': '58:94:6b:68:b0:ec'}, {'rssi': -58, 'mac': '4c:5e:0c:2c:3b:9b'}, {'rssi': -74, 'mac': '88:c9:d0:b9:59:6a'}, {'rssi': -70, 'mac': 'e8:cc:18:10:76:12'}, {'rssi': -64, 'mac': '1c:65:9d:b6:be:6f'}, {'rssi': -56, 'mac': 'ec:22:80:0d:b4:83'}, {'rssi': -74, 'mac': '90:94:e4:09:62:18'}, {'rssi': -60, 'mac': '2c:d0:5a:cb:9d:1d'}, {'rssi': -64, 'mac': '70:28:8b:0c:f3:66'}, {'rssi': -58, 'mac': 'd0:13:fd:3f:22:f7'}], 'timestamp': 1503313170}
-2017-08-21 15:29:30,985 - main:230 - ERROR - Fatal error in main loop
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 137, in _new_conn
-    (self.host, self.port), self.timeout, **extra_kw)
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 91, in create_connection
-    raise err
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 81, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 560, in urlopen
-    body=body, headers=headers)
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/lib/python3.5/http/client.py", line 1106, in request
-    self._send_request(method, url, body, headers)
-  File "/usr/lib/python3.5/http/client.py", line 1151, in _send_request
-    self.endheaders(body)
-  File "/usr/lib/python3.5/http/client.py", line 1102, in endheaders
-    self._send_output(message_body)
-  File "/usr/lib/python3.5/http/client.py", line 934, in _send_output
-    self.send(msg)
-  File "/usr/lib/python3.5/http/client.py", line 877, in send
-    self.connect()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 162, in connect
-    conn = self._new_conn()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 146, in _new_conn
-    self, "Failed to establish a new connection: %s" % e)
-requests.packages.urllib3.exceptions.NewConnectionError: <requests.packages.urllib3.connection.HTTPConnection object at 0x7f9479188a58>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 376, in send
-    timeout=timeout
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 610, in urlopen
-    _stacktrace=sys.exc_info()[2])
-  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 273, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-requests.packages.urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7f9479188a58>: Failed to establish a new connection: [Errno 111] Connection refused',))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/parsiot/Desktop/find-lf-master/node/scan.py", line 225, in main
-    json=payload)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 107, in post
-    return request('post', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 53, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 468, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 576, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 437, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7f9479188a58>: Failed to establish a new connection: [Errno 111] Connection refused',))
-2017-08-21 15:33:41,566 - main:205 - DEBUG - Using server http://192.168.0.24
-2017-08-21 15:33:49,095 - main:207 - DEBUG - Using group parsiot-1
-2017-08-21 15:38:22,492 - tshark_is_running:119 - DEBUG - tshark is running: False
-2017-08-21 15:38:50,910 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:39:02,077 - start_scan:131 - INFO - Starting scan
-2017-08-21 15:39:14,938 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:39:14,939 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821153850
-2017-08-21 15:39:15,370 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:39:15,371 - process_scan:95 - DEBUG - Processed 7688 lines, found 17 fingerprints in 211 relevant lines
-2017-08-21 15:39:15,372 - process_scan:102 - DEBUG - {'timestamp': 1503313755, 'signals': [{'rssi': -64, 'mac': 'e8:cc:18:10:75:e6'}, {'rssi': -54, 'mac': '60:fe:1e:a1:68:9a'}, {'rssi': -72, 'mac': '88:07:4b:b2:72:9b'}, {'rssi': -76, 'mac': '8c:a9:82:15:df:de'}, {'rssi': -61, 'mac': 'ec:22:80:0d:b4:83'}, {'rssi': -67, 'mac': 'e8:cc:18:10:76:12'}, {'rssi': -62, 'mac': '4c:5e:0c:2c:3b:9b'}, {'rssi': -69, 'mac': '80:a5:89:33:27:e1'}, {'rssi': -66, 'mac': 'c0:bd:d1:7d:71:6e'}, {'rssi': -66, 'mac': 'd0:13:fd:3f:22:f7'}, {'rssi': -66, 'mac': '80:01:84:77:82:e9'}, {'rssi': -76, 'mac': '00:0c:29:24:4c:e4'}, {'rssi': -62, 'mac': '58:94:6b:68:b0:ec'}, {'rssi': -68, 'mac': '2c:d0:5a:cb:9d:1d'}, {'rssi': -58, 'mac': '88:c9:d0:b6:6e:43'}, {'rssi': -70, 'mac': '90:94:e4:09:62:18'}, {'rssi': -78, 'mac': '00:9a:cd:c5:24:f1'}], 'node': 'parsiot-ubuntu'}
-2017-08-21 15:49:05,625 - main:230 - ERROR - Fatal error in main loop
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 137, in _new_conn
-    (self.host, self.port), self.timeout, **extra_kw)
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 91, in create_connection
-    raise err
-  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 81, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 560, in urlopen
-    body=body, headers=headers)
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
-    conn.request(method, url, **httplib_request_kw)
-  File "/usr/lib/python3.5/http/client.py", line 1106, in request
-    self._send_request(method, url, body, headers)
-  File "/usr/lib/python3.5/http/client.py", line 1151, in _send_request
-    self.endheaders(body)
-  File "/usr/lib/python3.5/http/client.py", line 1102, in endheaders
-    self._send_output(message_body)
-  File "/usr/lib/python3.5/http/client.py", line 934, in _send_output
-    self.send(msg)
-  File "/usr/lib/python3.5/http/client.py", line 877, in send
-    self.connect()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 162, in connect
-    conn = self._new_conn()
-  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 146, in _new_conn
-    self, "Failed to establish a new connection: %s" % e)
-requests.packages.urllib3.exceptions.NewConnectionError: <requests.packages.urllib3.connection.HTTPConnection object at 0x7f77a4025160>: Failed to establish a new connection: [Errno 111] Connection refused
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 376, in send
-    timeout=timeout
-  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 610, in urlopen
-    _stacktrace=sys.exc_info()[2])
-  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 273, in increment
-    raise MaxRetryError(_pool, url, error or ResponseError(cause))
-requests.packages.urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7f77a4025160>: Failed to establish a new connection: [Errno 111] Connection refused',))
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/parsiot/Desktop/find-lf-master/node/scan.py", line 225, in main
-    json=payload)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 107, in post
-    return request('post', url, data=data, json=json, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/api.py", line 53, in request
-    return session.request(method=method, url=url, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 468, in request
-    resp = self.send(prep, **send_kwargs)
-  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 576, in send
-    r = adapter.send(request, **kwargs)
-  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 437, in send
-    raise ConnectionError(e, request=request)
-requests.exceptions.ConnectionError: HTTPConnectionPool(host='192.168.0.24', port=80): Max retries exceeded with url: /reversefingerprint (Caused by NewConnectionError('<requests.packages.urllib3.connection.HTTPConnection object at 0x7f77a4025160>: Failed to establish a new connection: [Errno 111] Connection refused',))
-2017-08-21 15:49:39,732 - main:205 - DEBUG - Using server http://192.168.0.24:8072
-2017-08-21 15:49:39,732 - main:207 - DEBUG - Using group parsiot-1
-2017-08-21 15:49:39,743 - tshark_is_running:119 - DEBUG - tshark is running: False
-2017-08-21 15:49:39,756 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:49:39,756 - start_scan:131 - INFO - Starting scan
-2017-08-21 15:49:39,757 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:49:39,757 - process_scan:57 - DEBUG - Reading from 
-2017-08-21 15:49:39,977 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:49:39,977 - process_scan:95 - DEBUG - Processed 0 lines, found 0 fingerprints in 0 relevant lines
-2017-08-21 15:49:39,977 - process_scan:102 - DEBUG - {'timestamp': 1503314379, 'node': 'parsiot-ubuntu', 'signals': []}
-2017-08-21 15:49:50,004 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:49:50,005 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:49:50,005 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00001_20170821154940
-2017-08-21 15:49:50,333 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:49:50,334 - process_scan:95 - DEBUG - Processed 3380 lines, found 15 fingerprints in 407 relevant lines
-2017-08-21 15:49:50,335 - process_scan:102 - DEBUG - {'timestamp': 1503314390, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '84:ef:18:45:de:ef', 'rssi': -66}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -73}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -50}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -64}, {'mac': '80:a5:89:33:27:e1', 'rssi': -68}, {'mac': '90:94:e4:09:62:18', 'rssi': -62}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -60}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -76}, {'mac': '80:01:84:77:82:e9', 'rssi': -64}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:49:50,359 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:50:00,380 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:50:00,381 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:50:00,381 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00002_20170821154956
-2017-08-21 15:50:00,692 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:50:00,693 - process_scan:95 - DEBUG - Processed 3595 lines, found 17 fingerprints in 853 relevant lines
-2017-08-21 15:50:00,693 - process_scan:102 - DEBUG - {'timestamp': 1503314400, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '88:c9:d0:b6:6e:43', 'rssi': -57}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -72}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -72}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -68}, {'mac': '8c:a9:82:15:df:de', 'rssi': -68}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -56}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -65}, {'mac': '80:a5:89:33:27:e1', 'rssi': -70}, {'mac': '90:94:e4:09:62:18', 'rssi': -76}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -66}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -68}]}
-2017-08-21 15:50:00,697 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:50:10,714 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:50:10,714 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:50:10,715 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00004_20170821155006
-2017-08-21 15:50:11,035 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:50:11,036 - process_scan:95 - DEBUG - Processed 3908 lines, found 16 fingerprints in 1127 relevant lines
-2017-08-21 15:50:11,037 - process_scan:102 - DEBUG - {'timestamp': 1503314411, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -76}, {'mac': 'c8:38:70:dd:31:87', 'rssi': -62}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -69}, {'mac': '00:9a:cd:c5:24:f1', 'rssi': -76}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '74:2f:68:b9:b1:47', 'rssi': -68}, {'mac': '8c:a9:82:15:df:de', 'rssi': -69}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -56}, {'mac': '80:a5:89:33:27:e1', 'rssi': -65}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -60}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -64}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -70}]}
-2017-08-21 15:50:11,040 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:50:21,068 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:50:21,069 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:50:21,069 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00005_20170821155013
-2017-08-21 15:50:21,380 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:50:21,381 - process_scan:95 - DEBUG - Processed 3215 lines, found 22 fingerprints in 854 relevant lines
-2017-08-21 15:50:21,381 - process_scan:102 - DEBUG - {'timestamp': 1503314421, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '1c:7e:e5:c9:95:00', 'rssi': -80}, {'mac': '90:94:e4:09:62:18', 'rssi': -76}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -48}, {'mac': '74:2f:68:b9:b1:47', 'rssi': -66}, {'mac': '8c:a9:82:15:df:de', 'rssi': -68}, {'mac': '1e:24:6a:d7:f1:83', 'rssi': -56}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -54}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -62}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}, {'mac': 'f4:8e:92:17:d7:90', 'rssi': -76}, {'mac': '34:80:b3:39:46:95', 'rssi': -55}, {'mac': '74:c6:3b:47:41:ad', 'rssi': -66}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -72}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '28:56:5a:9f:5d:49', 'rssi': -78}, {'mac': '80:a5:89:33:27:e1', 'rssi': -66}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}]}
-2017-08-21 15:50:21,384 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:50:31,410 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:50:31,411 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:50:31,411 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00006_20170821155027
-2017-08-21 15:50:31,705 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:50:31,705 - process_scan:95 - DEBUG - Processed 2294 lines, found 16 fingerprints in 754 relevant lines
-2017-08-21 15:50:31,706 - process_scan:102 - DEBUG - {'timestamp': 1503314431, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -79}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -64}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': '00:9a:cd:c5:24:f1', 'rssi': -76}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -68}, {'mac': '8c:a9:82:15:df:de', 'rssi': -69}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -60}, {'mac': '80:a5:89:33:27:e1', 'rssi': -66}, {'mac': '90:94:e4:09:62:18', 'rssi': -76}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -60}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -67}, {'mac': '80:01:84:77:82:e9', 'rssi': -62}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:50:31,709 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:50:41,740 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:50:41,741 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:50:41,741 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00007_20170821155036
-2017-08-21 15:50:42,079 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:50:42,080 - process_scan:95 - DEBUG - Processed 3406 lines, found 23 fingerprints in 438 relevant lines
-2017-08-21 15:50:42,080 - process_scan:102 - DEBUG - {'timestamp': 1503314442, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -67}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -76}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -46}, {'mac': '40:f0:2f:38:6b:9e', 'rssi': -48}, {'mac': '8c:a9:82:15:df:de', 'rssi': -68}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -58}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -70}, {'mac': '90:94:e4:09:62:18', 'rssi': -68}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -62}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -66}, {'mac': 'f4:8e:92:17:d7:90', 'rssi': -78}, {'mac': '74:c6:3b:47:41:ad', 'rssi': -72}, {'mac': '70:1a:04:08:06:59', 'rssi': -54}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -56}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -70}, {'mac': '84:a6:c8:73:84:80', 'rssi': -61}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '60:6c:66:c7:75:8b', 'rssi': -60}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -65}]}
-2017-08-21 15:50:42,084 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:50:52,105 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:50:52,106 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:50:52,106 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00007_20170821155036
-2017-08-21 15:50:52,600 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:50:52,601 - process_scan:95 - DEBUG - Processed 9098 lines, found 21 fingerprints in 412 relevant lines
-2017-08-21 15:50:52,601 - process_scan:102 - DEBUG - {'timestamp': 1503314452, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -74}, {'mac': '34:80:b3:39:46:95', 'rssi': -58}, {'mac': '74:c6:3b:47:41:ad', 'rssi': -69}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -58}, {'mac': '60:fe:1e:a1:68:9a', 'rssi': -56}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -70}, {'mac': '88:c9:d0:b8:9d:ad', 'rssi': -70}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -48}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '74:2f:68:b9:b1:47', 'rssi': -69}, {'mac': '8c:a9:82:15:df:de', 'rssi': -70}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -58}, {'mac': '84:c7:ea:bc:c3:18', 'rssi': -60}, {'mac': '90:94:e4:09:62:18', 'rssi': -60}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -75}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -70}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -57}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -64}]}
-2017-08-21 15:50:52,604 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:51:02,626 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:51:02,627 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:51:02,627 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00008_20170821155052
-2017-08-21 15:51:02,970 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:51:02,972 - process_scan:95 - DEBUG - Processed 3946 lines, found 24 fingerprints in 502 relevant lines
-2017-08-21 15:51:02,972 - process_scan:102 - DEBUG - {'timestamp': 1503314462, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '6c:2f:2c:e7:90:c2', 'rssi': -74}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -56}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': '54:35:30:b1:f8:d9', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -46}, {'mac': '8c:a9:82:15:df:de', 'rssi': -68}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -56}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -58}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -62}, {'mac': 'f4:8e:92:17:d7:90', 'rssi': -80}, {'mac': '00:9a:cd:c5:24:f1', 'rssi': -68}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -70}, {'mac': 'ac:b5:7d:66:39:2c', 'rssi': -68}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -68}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -64}, {'mac': '80:01:84:77:82:e9', 'rssi': -72}, {'mac': 'c0:cb:38:1c:bf:3e', 'rssi': -67}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -68}]}
-2017-08-21 15:51:02,977 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:51:12,997 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:51:12,998 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:51:12,998 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00009_20170821155111
-2017-08-21 15:51:13,261 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:51:13,262 - process_scan:95 - DEBUG - Processed 827 lines, found 10 fingerprints in 63 relevant lines
-2017-08-21 15:51:13,262 - process_scan:102 - DEBUG - {'timestamp': 1503314473, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '74:c6:3b:47:41:ad', 'rssi': -78}, {'mac': '80:01:84:77:82:e9', 'rssi': -76}, {'mac': '80:a5:89:33:27:e1', 'rssi': -68}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '74:2f:68:b9:b1:47', 'rssi': -70}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -46}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -64}]}
-2017-08-21 15:51:13,265 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:51:23,289 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:51:23,289 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:51:23,290 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00009_20170821155111
-2017-08-21 15:51:23,633 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:51:23,633 - process_scan:95 - DEBUG - Processed 3969 lines, found 19 fingerprints in 277 relevant lines
-2017-08-21 15:51:23,633 - process_scan:102 - DEBUG - {'timestamp': 1503314483, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -76}, {'mac': 'ac:b5:7d:66:39:2c', 'rssi': -70}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -72}, {'mac': '74:c6:3b:47:41:ad', 'rssi': -75}, {'mac': '90:94:e4:09:62:18', 'rssi': -76}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -46}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -74}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -74}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -56}, {'mac': '80:a5:89:33:27:e1', 'rssi': -66}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -58}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -75}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -62}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:51:23,636 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:51:33,663 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:51:33,664 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:51:33,664 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00010_20170821155133
-2017-08-21 15:51:33,890 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:51:33,890 - process_scan:95 - DEBUG - Processed 332 lines, found 8 fingerprints in 113 relevant lines
-2017-08-21 15:51:33,890 - process_scan:102 - DEBUG - {'timestamp': 1503314493, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -56}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -75}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -47}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -74}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:51:33,893 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:51:43,922 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:51:43,922 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:51:43,923 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00010_20170821155133
-2017-08-21 15:51:44,316 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:51:44,317 - process_scan:95 - DEBUG - Processed 4276 lines, found 20 fingerprints in 741 relevant lines
-2017-08-21 15:51:44,317 - process_scan:102 - DEBUG - {'timestamp': 1503314504, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -78}, {'mac': '70:1a:04:08:06:59', 'rssi': -54}, {'mac': '84:db:ac:22:da:24', 'rssi': -68}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '38:2d:d1:24:d3:b0', 'rssi': -42}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -70}, {'mac': '00:9a:cd:c5:24:f1', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -46}, {'mac': '84:a6:c8:73:84:80', 'rssi': -68}, {'mac': '60:6c:66:c7:75:8b', 'rssi': -56}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -64}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '90:94:e4:09:62:18', 'rssi': -57}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -73}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -68}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -70}, {'mac': '80:01:84:77:82:e9', 'rssi': -68}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:51:44,320 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:51:54,340 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:51:54,341 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:51:54,341 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00011_20170821155150
-2017-08-21 15:51:54,594 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:51:54,595 - process_scan:95 - DEBUG - Processed 1261 lines, found 14 fingerprints in 148 relevant lines
-2017-08-21 15:51:54,595 - process_scan:102 - DEBUG - {'timestamp': 1503314514, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -74}, {'mac': '9c:b7:0d:80:bc:51', 'rssi': -46}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -46}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -54}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -72}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -68}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '90:94:e4:09:62:18', 'rssi': -68}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -73}, {'mac': '80:01:84:77:82:e9', 'rssi': -74}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:51:54,599 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:52:04,623 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:52:04,624 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:52:04,624 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00011_20170821155150
-2017-08-21 15:52:04,977 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:52:04,978 - process_scan:95 - DEBUG - Processed 4141 lines, found 17 fingerprints in 359 relevant lines
-2017-08-21 15:52:04,979 - process_scan:102 - DEBUG - {'timestamp': 1503314524, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -75}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -74}, {'mac': '30:3a:64:13:f7:36', 'rssi': -40}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -73}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -48}, {'mac': '70:28:8b:0c:f3:66', 'rssi': -64}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '80:a5:89:33:27:e1', 'rssi': -66}, {'mac': '90:94:e4:09:62:18', 'rssi': -75}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:52:04,981 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:52:15,002 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:52:15,002 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:52:15,003 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00011_20170821155150
-2017-08-21 15:52:15,510 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:52:15,511 - process_scan:95 - DEBUG - Processed 8020 lines, found 19 fingerprints in 329 relevant lines
-2017-08-21 15:52:15,512 - process_scan:102 - DEBUG - {'timestamp': 1503314535, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -74}, {'mac': '0c:d7:46:60:71:4f', 'rssi': -68}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -70}, {'mac': '74:2f:68:b9:b1:47', 'rssi': -68}, {'mac': '50:e5:49:1f:9e:05', 'rssi': -80}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -65}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -62}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -50}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}]}
-2017-08-21 15:52:15,514 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:52:25,536 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:52:25,537 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:52:25,537 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00012_20170821155216
-2017-08-21 15:52:25,911 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:52:25,912 - process_scan:95 - DEBUG - Processed 5694 lines, found 18 fingerprints in 1414 relevant lines
-2017-08-21 15:52:25,912 - process_scan:102 - DEBUG - {'timestamp': 1503314545, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -72}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -74}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -56}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -76}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': '70:28:8b:0c:f3:66', 'rssi': -61}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -54}, {'mac': 'fc:aa:14:3e:38:d1', 'rssi': -78}, {'mac': 'ac:b5:7d:66:39:2c', 'rssi': -72}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -67}, {'mac': '80:a5:89:33:27:e1', 'rssi': -66}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -75}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -69}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -70}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}]}
-2017-08-21 15:52:25,916 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:52:35,943 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:52:35,944 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:52:35,944 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00013_20170821155226
-2017-08-21 15:52:36,322 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:52:36,323 - process_scan:95 - DEBUG - Processed 4241 lines, found 19 fingerprints in 661 relevant lines
-2017-08-21 15:52:36,323 - process_scan:102 - DEBUG - {'timestamp': 1503314556, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '74:c6:3b:47:41:ad', 'rssi': -76}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -70}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -70}, {'mac': '0c:d2:92:a8:32:84', 'rssi': -61}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -64}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -68}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -56}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -56}, {'mac': '80:a5:89:33:27:e1', 'rssi': -67}, {'mac': '90:94:e4:09:62:18', 'rssi': -67}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:27:10:09:4b:58', 'rssi': -68}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -71}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -66}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}]}
-2017-08-21 15:52:36,327 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:52:46,357 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:52:46,358 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:52:46,359 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00013_20170821155226
-2017-08-21 15:52:46,846 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:52:46,848 - process_scan:95 - DEBUG - Processed 8000 lines, found 20 fingerprints in 517 relevant lines
-2017-08-21 15:52:46,848 - process_scan:102 - DEBUG - {'timestamp': 1503314566, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '34:80:b3:39:46:95', 'rssi': -58}, {'mac': '74:c6:3b:47:41:ad', 'rssi': -78}, {'mac': '70:1a:04:08:06:59', 'rssi': -60}, {'mac': '84:db:ac:22:da:24', 'rssi': -65}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '1c:65:9d:b6:be:6f', 'rssi': -68}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -70}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -72}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -66}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -53}, {'mac': '80:a5:89:33:27:e1', 'rssi': -68}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '74:2f:68:ba:06:14', 'rssi': -70}, {'mac': '80:01:84:77:82:e9', 'rssi': -64}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}]}
-2017-08-21 15:52:46,852 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:52:56,878 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:52:56,879 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:52:56,879 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00014_20170821155246
-2017-08-21 15:52:57,225 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:52:57,226 - process_scan:95 - DEBUG - Processed 3697 lines, found 20 fingerprints in 458 relevant lines
-2017-08-21 15:52:57,226 - process_scan:102 - DEBUG - {'timestamp': 1503314577, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'e8:cc:18:10:76:12', 'rssi': -70}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '38:71:de:da:98:7e', 'rssi': -80}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -74}, {'mac': '9c:b7:0d:80:bc:51', 'rssi': -39}, {'mac': '64:31:50:9b:39:da', 'rssi': -78}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -48}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -70}, {'mac': '14:da:e9:18:f6:c0', 'rssi': -80}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -72}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -54}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -66}, {'mac': '80:a5:89:33:27:e1', 'rssi': -68}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -72}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '74:2f:68:ba:06:14', 'rssi': -70}, {'mac': '80:01:84:77:82:e9', 'rssi': -64}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -55}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:52:57,229 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:53:07,259 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:53:07,259 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:53:07,260 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00014_20170821155246
-2017-08-21 15:53:07,724 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:53:07,725 - process_scan:95 - DEBUG - Processed 7352 lines, found 21 fingerprints in 426 relevant lines
-2017-08-21 15:53:07,725 - process_scan:102 - DEBUG - {'timestamp': 1503314587, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'e4:a7:a0:69:8c:46', 'rssi': -74}, {'mac': '34:80:b3:39:46:95', 'rssi': -53}, {'mac': '1c:7e:e5:c9:95:00', 'rssi': -80}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -68}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '30:3a:64:13:f7:36', 'rssi': -42}, {'mac': '38:71:de:da:98:7e', 'rssi': -80}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -48}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -60}, {'mac': '38:f8:89:a7:3a:bf', 'rssi': -80}, {'mac': 'ac:b5:7d:66:39:2c', 'rssi': -72}, {'mac': '00:9a:cd:c5:24:f1', 'rssi': -74}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -68}, {'mac': '80:a5:89:33:27:e1', 'rssi': -66}, {'mac': '90:94:e4:09:62:18', 'rssi': -60}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -72}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -70}, {'mac': '80:01:84:77:82:e9', 'rssi': -74}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -72}]}
-2017-08-21 15:53:07,728 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:53:17,753 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:53:17,753 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:53:17,754 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00015_20170821155311
-2017-08-21 15:53:18,067 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:53:18,068 - process_scan:95 - DEBUG - Processed 2747 lines, found 17 fingerprints in 275 relevant lines
-2017-08-21 15:53:18,068 - process_scan:102 - DEBUG - {'timestamp': 1503314598, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'd0:13:fd:3f:22:f7', 'rssi': -69}, {'mac': '74:2f:68:b9:b1:47', 'rssi': -72}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -68}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -72}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -48}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -62}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -60}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '90:94:e4:09:62:18', 'rssi': -62}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -51}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -70}, {'mac': '14:2d:27:57:bf:83', 'rssi': -80}, {'mac': 'fc:f1:36:72:92:be', 'rssi': -80}, {'mac': '38:f8:89:a7:3a:bf', 'rssi': -78}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -60}]}
-2017-08-21 15:53:18,071 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:53:28,091 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:53:28,092 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:53:28,092 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00015_20170821155311
-2017-08-21 15:53:28,568 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:53:28,569 - process_scan:95 - DEBUG - Processed 8041 lines, found 18 fingerprints in 757 relevant lines
-2017-08-21 15:53:28,570 - process_scan:102 - DEBUG - {'timestamp': 1503314608, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'dc:cf:96:3f:df:79', 'rssi': -72}, {'mac': '1c:7e:e5:c9:95:00', 'rssi': -78}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -68}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '1c:65:9d:b6:be:6f', 'rssi': -62}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -70}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -48}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -58}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -76}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -54}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -82}, {'mac': '80:01:84:77:82:e9', 'rssi': -76}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '78:e4:00:0c:86:7e', 'rssi': -69}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -58}]}
-2017-08-21 15:53:28,574 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:53:38,594 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:53:38,595 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:53:38,595 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00016_20170821155330
-2017-08-21 15:53:38,927 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:53:38,929 - process_scan:95 - DEBUG - Processed 3068 lines, found 21 fingerprints in 329 relevant lines
-2017-08-21 15:53:38,929 - process_scan:102 - DEBUG - {'timestamp': 1503314618, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -75}, {'mac': '0c:d7:46:60:71:4f', 'rssi': -66}, {'mac': '70:1a:04:08:06:59', 'rssi': -58}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -60}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '38:2d:d1:24:d3:b0', 'rssi': -55}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -76}, {'mac': '0c:d2:92:a8:32:84', 'rssi': -59}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -48}, {'mac': '38:f8:89:a7:3a:bf', 'rssi': -78}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -68}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -56}, {'mac': '80:a5:89:33:27:e1', 'rssi': -63}, {'mac': '90:94:e4:09:62:18', 'rssi': -75}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -50}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -69}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}]}
-2017-08-21 15:53:38,933 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:53:48,957 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:53:48,957 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:53:48,958 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00017_20170821155347
-2017-08-21 15:53:49,211 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:53:49,211 - process_scan:95 - DEBUG - Processed 974 lines, found 11 fingerprints in 150 relevant lines
-2017-08-21 15:53:49,211 - process_scan:102 - DEBUG - {'timestamp': 1503314629, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -78}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -72}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -52}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -60}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -72}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -49}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -52}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -61}]}
-2017-08-21 15:53:49,214 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:53:59,244 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:53:59,245 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:53:59,245 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00017_20170821155347
-2017-08-21 15:53:59,599 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:53:59,600 - process_scan:95 - DEBUG - Processed 3835 lines, found 20 fingerprints in 365 relevant lines
-2017-08-21 15:53:59,600 - process_scan:102 - DEBUG - {'timestamp': 1503314639, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -76}, {'mac': '84:ef:18:45:de:ef', 'rssi': -68}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -70}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -70}, {'mac': '9c:b7:0d:80:bc:51', 'rssi': -32}, {'mac': '54:35:30:b1:f8:d9', 'rssi': -66}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -46}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -54}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -78}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -74}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -56}, {'mac': '80:a5:89:33:27:e1', 'rssi': -65}, {'mac': '90:94:e4:09:62:18', 'rssi': -72}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -72}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -50}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -70}, {'mac': '80:01:84:77:82:e9', 'rssi': -72}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}]}
-2017-08-21 15:53:59,603 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:54:09,624 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:54:09,625 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:54:09,625 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00017_20170821155347
-2017-08-21 15:54:10,090 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:54:10,091 - process_scan:95 - DEBUG - Processed 7648 lines, found 25 fingerprints in 320 relevant lines
-2017-08-21 15:54:10,092 - process_scan:102 - DEBUG - {'timestamp': 1503314650, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'e8:cc:18:10:76:12', 'rssi': -68}, {'mac': '00:00:00:00:00:00', 'rssi': -68}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -58}, {'mac': '90:94:e4:09:62:18', 'rssi': -68}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -52}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -57}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -66}, {'mac': 'c8:38:70:dd:31:87', 'rssi': -60}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '30:3a:64:13:f7:36', 'rssi': -45}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -72}, {'mac': 'ac:b5:7d:66:39:2c', 'rssi': -68}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -78}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -68}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': 'e4:6f:13:29:82:5a', 'rssi': -80}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -72}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -72}, {'mac': '80:01:84:77:82:e9', 'rssi': -68}, {'mac': 'c0:cb:38:1c:bf:3e', 'rssi': -73}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -66}]}
-2017-08-21 15:54:10,096 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:54:20,121 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:54:20,122 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:54:20,122 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00018_20170821155412
-2017-08-21 15:54:20,455 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:54:20,456 - process_scan:95 - DEBUG - Processed 3482 lines, found 15 fingerprints in 353 relevant lines
-2017-08-21 15:54:20,456 - process_scan:102 - DEBUG - {'timestamp': 1503314660, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -61}, {'mac': '38:2d:d1:24:d3:b0', 'rssi': -37}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -52}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '90:94:e4:09:62:18', 'rssi': -58}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -66}, {'mac': '1c:bd:b9:da:11:15', 'rssi': -76}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -58}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -75}, {'mac': '80:01:84:77:82:e9', 'rssi': -72}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -57}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -60}]}
-2017-08-21 15:54:20,459 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:54:30,483 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:54:30,484 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:54:30,484 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00018_20170821155412
-2017-08-21 15:54:30,942 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:54:30,944 - process_scan:95 - DEBUG - Processed 7086 lines, found 19 fingerprints in 260 relevant lines
-2017-08-21 15:54:30,944 - process_scan:102 - DEBUG - {'timestamp': 1503314670, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '74:c6:3b:47:41:ad', 'rssi': -74}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -76}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -70}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': '1c:65:9d:b6:be:6f', 'rssi': -62}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -70}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -71}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -52}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -50}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -70}, {'mac': '00:24:be:b7:6a:ed', 'rssi': -80}, {'mac': '80:01:84:77:82:e9', 'rssi': -68}, {'mac': 'c0:cb:38:1c:bf:3e', 'rssi': -68}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -61}]}
-2017-08-21 15:54:30,949 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:54:40,974 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:54:40,974 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:54:40,975 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00019_20170821155437
-2017-08-21 15:54:41,228 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:54:41,228 - process_scan:95 - DEBUG - Processed 937 lines, found 17 fingerprints in 38 relevant lines
-2017-08-21 15:54:41,228 - process_scan:102 - DEBUG - {'timestamp': 1503314681, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '74:c6:3b:47:41:ad', 'rssi': -70}, {'mac': '70:1a:04:08:06:59', 'rssi': -56}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '80:01:84:77:82:e9', 'rssi': -72}, {'mac': '60:6c:66:c7:75:8b', 'rssi': -58}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -68}, {'mac': '84:a6:c8:73:84:80', 'rssi': -62}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -60}, {'mac': '80:a5:89:33:27:e1', 'rssi': -66}, {'mac': '0c:d2:92:a8:32:84', 'rssi': -56}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -66}, {'mac': '40:f0:2f:38:6b:9e', 'rssi': -50}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -51}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -54}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -69}]}
-2017-08-21 15:54:41,231 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:54:51,251 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:54:51,251 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:54:51,252 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00019_20170821155437
-2017-08-21 15:54:51,632 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:54:51,633 - process_scan:95 - DEBUG - Processed 4877 lines, found 23 fingerprints in 310 relevant lines
-2017-08-21 15:54:51,633 - process_scan:102 - DEBUG - {'timestamp': 1503314691, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'e8:cc:18:10:76:12', 'rssi': -71}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -49}, {'mac': '74:2f:68:b9:b1:47', 'rssi': -68}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -54}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -54}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -60}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -70}, {'mac': '74:c6:3b:47:41:ad', 'rssi': -71}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -76}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -68}, {'mac': '00:24:be:b7:6a:ed', 'rssi': -80}, {'mac': 'e4:11:5b:34:6d:26', 'rssi': -78}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '80:a5:89:33:27:e1', 'rssi': -62}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -74}, {'mac': '80:01:84:77:82:e9', 'rssi': -70}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -67}]}
-2017-08-21 15:54:51,636 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:55:01,664 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:55:01,665 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:55:01,665 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00019_20170821155437
-2017-08-21 15:55:02,178 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:55:02,179 - process_scan:95 - DEBUG - Processed 8922 lines, found 22 fingerprints in 350 relevant lines
-2017-08-21 15:55:02,179 - process_scan:102 - DEBUG - {'timestamp': 1503314702, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -67}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -56}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -54}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -52}, {'mac': 'fc:f1:36:72:92:be', 'rssi': -76}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}, {'mac': 'f4:8e:92:17:d7:90', 'rssi': -70}, {'mac': '9c:b7:0d:80:bc:51', 'rssi': -35}, {'mac': 'e4:11:5b:34:6d:26', 'rssi': -78}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -74}, {'mac': '50:e5:49:1f:9e:05', 'rssi': -80}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -70}, {'mac': '80:a5:89:33:27:e1', 'rssi': -62}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -66}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -76}, {'mac': '80:01:84:77:82:e9', 'rssi': -70}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -67}]}
-2017-08-21 15:55:02,182 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:55:12,204 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:55:12,205 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:55:12,205 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00020_20170821155502
-2017-08-21 15:55:12,544 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:55:12,545 - process_scan:95 - DEBUG - Processed 3256 lines, found 20 fingerprints in 247 relevant lines
-2017-08-21 15:55:12,545 - process_scan:102 - DEBUG - {'timestamp': 1503314712, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -76}, {'mac': 'ac:b5:7d:66:37:c1', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -56}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -67}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -72}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': '00:19:d2:ba:32:b6', 'rssi': -79}, {'mac': '8e:88:ae:4b:99:f4', 'rssi': -70}, {'mac': '00:9a:cd:c5:24:f1', 'rssi': -70}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -70}, {'mac': '80:a5:89:33:27:e1', 'rssi': -62}, {'mac': 'e4:6f:13:29:82:5a', 'rssi': -78}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': 'd8:50:e6:3f:ab:89', 'rssi': -78}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -52}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -68}]}
-2017-08-21 15:55:12,549 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:55:22,571 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:55:22,571 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:55:22,572 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00020_20170821155502
-2017-08-21 15:55:22,965 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:55:22,966 - process_scan:95 - DEBUG - Processed 5966 lines, found 20 fingerprints in 373 relevant lines
-2017-08-21 15:55:22,967 - process_scan:102 - DEBUG - {'timestamp': 1503314722, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '74:c6:3b:47:41:ad', 'rssi': -72}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -70}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -58}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -76}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -54}, {'mac': '00:19:d2:ba:32:b6', 'rssi': -80}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -76}, {'mac': 'ac:b5:7d:66:39:2c', 'rssi': -68}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -68}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -64}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '90:94:e4:09:62:18', 'rssi': -72}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -58}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -54}, {'mac': '78:e4:00:0c:86:7e', 'rssi': -68}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}]}
-2017-08-21 15:55:22,971 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:55:32,990 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:55:32,991 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:55:32,991 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00020_20170821155502
-2017-08-21 15:55:33,475 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:55:33,476 - process_scan:95 - DEBUG - Processed 8143 lines, found 17 fingerprints in 131 relevant lines
-2017-08-21 15:55:33,476 - process_scan:102 - DEBUG - {'timestamp': 1503314733, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'b4:b6:76:11:7b:ff', 'rssi': -78}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '1c:65:9d:b6:be:6f', 'rssi': -68}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -60}, {'mac': '60:e7:01:f6:7e:7a', 'rssi': -74}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '2c:d0:5a:cb:9d:1d', 'rssi': -56}, {'mac': '90:94:e4:09:62:18', 'rssi': -74}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -72}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -57}, {'mac': '88:c9:d0:b9:59:6a', 'rssi': -74}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -56}, {'mac': '00:73:e0:1e:79:9d', 'rssi': -48}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -56}]}
-2017-08-21 15:55:33,479 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:55:43,496 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:55:43,496 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:55:43,496 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00021_20170821155535
-2017-08-21 15:55:43,766 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:55:43,767 - process_scan:95 - DEBUG - Processed 1983 lines, found 19 fingerprints in 152 relevant lines
-2017-08-21 15:55:43,767 - process_scan:102 - DEBUG - {'timestamp': 1503314743, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '70:1a:04:08:06:59', 'rssi': -54}, {'mac': 'e4:6f:13:29:82:5a', 'rssi': -80}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -76}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -68}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -72}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -46}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -76}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -50}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '80:a5:89:33:27:e1', 'rssi': -62}, {'mac': '90:94:e4:09:62:18', 'rssi': -72}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': 'f0:79:59:8e:be:54', 'rssi': -78}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -54}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -66}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -60}]}
-2017-08-21 15:55:43,770 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:55:53,796 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:55:53,797 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:55:53,797 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00021_20170821155535
-2017-08-21 15:55:54,192 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:55:54,193 - process_scan:95 - DEBUG - Processed 4835 lines, found 17 fingerprints in 294 relevant lines
-2017-08-21 15:55:54,194 - process_scan:102 - DEBUG - {'timestamp': 1503314754, 'node': 'parsiot-ubuntu', 'signals': [{'mac': '9c:b7:0d:80:bc:51', 'rssi': -51}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '54:35:30:b1:f8:d9', 'rssi': -67}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -50}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -56}, {'mac': '74:2f:68:b9:b1:47', 'rssi': -70}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -66}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': '90:94:e4:09:62:18', 'rssi': -58}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -74}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -56}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -71}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -60}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -68}]}
-2017-08-21 15:55:54,198 - main:227 - DEBUG - Sent to server with status code: 200
-2017-08-21 15:56:04,222 - tshark_is_running:119 - DEBUG - tshark is running: True
-2017-08-21 15:56:04,222 - process_scan:47 - DEBUG - Reading files...
-2017-08-21 15:56:04,222 - process_scan:57 - DEBUG - Reading from /tmp/tshark-temp_00021_20170821155535
-2017-08-21 15:56:04,665 - process_scan:82 - DEBUG - ..done
-2017-08-21 15:56:04,666 - process_scan:95 - DEBUG - Processed 7201 lines, found 21 fingerprints in 253 relevant lines
-2017-08-21 15:56:04,667 - process_scan:102 - DEBUG - {'timestamp': 1503314764, 'node': 'parsiot-ubuntu', 'signals': [{'mac': 'f4:8e:92:17:d7:90', 'rssi': -76}, {'mac': 'd0:13:fd:3f:22:f7', 'rssi': -68}, {'mac': '88:c9:d0:b6:6e:43', 'rssi': -56}, {'mac': 'e8:cc:18:10:76:12', 'rssi': -72}, {'mac': '4c:5e:0c:2c:3b:9b', 'rssi': -60}, {'mac': '00:00:00:00:00:00', 'rssi': -68}, {'mac': '9c:4e:36:31:1c:cc', 'rssi': -76}, {'mac': '30:3a:64:13:f7:36', 'rssi': -42}, {'mac': 'e8:cc:18:10:7b:fb', 'rssi': -52}, {'mac': 'e4:6f:13:29:82:47', 'rssi': -68}, {'mac': '80:a5:89:33:27:e1', 'rssi': -64}, {'mac': 'e8:cc:18:10:75:e6', 'rssi': -58}, {'mac': '84:ef:18:45:de:ef', 'rssi': -67}, {'mac': '90:94:e4:09:62:18', 'rssi': -60}, {'mac': 'c0:bd:d1:7d:71:6e', 'rssi': -71}, {'mac': '00:0c:29:24:4c:e4', 'rssi': -68}, {'mac': '0c:d2:92:cd:6e:dc', 'rssi': -68}, {'mac': '80:01:84:77:82:e9', 'rssi': -67}, {'mac': 'ec:22:80:0d:b4:83', 'rssi': -58}, {'mac': '58:94:6b:68:b0:ec', 'rssi': -59}, {'mac': '88:07:4b:b2:72:9b', 'rssi': -65}]}
-2017-08-21 15:56:04,669 - main:227 - DEBUG - Sent to server with status code: 200
+  File "scan-wifi.py", line 246, in main
+    payload = process_scan(args.time)
+  File "scan-wifi.py", line 100, in process_scan
+    logger.debug("mac:"+mac+ ",rssis: "+ str(fingerprints[mac]))
+UnboundLocalError: local variable 'mac' referenced before assignment
+2019-01-09 16:18:47,224 - tshark_is_running:126 - DEBUG - tshark is running: False
+2019-01-09 16:19:15,999 - main:218 - DEBUG - Using server http://192.168.5.93:8072
+2019-01-09 16:19:15,999 - main:220 - DEBUG - Using group rtls_arman_wifi_18_10_97_1
+2019-01-09 16:19:16,024 - tshark_is_running:126 - DEBUG - tshark is running: False
+2019-01-09 16:19:16,048 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:19:16,049 - start_scan:138 - INFO - Starting scan
+2019-01-09 16:19:16,049 - main:233 - DEBUG - Processing scan started  
+NoneType: None
+2019-01-09 16:19:16,071 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:19:16,072 - process_scan:48 - DEBUG - Reading files...
+2019-01-09 16:19:16,072 - process_scan:59 - DEBUG - Reading from 
+2019-01-09 16:19:16,322 - process_scan:90 - DEBUG - ..done
+2019-01-09 16:19:16,322 - process_scan:103 - DEBUG - Processed 0 lines, found 0 fingerprints in 0 relevant lines
+2019-01-09 16:19:16,322 - process_scan:109 - DEBUG - {'node': 'h-pc', 'signals': [], 'timestamp': 1547038156}
+2019-01-09 16:19:19,351 - tshark_is_running:126 - DEBUG - tshark is running: False
+2019-01-09 16:19:19,374 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:19:19,375 - start_scan:138 - INFO - Starting scan
+2019-01-09 16:19:19,375 - process_scan:48 - DEBUG - Reading files...
+2019-01-09 16:19:19,375 - process_scan:59 - DEBUG - Reading from 
+2019-01-09 16:19:19,648 - process_scan:90 - DEBUG - ..done
+2019-01-09 16:19:19,648 - process_scan:103 - DEBUG - Processed 0 lines, found 0 fingerprints in 0 relevant lines
+2019-01-09 16:19:19,649 - process_scan:109 - DEBUG - {'node': 'h-pc', 'signals': [], 'timestamp': 1547038159}
+2019-01-09 16:19:22,687 - tshark_is_running:126 - DEBUG - tshark is running: False
+2019-01-09 16:19:22,716 - tshark_is_running:126 - DEBUG - tshark is running: True
+2019-01-09 16:19:22,717 - start_scan:138 - INFO - Starting scan
+2019-01-09 16:19:22,717 - process_scan:48 - DEBUG - Reading files...
+2019-01-09 16:19:22,717 - process_scan:59 - DEBUG - Reading from 
+2019-01-09 16:19:22,954 - process_scan:90 - DEBUG - ..done
+2019-01-09 16:19:22,954 - process_scan:103 - DEBUG - Processed 0 lines, found 0 fingerprints in 0 relevant lines
+2019-01-09 16:19:22,954 - process_scan:109 - DEBUG - {'node': 'h-pc', 'signals': [], 'timestamp': 1547038162}
+2019-01-09 16:19:24,764 - tshark_is_running:126 - DEBUG - tshark is running: False

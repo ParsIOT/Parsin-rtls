@@ -33,7 +33,7 @@ class CommandThread(threading.Thread):
 		self.name = self.config['notes'] + "(" + self.config['address'] + ")"
 		self.logger = logging.getLogger(self.name)
 		self.logger.setLevel(logging.DEBUG)
-		self.hostapd = """interface=wlan1\nssid=PiNetwork\nhw_mode=g\nchannel=6\nauth_algs=1\nmacaddr_acl=0\nignore_broadcast_ssid=0\nwpa=2\nwpa_passphrase=%(password)s\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=TKIP\nrsn_pairwise=CCMP""" % {
+		self.hostapd = """interface=wlan0\nssid=NodeNetwork\nhw_mode=g\nchannel=6\nauth_algs=1\nmacaddr_acl=0\nignore_broadcast_ssid=0\nwpa=2\nwpa_passphrase=%(password)s\nwpa_key_mgmt=WPA-PSK\nwpa_pairwise=TKIP\nrsn_pairwise=CCMP""" % {
 			'password': ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))}
 		fh = logging.FileHandler('cluster.log')
 		ch = logging.StreamHandler()
@@ -64,27 +64,27 @@ class CommandThread(threading.Thread):
 			foo, self.output = self.isRunning()
 			self.logger.info(self.output)
 		elif self.command == "kill" or self.command == "stop":
-			self.kill_pi()
+			self.kill_node()
 		elif self.command == "start":
-			self.start_pi()
+			self.start_node()
 		elif self.command == "update" or self.command == "download":
 			self.update_scanpy()
 		elif self.command == "initialize":
 			self.initialize()
 		elif self.command == "restart":
-			self.restart_pi()
+			self.restart_node()
 		elif self.command == "host":
-			self.host_pi()
+			self.host_node()
 		elif self.command == "reboot":
-			self.reboot_pi()
+			self.reboot_node()
 		elif self.command == "shutdown":
-			self.shutdown_pi()
+			self.shutdown_node()
 		else:
 			if self.first:
 				print_help()
 
-	def shutdown_pi(self):
-		self.kill_pi()
+	def shutdown_node(self):
+		self.kill_node()
 		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo shutdown now"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
@@ -92,8 +92,8 @@ class CommandThread(threading.Thread):
 		self.logger.debug(code)
 		self.logger.info("rebooting")
 
-	def reboot_pi(self):
-		self.kill_pi()
+	def reboot_node(self):
+		self.kill_node()
 		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo reboot now"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
@@ -101,7 +101,7 @@ class CommandThread(threading.Thread):
 		self.logger.debug(code)
 		self.logger.info("rebooting")
 
-	def host_pi(self):
+	def host_node(self):
 		hostingSuccess, foo = self.isRunning()
 		if hostingSuccess:
 			self.logger.info("already doing something")
@@ -111,7 +111,7 @@ class CommandThread(threading.Thread):
 			c % {'address': self.config['address'], 'hostapd': self.hostapd})
 		self.logger.debug(r)
 		self.logger.debug(code)
-		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo kill \`cat /run/wpa_supplicant.wlan1.pid\`" """.strip()
+		c = """ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo kill \`cat /run/wpa_supplicant.wlan0.pid\`" """.strip()
 		r, code = run_command(
 			c % {'address': self.config['address']})
 		self.logger.debug(r)
@@ -135,7 +135,7 @@ class CommandThread(threading.Thread):
 			items = line.split()
 			if len(items) < 5:
 				continue
-			if items[0] != "wlan1":
+			if items[0] != "wlan0":
 				continue
 			if ':' in items[4]:
 				address = items[4]
@@ -173,7 +173,7 @@ class CommandThread(threading.Thread):
 		else:
 			return False, "%s is not scanning/hosting" % self.config['address']
 
-	def kill_pi(self):
+	def kill_node(self):
 		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo pkill -9 python3"'
 		r, code = run_command(
 			c % {'address': self.config['address']})
@@ -206,23 +206,23 @@ class CommandThread(threading.Thread):
 			self.logger.info("could not kill")
 			return False
 
-	def start_pi(self):
+	def start_node(self):
 		alreadyRunning, foo = self.isRunning()
 		if alreadyRunning:
 			self.logger.info("already running")
 			return
-		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo nohup python3 scan.py --interface %(wlan)s --time %(scantime)d --group %(group)s --server %(lfserver)s > std.out 2> std.err &"'
+		c = 'ssh -o ConnectTimeout=10 parsiot@%(address)s "sudo nohup python3 scan.py --interface %(interface)s --time %(scantime)d --group %(group)s --server %(lfserver)s > std.out 2> std.err &"'
 		print(c % {'address': self.config['address'],
 		           'group': self.config['group'],
 		           'lfserver': self.config['lfserver'],
-		           'wlan': self.config['wlan'],
+		           'interface': self.config['interface'],
 		           'scantime': self.config['scantime']
 		           })
 		r, code = run_command(
 			c % {'address': self.config['address'],
 			     'group': self.config['group'],
 			     'lfserver': self.config['lfserver'],
-			     'wlan': self.config['wlan'],
+			     'interface': self.config['interface'],
 			     'scantime': self.config['scantime']
 			     })
 		print(r)
@@ -276,9 +276,9 @@ class CommandThread(threading.Thread):
 		# self.logger.debug(code)
 		self.logger.info("initialized")
 
-	def restart_pi(self):
-		if self.kill_pi():
-			self.start_pi()
+	def restart_node(self):
+		if self.kill_node():
+			self.start_node()
 
 	def return_output(self):
 		return self.output
@@ -320,19 +320,19 @@ python3 cluster.py COMMAND
 	list:
 		list computers on the network
 	status:
-		get the current status of all Pis in the cluster
+		get the current status of all nodes in the cluster
 	stop / kill:
-		stops scanning in all Pis in the cluster
+		stops scanning in all nodes in the cluster
 	start:
-		starts scanning in all Pis in the cluster
+		starts scanning in all nodes in the cluster
 	restart:
-		stops and starts all Pis in the cluster
+		stops and starts all nodes in the cluster
 	initialize:
 		download the latest version of scan.py and update packages
 	update / download:
 		download the latest version of scan.py
 	host:
-		start a WiFi access point on wlan1
+		start a WiFi access point on wlan0
 	track -g GROUP:
 		communicate with find-lf server to tell it to track
 		for group GROUP
@@ -383,20 +383,22 @@ def main(args, config):
 		return
 	elif command == "initialize":
 		print("copying ips")
-		for address in config['pis']:
-			c = 'ssh-copy-id parsiot@%(address)s'
-			r, code = run_command(c % {'address': address['address']})
+		for node in config['nodes']:
+			c = 'ssh-copy-id %(user)s@%(address)s'
+			r, code = run_command(c % {'user':node['user'],'address': node['address']})
 			if code == 1:
-				print("Could not connect to %s" % address)
+				print("Could not connect to %s" % node)
 				return
 			logger.debug(r)
 			logger.debug(code)
 
 	threads = []
-	for pi in config['pis']:
-		config['address'] = pi['address']
-		config['wlan'] = pi['wlan']
-		config['notes'] = pi['notes']
+	for node in config['nodes']:
+		config['address'] = node['address']
+		config['interface'] = node['interface']
+		config['notes'] = node['notes']
+		config['user'] = node['user']
+
 		threads.append(
 			CommandThread(config.copy(), command, args.debug, len(threads) == 0))
 
@@ -464,26 +466,26 @@ if __name__ == '__main__':
 
 	config = {}
 	if not os.path.exists(args.config):
-		pis = []
+		nodes = []
 		while True:
-			pi = input('Enter Pi address (e.g. pi@192.168.1.2. Enter blank if no more): ')
-			if len(pi) == 0:
+			node = input('Enter node address (e.g. root@192.168.1.2. Enter blank if no more): ')
+			if len(node) == 0:
 				break
-			notes = input('Enter Pi notes (for you to remember): ')
-			wlan = input('Which wlan to use (default: wlan1)?: ')
-			if len(wlan) == 0:
-				wlan = "wlan1"
-			pis.append({"address": pi.strip(), "notes": notes.strip(), "wlan": wlan.strip()})
-		if len(pis) == 0:
+			notes = input('Enter node notes (for you to remember): ')
+			interface = input('Which interface to use (default: wlan0)?: ')
+			if len(interface) == 0:
+				interface = "wlan0"
+			nodes.append({"address": node.strip(), "notes": notes.strip(), "interface": interface.strip()})
+		if len(nodes) == 0:
 			print("Must include at least one computer!")
 			sys.exit(-1)
-		config['pis'] = pis
-		config['lfserver'] = input(
-			'Enter lf address (default: lf.internalpositioning.com): ')
-		if len(config['lfserver']) == 0:
-			config['lfserver'] = 'https://lf.internalpositioning.com'
-		if 'http' not in config['lfserver']:
-			config['lfserver'] = "http://" + config['lfserver']
+		config['nodes'] = nodes
+		config['rtls_server'] = input(
+			'Enter rtls address (default: panel.parsiotco.ir): ')
+		if len(config['rtls_server']) == 0:
+			config['rtls_server'] = 'https://panel.parsiotco.ir'
+		if 'http' not in config['rtls_server']:
+			config['rtls_server'] = "http://" + config['rtls_server']
 		config['group'] = input('Enter a group: ')
 		if len(config['group']) == 0:
 			config['group'] = 'default'
@@ -506,4 +508,6 @@ if __name__ == '__main__':
 
 	config['user'] = args.user
 	config['location'] = args.location
+
+
 	main(args, config)

@@ -38,7 +38,7 @@
 			<input type="text" class="form-control" id="loc" placeholder=""></div>
 		<div class="form-group">
 			<label for="mac" class="control-label">MAC addresses (for learning):</label>
-			<input type="text" class="form-control" id="mac" placeholder=""></div>
+			<input type="text" class="form-control" id="mac" placeholder="C0:CC:F8:6D:45:8D"></div>
 		<div class="form-group">
 			<label for="mac" class="control-label">Count of FingerPrints(for learning):</label>
 			<input type="text" class="form-control" id="count" placeholder="Server default is 500"/>
@@ -127,6 +127,29 @@
 			}
 		});
 	});
+    window.setInterval(function(){
+        // $(this).closest('.toast').remove();
+        toastr.clear();
+        group = document.getElementById('group').value.toLowerCase();
+
+        if(group == ""){
+            return;
+		}
+        data = {};
+        data.group = group;
+        console.log("f");
+        $.ajax({
+            url: "/status",
+            data: data,
+            type: "GET",
+            success: function (response) {
+                toastr.info(response);
+            },
+            error: function (xhr, status, error) {
+                toastr.error(xhr.responseText);
+            }
+        });
+    }, 500);
 
 </script>
 </body>

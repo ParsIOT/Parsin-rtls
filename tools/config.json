@@ -1,17 +1,23 @@
 {
-	"group": "parsiot-2",
-	"pis": [
+
+	"nodes": [
 		{
-			"wlan": "wlp4s0",
+			"user": "root",
 			"notes": "oof",
-			"address": "192.168.0.24"
+			"address": "192.168.5.24",
+            "interface": "wlan0"
 		},
 		{
-			"wlan": "wlp5s0",
+			"user": "root",
 			"notes": "dame dar",
-			"address": "192.168.0.98"
+			"address": "192.168.0.98",
+            "interface": "wlan0"
 		}
 	],
+    "group": "parsiot-2",
 	"scantime": 1,
-	"lfserver": "http://192.168.0.95:8072"
+	"rtls_server": "http://192.168.0.95:8072",
+    "user": "04:A3:16:97:D9:C8",
+    "learn_count": 100,
+    "bulk_mode": true
 }

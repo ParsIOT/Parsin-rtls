@@ -6,6 +6,7 @@
 
 # scan.py --interface wlp4s0 --time 1 --group parsiot-1 --server http://192.168.0.24 < /dev/null > std.out 2> std.err &
 
+
 import sys
 import json
 import socket
@@ -27,7 +28,6 @@ def restart_wifi(server, interface):
 	os.system("/sbin/ifdown --force "+interface)
 	os.system("/sbin/ifup --force "+interface)
 	os.system("iwconfig "+interface+" mode managed")
-	os.system("monstop")
 	while True:
 		ping_response = subprocess.Popen(
 			["/bin/ping", "-c1", "-w100", server], stdout=subprocess.PIPE).stdout.read()
@@ -66,19 +66,25 @@ def process_scan(time_window):
 	relevant_lines = 0
 	for line in output.splitlines():
 		try:
+
 			timestamp, mac, mac2, power_levels = line.split("\t")
 
 			if mac == mac2 or float(timestamp) < timestamp_threshold or len(mac) == 0:
 				continue
 
+			# print("Line:",line)
 			relevant_lines += 1
 			rssi = power_levels.split(',')[0]
 			if len(rssi) == 0:
 				continue
 
+			rssiNum = float(rssi)
+			if (rssiNum == 0):
+				continue
 			if mac not in fingerprints:
 				fingerprints[mac] = []
-			fingerprints[mac].append(float(rssi))
+			# logger.debug("Line Splited:"+mac+" = "+rssiNum)
+			fingerprints[mac].append(rssiNum)
 		except:
 			pass
 	logger.debug("..done")
@@ -91,6 +97,7 @@ def process_scan(time_window):
 		print(mac, fingerprints[mac])
 		fingerprints2.append(
 			{"mac": mac, "rssi": int(statistics.median(fingerprints[mac]))})
+		logger.debug("mac:"+mac+ ",rssis: "+ str(fingerprints[mac]))
 
 	logger.debug("Processed %d lines, found %d fingerprints in %d relevant lines" %
 	             (len(output.splitlines()), len(fingerprints2), relevant_lines))
@@ -123,7 +130,6 @@ def tshark_is_running():
 def start_scan(wlan):
 	if not tshark_is_running():
 		# Remove previous files
-		os.system("monstart")
 		for filename in glob.glob("/tmp/tshark-temp*"):
 			os.remove(filename)
 		subprocess.Popen(("/usr/bin/tshark -I -i " + wlan + " -b files:4 -b filesize:1000 -w /tmp/tshark-temp").split(),
@@ -133,7 +139,6 @@ def start_scan(wlan):
 
 
 def stop_scan():
-	os.system("monstop")
 	if tshark_is_running():
 		os.system("pkill -9 tshark")
 		if not tshark_is_running():
@@ -168,6 +173,11 @@ def main():
 		"--time",
 		default=10,
 		help="scanning time in seconds (default 10)")
+	parser.add_argument(
+        "-st",
+        "--starttime",
+        default=5,
+        help="Epoch time that must wait until and start scanning at that time (default 5 = now!)")
 	parser.add_argument(
 		"--single-wifi",
 		default=default_single_wifi,
@@ -209,16 +219,30 @@ def main():
 	print("Using group " + args.group)
 	logger.debug("Using group " + args.group)
 
+
+	start_scan(args.interface)
+	sleepBeforeStartTime = 0
+	try:
+		startTimeEpoch = float(args.starttime)
+	except Exception:
+		logger.error("Invalid startTime ", exc_info=True)
+	sleepBeforeStartTime = startTimeEpoch - float(time.time())
+	if sleepBeforeStartTime > 0 :
+		logger.debug("sleepBeforeStartTime: "+str(sleepBeforeStartTime), exc_info=True)
+		time.sleep(sleepBeforeStartTime) #start processing right at starttime
+	logger.debug("Processing scan started  ", exc_info=True)
+
 	while True:
 		print("\n\n\t======\tWHILE\t======\t\n\n")
 		try:
-			if args.single_wifi:
-				logger.debug("Stopping scan...")
-				stop_scan()
-				logger.debug("Stopping monitor mode...")
-				restart_wifi(args.server,args.interface)
-				logger.debug("Restarting WiFi in managed mode...")
+			# if args.single_wifi:
+			# 	logger.debug("Stopping scan...")
+			# 	stop_scan()
+			# 	logger.debug("Stopping monitor mode...")
+			# 	restart_wifi(args.server,args.interface)
+			# 	logger.debug("Restarting WiFi in managed mode...")
 			start_scan(args.interface)
+
 			payload = process_scan(args.time)
 			payload['group'] = args.group
 			if len(payload['signals']) > 0:

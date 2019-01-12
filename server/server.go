@@ -52,7 +52,8 @@ type groupStatus struct {
 	UseBulk        bool   `json:"use_bulk"`
 }
 
-var count = 1000
+
+var count = 30
 var testingMode = false
 var testerActualUsername = "04a31697d9c8" // actually this is just for find the tester tag mac, it'll be replaced with "tester"
 // ReverseFingerprint is sent from each node
@@ -68,8 +69,8 @@ type ReverseFingerprint struct {
 
 var fingerprints = struct {
 	sync.RWMutex
-	m map[string]map[string]map[string]int
-}{m: make(map[string]map[string]map[string]int)}
+	m map[string]map[string]map[string][]int
+}{m: make(map[string]map[string]map[string][]int)}
 
 type bulkWrapper struct {
 	Data []Fingerprint `json:"fingerprints"`
@@ -88,8 +89,8 @@ var switches = struct {
 }{m: make(map[string]groupStatus)}
 
 var ServerAddress, Group, Port string
-var MinimumNumberOfRouters, MinRSSI, CollectionTime int
-
+var MinRSSI, CollectionTime int
+var MinimumNumberOfRoutersTracking, MinimumNumberOfRoutersLearning int;
 var usageGuide = `RTLS Server
 
 Routes available:
@@ -109,9 +110,10 @@ func main() {
 	flag.StringVar(&Port, "port", "8072", "port to run this server on (default: 8072)")
 	//flag.StringVar(&ServerAddress, "server", "https://ml.internalpositioning.com", "address to FIND server")
 	flag.StringVar(&ServerAddress, "server", "http://127.0.0.1:8003", "address to FIND server")
-	flag.IntVar(&MinimumNumberOfRouters, "min", 0, "minimum number of routers before sending fingerprint")
+	flag.IntVar(&MinimumNumberOfRoutersTracking, "min", 1, "minimum number of routers before sending tracking fingerprint")
+	flag.IntVar(&MinimumNumberOfRoutersLearning, "minAPLearning", 3, "minimum number of routers before sending learning fingerprint")
 	flag.IntVar(&MinRSSI, "rssi", -110, "minimum RSSI that must exist to send on")
-	flag.IntVar(&CollectionTime, "time", 3, "collection time to average fingerprints (in seconds)")
+	flag.IntVar(&CollectionTime, "time", 8, "collection time to average fingerprints (in seconds)")
 	flag.Parse()
 
 	router := gin.Default()
@@ -200,8 +202,8 @@ func switchMode(c *gin.Context) {
 		return
 	}
 
-	count := 1000
-	if i, err := strconv.Atoi(c.DefaultQuery("count", "1000")); err == nil {
+	count := 30
+	if i, err := strconv.Atoi(c.DefaultQuery("count", "30")); err == nil {
 		count = i
 	}
 
@@ -225,22 +227,28 @@ func switchMode(c *gin.Context) {
 func process(json ReverseFingerprint) {
 	json.Group = strings.ToLower(json.Group)
 	fingerprints.Lock()
+	defer fingerprints.Unlock()
+	
 	if _, ok := fingerprints.m[json.Group]; !ok {
-		fingerprints.m[json.Group] = make(map[string]map[string]int)
+		fingerprints.m[json.Group] = make(map[string]map[string][]int)
 	}
+
 	for _, signal := range json.Signals {
+		
 		fmt.Println(json.Node, signal.Mac, signal.Rssi)
 		mac := strings.ToLower(json.Node)
 		user := strings.Replace(strings.ToLower(signal.Mac), ":", "", -1)
 		if _, ok := fingerprints.m[json.Group][user]; !ok {
-			fingerprints.m[json.Group][user] = make(map[string]int)
+			fingerprints.m[json.Group][user] = make(map[string][]int)
 		}
 		if signal.Rssi > 0 {
 			signal.Rssi = signal.Rssi * -1
 		}
-		fingerprints.m[json.Group][user][mac] = signal.Rssi
+		rssList = fingerprints.m[json.Group][user][mac]
+		rssList = append(rssList,signal.Rssi)
+		fingerprints.m[json.Group][user][mac] = rssList
 	}
-	fingerprints.Unlock()
+
 }
 
 func parseFingerprints() {
@@ -250,12 +258,12 @@ func parseFingerprints() {
 		fingerprints.Lock()
 		go sendFingerprints(fingerprints.m)
 		// clear fingerprints
-		fingerprints.m = make(map[string]map[string]map[string]int)
+		fingerprints.m = make(map[string]map[string]map[string][]int)
 		fingerprints.Unlock()
 	}
 }
 
-func sendFingerprints(m map[string]map[string]map[string]int) {
+func sendFingerprints(m map[string]map[string]map[string][]int) {
 	for group := range m {
 		for user := range m[group] {
 			// Define route and whether learning / tracking
@@ -267,9 +275,16 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 				if !strings.Contains(gs.Users, user) {
 					continue // only insert if user is one of the users to use for learning (specified in route)
 				}
+
+				// Require a minimum of routers to track
+				if len(m[group][user]) < MinimumNumberOfRoutersLearning {
+					fmt.Printf("Not tracking %s in group %s because MinimumNumberOfRoutersLearning (%d) > num of routers in fingerprint (%d)", user, group, MinimumNumberOfRoutersLearning, len(m[group][user]))
+					continue
+				}
+
 				route = "/learn"
 				if gs.RemainingCount < 1 {
-
+					
 					if gs.UseBulk {
 						route = "/bulklearn"
 
@@ -283,7 +298,7 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 							// handle err
 						}
 
-						log.Println("Sending to " + ServerAddress + route + ": " + string(payloadBytes))
+						//log.Println("Sending to " + ServerAddress + route + ": " + string(payloadBytes))
 
 						body := bytes.NewReader(payloadBytes)
 
@@ -314,20 +329,28 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 				gs.Location = "unknown"
 			}
 
+			// // Require a minimum of routers to track
+			// if len(m[group][user]) < MinimumNumberOfRoutersLearning && route == "/learn" {
+			// 	// log.Printf("Not tracking %s in group %s because MinimumNumberOfRoutersLearning (%d) > num of routers in fingerprint (%d)", user, group, MinimumNumberOfRoutersLearning, len(m[group][user]))
+			// 	fmt.Printf("Not tracking %s in group %s because MinimumNumberOfRoutersLearning (%d) > num of routers in fingerprint (%d)", user, group, MinimumNumberOfRoutersLearning, len(m[group][user]))
+			// 	continue
+			// }
+
 			// Require a minimum of routers to track
-			if MinimumNumberOfRouters > len(m[group][user]) && route == "/track" {
-				log.Printf("Not tracking %s in group %s because MinimumNumberOfRouters (%d) > num of routers in fingerprint (%d)", user, group, MinimumNumberOfRouters, len(m[group][user]))
+			if len(m[group][user]) < MinimumNumberOfRoutersTracking && route == "/track" {
+				// log.Printf("Not tracking %s in group %s because MinimumNumberOfRoutersTracking (%d) > num of routers in fingerprint (%d)", user, group, MinimumNumberOfRoutersTracking, len(m[group][user]))
+				fmt.Printf("Not tracking %s in group %s because MinimumNumberOfRoutersTracking (%d) > num of routers in fingerprint (%d)", user, group, MinimumNumberOfRoutersTracking, len(m[group][user]))
 				continue
 			}
 
 			data := Fingerprint{
-				Username: strings.Replace(user, ":", "", -1),
+				Username: strings.Replace(strings.ToLower(user), ":", "", -1),
 				Group:    group,
 				Location: gs.Location,
 				//Timestamp: int64(time.Now().Unix()),
 				Timestamp: int64(float64(time.Now().UTC().UnixNano()) / math.Pow(10, 6)),
 			}
-			if strings.Replace(user, ":", "", -1) == testerActualUsername && testingMode { // tester
+			if strings.Replace(strings.ToLower(user), ":", "", -1) == testerActualUsername && testingMode { // tester
 				data = Fingerprint{
 					Username: "tester",
 					Group:    group,
@@ -343,7 +366,13 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 			maxRSSI := 0
 			for mac := range m[group][user] {
 				fingerprint[num].Mac = mac
-				fingerprint[num].Rssi = m[group][user][mac]
+				resRss := 0
+				rssList := m[group][user][mac]
+				for _,rss := range rssList{
+					resRss += rss
+				}
+				resRss /= len(rssList)
+				fingerprint[num].Rssi = resRss
 				if fingerprint[num].Rssi > maxRSSI {
 					maxRSSI = fingerprint[num].Rssi
 				}
@@ -380,7 +409,8 @@ func sendFingerprints(m map[string]map[string]map[string]int) {
 				// handle err
 			}
 
-			log.Println("Sending to " + ServerAddress + route + ": " + string(payloadBytes))
+			//log.Println("Sending to " + ServerAddress + route + ": " + string(payloadBytes))
+			log.Println("###############")
 
 			body := bytes.NewReader(payloadBytes)
 
