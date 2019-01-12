@@ -70,6 +70,7 @@ def process_scan(time_window):
 			timestamp, mac, mac2, power_levels = line.split("\t")
 
 			if mac == mac2 or float(timestamp) < timestamp_threshold or len(mac) == 0:
+			# if float(timestamp) < timestamp_threshold or len(mac) == 0: # if you want to add APs too, replace this line with above line(Note: There're so many packet that send by APs that maybe cause extra traffic) 
 				continue
 
 			# print("Line:",line)
