@@ -148,6 +148,9 @@ class CommandThread(threading.Thread):
 									'server': self.config['rtls_server'],
 									'scan_time': self.config['scan_time'],
 									})
+		
+		print(r)
+		
 		if code == 255:
 			return
 		if self.is_scan_running()[0]:

@@ -32,10 +32,10 @@
 		}
 	],
 	"rtls_server": "http://192.168.5.93:8072",
-	"group": "rtls_arman_wifi_20_10_97_2",
-	"user": "C0:CC:F8:6D:45:8D",
-	"scan_time": 3,
-	"learn_count": 30,
+	"group": "rtls_arman_wifi_27_10_97_2",
+	"user": "",
+	"scan_time": 4,
+	"learn_count": 10,
 	"bulk_mode": true,
-	"wait_sync_time":5
+	"wait_sync_time":10
 }

@@ -53,9 +53,9 @@ type groupStatus struct {
 }
 
 
-var count = 30
-var testingMode = false
-var testerActualUsername = "04a31697d9c8" // actually this is just for find the tester tag mac, it'll be replaced with "tester"
+var count = 10
+var testMode = false
+var testerUser = "8c4500054a96" // actually this is just for find the tester tag mac, it'll be replaced with "tester"
 // ReverseFingerprint is sent from each node
 type ReverseFingerprint struct {
 	Node    string `json:"node"`
@@ -114,6 +114,8 @@ func main() {
 	flag.IntVar(&MinimumNumberOfRoutersLearning, "minAPLearning", 3, "minimum number of routers before sending learning fingerprint")
 	flag.IntVar(&MinRSSI, "rssi", -110, "minimum RSSI that must exist to send on")
 	flag.IntVar(&CollectionTime, "time", 8, "collection time to average fingerprints (in seconds)")
+	flag.BoolVar(&testMode, "testmode", false, "Enabling testing mode(true or false)")
+	flag.StringVar(&testerUser, "testeruser", testerUser, "Set testUser mac(Enable testmode first)")
 	flag.Parse()
 
 	router := gin.Default()
@@ -202,8 +204,8 @@ func switchMode(c *gin.Context) {
 		return
 	}
 
-	count := 30
-	if i, err := strconv.Atoi(c.DefaultQuery("count", "30")); err == nil {
+	count := 10
+	if i, err := strconv.Atoi(c.DefaultQuery("count", "10")); err == nil {
 		count = i
 	}
 
@@ -227,7 +229,7 @@ func switchMode(c *gin.Context) {
 func process(json ReverseFingerprint) {
 	json.Group = strings.ToLower(json.Group)
 	fingerprints.Lock()
-	defer fingerprints.Unlock()
+
 	
 	if _, ok := fingerprints.m[json.Group]; !ok {
 		fingerprints.m[json.Group] = make(map[string]map[string][]int)
@@ -244,11 +246,11 @@ func process(json ReverseFingerprint) {
 		if signal.Rssi > 0 {
 			signal.Rssi = signal.Rssi * -1
 		}
-		rssList = fingerprints.m[json.Group][user][mac]
+		rssList := fingerprints.m[json.Group][user][mac]
 		rssList = append(rssList,signal.Rssi)
 		fingerprints.m[json.Group][user][mac] = rssList
 	}
-
+	defer fingerprints.Unlock()
 }
 
 func parseFingerprints() {
@@ -258,6 +260,7 @@ func parseFingerprints() {
 		fingerprints.Lock()
 		go sendFingerprints(fingerprints.m)
 		// clear fingerprints
+		log.Printf("Getting fingerprint ...")
 		fingerprints.m = make(map[string]map[string]map[string][]int)
 		fingerprints.Unlock()
 	}
@@ -278,7 +281,7 @@ func sendFingerprints(m map[string]map[string]map[string][]int) {
 
 				// Require a minimum of routers to track
 				if len(m[group][user]) < MinimumNumberOfRoutersLearning {
-					fmt.Printf("Not tracking %s in group %s because MinimumNumberOfRoutersLearning (%d) > num of routers in fingerprint (%d)", user, group, MinimumNumberOfRoutersLearning, len(m[group][user]))
+					fmt.Printf("Not learning %s in group %s because MinimumNumberOfRoutersLearning (%d) > num of routers in fingerprint (%d)", user, group, MinimumNumberOfRoutersLearning, len(m[group][user]))
 					continue
 				}
 
@@ -350,7 +353,11 @@ func sendFingerprints(m map[string]map[string]map[string][]int) {
 				//Timestamp: int64(time.Now().Unix()),
 				Timestamp: int64(float64(time.Now().UTC().UnixNano()) / math.Pow(10, 6)),
 			}
-			if strings.Replace(strings.ToLower(user), ":", "", -1) == testerActualUsername && testingMode { // tester
+			// log.Println("8c:45:00:05:4a:96: ",strings.Replace(strings.ToLower(user), ":", "", -1))
+			// log.Println("8c:45:00:05:4a:96: ",testerUser)
+			// log.Println("8c:45:00:05:4a:96: ",testerUser)
+			if strings.Replace(strings.ToLower(user), ":", "", -1) == testerUser && testMode { // tester
+				log.Println("TTTTTTTTTTTTTT")
 				data = Fingerprint{
 					Username: "tester",
 					Group:    group,
@@ -368,10 +375,14 @@ func sendFingerprints(m map[string]map[string]map[string][]int) {
 				fingerprint[num].Mac = mac
 				resRss := 0
 				rssList := m[group][user][mac]
+				rssListLen := len(rssList)
+				if rssListLen == 0 {
+					continue
+				}
 				for _,rss := range rssList{
 					resRss += rss
 				}
-				resRss /= len(rssList)
+				resRss /= rssListLen
 				fingerprint[num].Rssi = resRss
 				if fingerprint[num].Rssi > maxRSSI {
 					maxRSSI = fingerprint[num].Rssi

@@ -57,7 +57,7 @@ def process_scan(time_window):
 			fileNameToRead = filename
 
 	logger.debug("Reading from %s" % fileNameToRead)
-	cmd = subprocess.Popen(("tshark -r " + fileNameToRead + " -T fields -e frame.time_epoch -e wlan.sa -e wlan.bssid -e radiotap.dbm_antsignal").split(
+	cmd = subprocess.Popen(("tshark -r " + fileNameToRead + " -T fields -e frame.time_epoch -e wlan.ta -e wlan.bssid -e radiotap.dbm_antsignal").split(
 	), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	output += cmd.stdout.read().decode('utf-8')
 
