@@ -7,7 +7,7 @@
 			"interface": "hci0"
 		}
 	],
-	"rtls_server": "http://192.168.5.93:8072",
+	"rtls_server": "http://192.168.5.40:8072",
 	"group": "rtls_arman_ble_19_9_97_1",
 	"user": "04:A3:16:97:D9:C8",
 	"scan_time": 1,

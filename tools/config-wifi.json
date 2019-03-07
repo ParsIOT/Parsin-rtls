@@ -31,8 +31,8 @@
 			"interface": "wlan0"
 		}
 	],
-	"rtls_server": "http://192.168.5.93:8072",
-	"group": "rtls_arman_wifi_27_10_97_2",
+	"rtls_server": "http://192.168.5.40:8072",
+	"group": "rtls_arman_wifi_1_11_97_1_4",
 	"user": "",
 	"scan_time": 4,
 	"learn_count": 10,
